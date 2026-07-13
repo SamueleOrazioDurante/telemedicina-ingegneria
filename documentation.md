@@ -255,3 +255,74 @@ Audit trail of diabetologist actions for system security.
 * **patient_id**: `INTEGER` (NULL, FOREIGN KEY). Target patient or NULL if general. Nullified on patient delete (`ON DELETE SET NULL`).
 * **operation**: `TEXT` (NOT NULL). Description of the action (e.g. "Modified therapy: Metformin", "Updated comorbidities").
 * **timestamp**: `TEXT` (NOT NULL). Action timestamp (`YYYY-MM-DD HH:MM:SS`).
+
+---
+
+## 4. Software Class Diagram (Business Logic)
+
+The following class diagram represents the design of the Domain and Business Logic layers of the application, incorporating the Observer Design Pattern for medical alerts.
+
+```mermaid
+classDiagram
+    class AlertObserver {
+        <<interface>>
+        +onAlert(String alertMessage)
+    }
+
+    class AlertSubject {
+        <<interface>>
+        +registerObserver(AlertObserver observer)
+        +removeObserver(AlertObserver observer)
+        +notifyObservers(String alertMessage)
+    }
+
+    class MedicalRulesEngine {
+        -List~AlertObserver~ observers
+        +registerObserver(AlertObserver observer)
+        +removeObserver(AlertObserver observer)
+        +notifyObservers(String alertMessage)
+        +checkGlucoseThreshold(BloodGlucoseMeasurement measurement) boolean
+        +checkMissingTherapy(List~DrugIntake~ intakes, PrescribedTherapy therapy, LocalDate today) boolean
+    }
+
+    AlertSubject <|.. MedicalRulesEngine : implements
+    MedicalRulesEngine o--> AlertObserver : notifies
+```
+
+## 5. Sequence Diagram
+
+The following sequence diagram illustrates the flow when a patient inserts a new blood glucose reading and the rules engine evaluates it, eventually notifying the doctor.
+
+```mermaid
+sequenceDiagram
+    actor Patient
+    participant GUI as Presentation Layer
+    participant Engine as MedicalRulesEngine
+    participant DB as Persistence Layer (DAO)
+    actor Doctor as AlertObserver (Doctor UI)
+
+    Patient->>GUI: Inserts Glucose Measurement
+    GUI->>DB: saveMeasurement(measurement)
+    DB-->>GUI: success
+    GUI->>Engine: checkGlucoseThreshold(measurement)
+    alt Value exceeds threshold
+        Engine->>Doctor: onAlert("Abnormal glucose level detected")
+    end
+    Engine-->>GUI: threshold result
+    GUI-->>Patient: Display confirmation
+```
+
+## 6. Architecture and Design Patterns
+
+### Layered Architecture
+
+The application adopts a **Layered Architecture** strictly separating Presentation, Business Logic, and Persistence:
+- **Presentation Layer (JavaFX)**: Only handles FXML views and controllers. It delegates all decision-making to the logic layer and formatting to domain objects.
+- **Business Logic Layer (`it.univr.telemedicina.logic`)**: Centralizes the medical rules (`MedicalRulesEngine`). It does not contain GUI code or SQL queries.
+- **Persistence Layer (`it.univr.telemedicina.persistence`)**: Manages SQLite connections and executes CRUD operations via DAOs.
+
+### Design Patterns
+
+1. **Observer Pattern**: Used to decouple the component that verifies medical rules (`MedicalRulesEngine` as the Subject) from the components that must react to abnormalities (e.g. Doctors' dashboards or push notification services as Observers). This ensures that adding a new type of notification mechanism doesn't require modifying the core logic.
+2. **Data Access Object (DAO) Pattern**: Encapsulates all access to the SQLite database. The Logic layer depends on domain objects (like `Patient`) and interacts with DAOs, completely oblivious to the underlying SQL dialect.
+

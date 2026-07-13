@@ -37,6 +37,5 @@ target/
 
 mvnw
 .mvn/wrapper/maven-wrapper.properties
-
-# Local Tools
 tools/
+telemedicina.db
