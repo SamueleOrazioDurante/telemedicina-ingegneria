@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.univr.telemedicina.presentation.controller.MainController"
+      style="-fx-background-color: #1e1e2e; -fx-font-family: 'Segoe UI', Helvetica, Arial, sans-serif;">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <Label text="Telemedicine System" textFill="#89b4fa" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+    <Label text="Diabetic Patients Monitoring Portal" textFill="#a6adc8" style="-fx-font-size: 16px;"/>
+    
+    <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #313244; -fx-background-radius: 10px; -fx-border-color: #45475a; -fx-border-radius: 10px; -fx-border-width: 1px;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+        </padding>
+        <Label text="Layered Architecture Initialized Successfully" textFill="#a6e3a1" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+        <Label text="• Presentation: JavaFX View &amp; Controllers" textFill="#cdd6f4" style="-fx-font-size: 13px;"/>
+        <Label text="• Business Logic: Domain &amp; Rules" textFill="#cdd6f4" style="-fx-font-size: 13px;"/>
+        <Label text="• Persistence: SQLite Database Access" textFill="#cdd6f4" style="-fx-font-size: 13px;"/>
+    </VBox>
+
+    <Button fx:id="startButton" text="Get Started" onAction="#onStartButtonClick"
+            style="-fx-background-color: #89b4fa; -fx-text-fill: #11111b; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-background-radius: 5px; -fx-cursor: hand;"/>
+</VBox>
