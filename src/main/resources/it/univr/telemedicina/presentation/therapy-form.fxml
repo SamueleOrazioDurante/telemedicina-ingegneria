@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.univr.telemedicina.presentation.controller.TherapyFormController"
+      style="-fx-background-color: #1e1e2e;">
+
+    <!-- Sidebar -->
+    <VBox styleClass="sidebar" spacing="2">
+        <Label text="⚕️ Doctor" styleClass="sidebar-title"/>
+        <Separator/>
+        <Button text="📊  Dashboard" onAction="#onBack" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="💊  Therapy Form" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
+        <VBox VBox.vgrow="ALWAYS"/>
+        <Separator/>
+        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
+    </VBox>
+
+    <!-- Main Content -->
+    <VBox HBox.hgrow="ALWAYS" spacing="20" style="-fx-padding: 30;">
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="← Back" onAction="#onBack" styleClass="button-secondary"/>
+            <Label fx:id="titleLabel" text="Prescribe New Therapy" styleClass="title"/>
+        </HBox>
+        <Label fx:id="patientLabel" text="" styleClass="subtitle"/>
+
+        <VBox styleClass="card" spacing="16" maxWidth="540">
+            <VBox spacing="6">
+                <Label text="DRUG NAME" styleClass="field-label"/>
+                <TextField fx:id="drugNameField" promptText="e.g. Metformin, Rapid Insulin"/>
+            </VBox>
+
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="DAILY INTAKES" styleClass="field-label"/>
+                    <Spinner fx:id="dailyIntakesSpinner" min="1" max="10" initialValue="1"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="QUANTITY PER INTAKE" styleClass="field-label"/>
+                    <TextField fx:id="quantityField" promptText="e.g. 500mg, 1 pill"/>
+                </VBox>
+            </HBox>
+
+            <VBox spacing="6">
+                <Label text="DIRECTIONS (optional)" styleClass="field-label"/>
+                <TextArea fx:id="directionsArea" promptText="e.g. after meals, on empty stomach" prefRowCount="2"/>
+            </VBox>
+
+            <HBox spacing="16">
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="START DATE" styleClass="field-label"/>
+                    <DatePicker fx:id="startDatePicker" maxWidth="1.7976931348623157E308"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="END DATE (optional)" styleClass="field-label"/>
+                    <DatePicker fx:id="endDatePicker" maxWidth="1.7976931348623157E308"/>
+                </VBox>
+            </HBox>
+
+            <Label fx:id="feedbackLabel" text="" managed="false" visible="false"/>
+
+            <HBox spacing="12">
+                <Button text="Save Therapy" onAction="#onSave" styleClass="button-success"/>
+                <Button text="Clear" onAction="#onClear" styleClass="button-secondary"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</HBox>

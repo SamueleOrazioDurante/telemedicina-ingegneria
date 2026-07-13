@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.univr.telemedicina.presentation.controller.DoctorDashboardController"
+      style="-fx-background-color: #1e1e2e;">
+
+    <!-- Sidebar -->
+    <VBox styleClass="sidebar" spacing="2">
+        <Label text="⚕️ Doctor" styleClass="sidebar-title"/>
+        <Separator/>
+        <Button text="📊  Dashboard" onAction="#onDashboard" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
+        <VBox VBox.vgrow="ALWAYS"/>
+        <Separator/>
+        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
+    </VBox>
+
+    <!-- Main Content -->
+    <VBox HBox.hgrow="ALWAYS" spacing="20" style="-fx-padding: 30;">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <VBox HBox.hgrow="ALWAYS">
+                <Label fx:id="welcomeLabel" text="Welcome, Doctor" styleClass="title"/>
+                <Label fx:id="dateLabel" text="" styleClass="subtitle"/>
+            </VBox>
+        </HBox>
+
+        <!-- Stats -->
+        <HBox spacing="16">
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                <Label fx:id="totalPatientsLabel" text="0" styleClass="stat-value"/>
+                <Label text="Total Patients" styleClass="stat-label"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                <Label fx:id="alertCountLabel" text="0" styleClass="stat-value" style="-fx-text-fill: #f38ba8;"/>
+                <Label text="Active Alerts" styleClass="stat-label"/>
+            </VBox>
+            <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
+                <Label fx:id="activeTherapiesLabel" text="0" styleClass="stat-value" style="-fx-text-fill: #a6e3a1;"/>
+                <Label text="Active Therapies" styleClass="stat-label"/>
+            </VBox>
+        </HBox>
+
+        <!-- Alerts -->
+        <VBox fx:id="alertsBox" spacing="8">
+            <Label text="Medical Alerts" styleClass="section-title"/>
+        </VBox>
+
+        <!-- Patients Table -->
+        <Label text="My Patients" styleClass="section-title"/>
+        <TableView fx:id="patientsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="nameCol" text="Name" prefWidth="180"/>
+                <TableColumn fx:id="taxCodeCol" text="Tax Code" prefWidth="160"/>
+                <TableColumn fx:id="dobCol" text="Date of Birth" prefWidth="120"/>
+                <TableColumn fx:id="riskCol" text="Risk Factors" prefWidth="160"/>
+                <TableColumn fx:id="actionCol" text="Actions" prefWidth="200"/>
+            </columns>
+            <placeholder>
+                <Label text="No patients assigned." style="-fx-text-fill: #6c7086;"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+</HBox>

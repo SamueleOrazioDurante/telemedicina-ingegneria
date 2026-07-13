@@ -326,3 +326,288 @@ The application adopts a **Layered Architecture** strictly separating Presentati
 1. **Observer Pattern**: Used to decouple the component that verifies medical rules (`MedicalRulesEngine` as the Subject) from the components that must react to abnormalities (e.g. Doctors' dashboards or push notification services as Observers). This ensures that adding a new type of notification mechanism doesn't require modifying the core logic.
 2. **Data Access Object (DAO) Pattern**: Encapsulates all access to the SQLite database. The Logic layer depends on domain objects (like `Patient`) and interacts with DAOs, completely oblivious to the underlying SQL dialect.
 
+---
+
+## 7. Requirements Analysis
+
+### 7.1 Functional Requirements
+
+| ID | Requirement | Actor | Priority |
+|----|-------------|-------|----------|
+| FR-01 | The system shall authenticate users (patients and doctors) via username and password. | Patient, Doctor | High |
+| FR-02 | Patients shall record daily blood glucose measurements, specifying value, time slot (before/after meal), date, and time. | Patient | High |
+| FR-03 | The system shall alert patients when glucose levels exceed thresholds (>130 mg/dL before meal, >180 mg/dL after meal, <80 mg/dL before meal). | System | High |
+| FR-04 | Patients shall record drug intakes linked to active prescribed therapies, specifying drug, quantity, date, and time. | Patient | High |
+| FR-05 | Patients shall report concomitant conditions (symptoms, pathologies, concurrent therapies) with a description and time period. | Patient | Medium |
+| FR-06 | Doctors shall prescribe therapies specifying drug name, daily intakes, quantity per intake, directions, and dates. | Doctor | High |
+| FR-07 | Doctors shall view patient data (glucose measurements, therapies, conditions) including synthetic summaries (weekly/monthly averages). | Doctor | High |
+| FR-08 | Doctors shall update patient medical information (risk factors, past pathologies, comorbidities), with audit logging. | Doctor | Medium |
+| FR-09 | The system shall alert doctors when patients miss prescribed therapy intakes for 3+ consecutive days. | System | High |
+| FR-10 | Patients shall be able to send messages to their reference doctor. | Patient | Low |
+
+---
+
+## 8. Use Case Diagram
+
+```mermaid
+graph TB
+    subgraph Actors
+        P["🧑 Patient"]
+        D["👨‍⚕️ Doctor"]
+        S["⚙️ System"]
+    end
+
+    subgraph "Use Cases"
+        UC1["UC-01: Login"]
+        UC2["UC-02: Record Glucose Measurement"]
+        UC3["UC-03: View Glucose History"]
+        UC4["UC-04: Record Drug Intake"]
+        UC5["UC-05: Report Concomitant Condition"]
+        UC6["UC-06: View Prescribed Therapies"]
+        UC7["UC-07: Send Message to Doctor"]
+        UC8["UC-08: Prescribe Therapy"]
+        UC9["UC-09: View Patient Data"]
+        UC10["UC-10: Update Patient Medical Info"]
+        UC11["UC-11: View Glucose Trend"]
+        UC12["UC-12: Generate Glucose Alert"]
+        UC13["UC-13: Generate Missing Therapy Alert"]
+    end
+
+    P --> UC1
+    P --> UC2
+    P --> UC3
+    P --> UC4
+    P --> UC5
+    P --> UC6
+    P --> UC7
+
+    D --> UC1
+    D --> UC8
+    D --> UC9
+    D --> UC10
+    D --> UC11
+
+    UC2 -.->|"<<include>>"| UC12
+    UC12 --> S
+    UC13 --> S
+    UC4 -.->|"<<include>>"| UC13
+```
+
+---
+
+## 9. Use Case Specification Sheets
+
+### UC-01: Login
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-01 |
+| **Name** | Login |
+| **Actor(s)** | Patient, Doctor |
+| **Precondition** | User has valid credentials created by the system administrator. |
+| **Main Flow** | 1. User navigates to the login screen. 2. User enters username and password. 3. System verifies credentials against the database. 4. System redirects to the appropriate dashboard (patient or doctor). |
+| **Alternative Flow** | 3a. Credentials are invalid → System displays an error message and remains on the login screen. |
+| **Postcondition** | User is authenticated and has access to their role-specific dashboard. |
+
+### UC-02: Record Glucose Measurement
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-02 |
+| **Name** | Record Glucose Measurement |
+| **Actor(s)** | Patient |
+| **Precondition** | Patient is authenticated and on the glucose entry screen. |
+| **Main Flow** | 1. Patient enters glucose value (mg/dL). 2. Patient selects time slot (before/after meal). 3. Patient selects date and enters time. 4. Patient clicks "Save". 5. System validates input. 6. System saves measurement to the database. 7. System checks glucose thresholds via MedicalRulesEngine. 8. System displays confirmation. |
+| **Alternative Flow** | 5a. Input is invalid → error message shown. 7a. Value exceeds threshold → warning displayed to patient and alert sent to doctor. |
+| **Postcondition** | Measurement is persisted. If abnormal, alert is generated. |
+
+### UC-03: View Glucose History
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-03 |
+| **Name** | View Glucose History |
+| **Actor(s)** | Patient |
+| **Precondition** | Patient is authenticated. |
+| **Main Flow** | 1. Patient navigates to glucose history. 2. System loads all measurements. 3. Patient optionally filters by date range. 4. System displays measurements in a table with status (Normal/Abnormal). |
+| **Postcondition** | Patient can see all past glucose readings with visual status indicators. |
+
+### UC-04: Record Drug Intake
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-04 |
+| **Name** | Record Drug Intake |
+| **Actor(s)** | Patient |
+| **Precondition** | Patient is authenticated and has at least one active therapy prescribed. |
+| **Main Flow** | 1. Patient selects an active therapy from the dropdown. 2. System auto-fills drug name and suggested quantity. 3. Patient confirms/adjusts quantity, date, and time. 4. Patient clicks "Save". 5. System saves intake to the database linked to the therapy. |
+| **Alternative Flow** | 1a. No active therapies → message shown that no therapies are prescribed. |
+| **Postcondition** | Drug intake is recorded and linked to the prescribed therapy for compliance tracking. |
+
+### UC-05: Report Concomitant Condition
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-05 |
+| **Name** | Report Concomitant Condition |
+| **Actor(s)** | Patient |
+| **Precondition** | Patient is authenticated. |
+| **Main Flow** | 1. Patient selects condition type (Symptom, Pathology, Concomitant Therapy). 2. Patient enters description. 3. Patient selects start date (and optional end date). 4. Patient clicks "Save". 5. System persists the condition. |
+| **Postcondition** | Condition is saved and visible to the patient's doctor. |
+
+### UC-06: View Prescribed Therapies
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-06 |
+| **Name** | View Prescribed Therapies |
+| **Actor(s)** | Patient |
+| **Precondition** | Patient is authenticated. |
+| **Main Flow** | 1. Patient navigates to therapies view. 2. System loads all therapies (active and stopped). 3. System displays them in a table with drug, dosage, directions, dates, and status. |
+| **Postcondition** | Patient sees all current and past therapies. |
+
+### UC-08: Prescribe Therapy
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-08 |
+| **Name** | Prescribe Therapy |
+| **Actor(s)** | Doctor |
+| **Precondition** | Doctor is authenticated. |
+| **Main Flow** | 1. Doctor selects a patient from the dashboard. 2. Doctor clicks "Therapy" to open the prescription form. 3. Doctor enters drug name, daily intakes, quantity, directions, and start date. 4. Doctor clicks "Save Therapy". 5. System saves therapy to the database. 6. System creates an audit log entry in `operation_log`. |
+| **Alternative Flow** | 4a. Required fields are missing → error shown. |
+| **Postcondition** | New therapy is active and visible to the patient. Operation is logged. |
+
+### UC-09: View Patient Data
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-09 |
+| **Name** | View Patient Data |
+| **Actor(s)** | Doctor |
+| **Precondition** | Doctor is authenticated. |
+| **Main Flow** | 1. Doctor views patient list on dashboard. 2. Doctor clicks "View" on a patient. 3. System loads patient info, glucose measurements, therapies, and conditions. 4. System displays all data in organized sections. |
+| **Postcondition** | Doctor has complete visibility over the patient's medical data. |
+
+### UC-10: Update Patient Medical Info
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-10 |
+| **Name** | Update Patient Medical Info |
+| **Actor(s)** | Doctor |
+| **Precondition** | Doctor is authenticated. |
+| **Main Flow** | 1. Doctor clicks "Info" on a patient. 2. System loads current risk factors, pathologies, and comorbidities. 3. Doctor edits the fields. 4. Doctor clicks "Save Changes". 5. System updates the database and creates an audit log entry. |
+| **Postcondition** | Patient info is updated. The operation is tracked with the doctor's identity in `operation_log`. |
+
+### UC-11: View Glucose Trend
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-11 |
+| **Name** | View Glucose Trend (Synthetic Summary) |
+| **Actor(s)** | Doctor |
+| **Precondition** | Doctor is authenticated and viewing a patient's detail. |
+| **Main Flow** | 1. Doctor clicks "Glucose Chart". 2. Doctor selects period (weekly or monthly). 3. System computes average glucose values (before/after meal), total measurements, and abnormal count for each period. 4. System displays the summary in a table. |
+| **Postcondition** | Doctor sees the glucose evolution over time in a synthetic format. |
+
+---
+
+## 10. Activity Diagrams
+
+### 10.1 Activity Diagram: Login and Authentication
+
+```mermaid
+flowchart TD
+    A([Start]) --> B[Display Login Screen]
+    B --> C[User enters username and password]
+    C --> D{Fields empty?}
+    D -->|Yes| E[Show error: fill all fields]
+    E --> C
+    D -->|No| F{Check Doctor DB}
+    F -->|Found & password matches| G[Set session as Doctor]
+    G --> H[Navigate to Doctor Dashboard]
+    F -->|Not found| I{Check Patient DB}
+    I -->|Found & password matches| J[Set session as Patient]
+    J --> K[Navigate to Patient Dashboard]
+    I -->|Not found| L[Show error: invalid credentials]
+    L --> C
+    H --> M([End])
+    K --> M
+```
+
+### 10.2 Activity Diagram: Record Blood Glucose Measurement
+
+```mermaid
+flowchart TD
+    A([Start]) --> B[Patient opens glucose entry form]
+    B --> C[Enter glucose value, time slot, date, time]
+    C --> D{Validate input}
+    D -->|Invalid| E[Show validation error]
+    E --> C
+    D -->|Valid| F[Save measurement to DB]
+    F --> G{Check glucose thresholds}
+    G -->|Normal| H[Show success confirmation]
+    G -->|Abnormal: before meal outside 80-130| I[Show warning to patient]
+    G -->|Abnormal: after meal above 180| I
+    I --> J[Notify doctor via Observer pattern]
+    J --> H
+    H --> K([End])
+```
+
+### 10.3 Activity Diagram: Record Drug Intake
+
+```mermaid
+flowchart TD
+    A([Start]) --> B[Patient opens drug intake form]
+    B --> C{Active therapies exist?}
+    C -->|No| D[Show message: no active therapies]
+    D --> Z([End])
+    C -->|Yes| E[Load active therapies in dropdown]
+    E --> F[Patient selects therapy]
+    F --> G[Auto-fill drug name and quantity]
+    G --> H[Patient confirms date, time, quantity]
+    H --> I{Validate input}
+    I -->|Invalid| J[Show validation error]
+    J --> H
+    I -->|Valid| K[Save drug intake to DB linked to therapy]
+    K --> L[Show success confirmation]
+    L --> Z
+```
+
+### 10.4 Activity Diagram: Prescribe Therapy
+
+```mermaid
+flowchart TD
+    A([Start]) --> B[Doctor selects patient from dashboard]
+    B --> C[Doctor opens therapy form]
+    C --> D[Enter drug name, daily intakes, quantity, directions, dates]
+    D --> E{Validate input}
+    E -->|Invalid| F[Show validation error]
+    F --> D
+    E -->|Valid| G[Save therapy to DB as active]
+    G --> H[Create audit log entry in operation_log]
+    H --> I[Show success confirmation]
+    I --> J([End])
+```
+
+### 10.5 Activity Diagram: Missing Therapy Alert Generation
+
+```mermaid
+flowchart TD
+    A([Start: Doctor Dashboard loads]) --> B[For each patient]
+    B --> C[Load active therapies]
+    C --> D[For each active therapy]
+    D --> E[Check drug intakes for last 3 days]
+    E --> F{Intakes missing for 3 consecutive days?}
+    F -->|No| G[No alert for this therapy]
+    F -->|Yes| H[Generate ALERT via MedicalRulesEngine]
+    H --> I[Notify doctor via Observer pattern]
+    I --> J[Display alert badge on dashboard]
+    G --> K{More therapies?}
+    J --> K
+    K -->|Yes| D
+    K -->|No| L{More patients?}
+    L -->|Yes| B
+    L -->|No| M([End])
+```

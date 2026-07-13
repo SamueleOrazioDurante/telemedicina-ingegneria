@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.univr.telemedicina.presentation.controller.PatientInfoEditController"
+      style="-fx-background-color: #1e1e2e;">
+
+    <!-- Sidebar -->
+    <VBox styleClass="sidebar" spacing="2">
+        <Label text="⚕️ Doctor" styleClass="sidebar-title"/>
+        <Separator/>
+        <Button text="📊  Dashboard" onAction="#onBack" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="📝  Patient Info" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
+        <VBox VBox.vgrow="ALWAYS"/>
+        <Separator/>
+        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
+    </VBox>
+
+    <!-- Main Content -->
+    <VBox HBox.hgrow="ALWAYS" spacing="20" style="-fx-padding: 30;">
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="← Back" onAction="#onBack" styleClass="button-secondary"/>
+            <Label fx:id="titleLabel" text="Edit Patient Medical Information" styleClass="title"/>
+        </HBox>
+        <Label fx:id="patientLabel" text="" styleClass="subtitle"/>
+
+        <VBox styleClass="card" spacing="16" maxWidth="600">
+            <VBox spacing="6">
+                <Label text="RISK FACTORS" styleClass="field-label"/>
+                <TextArea fx:id="riskFactorsArea" promptText="e.g. smoker, ex-smoker, obesity, alcohol dependency..." prefRowCount="3"/>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="PAST PATHOLOGIES" styleClass="field-label"/>
+                <TextArea fx:id="pastPathologiesArea" promptText="e.g. cardiovascular disease, previous surgeries..." prefRowCount="3"/>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="COMORBIDITIES" styleClass="field-label"/>
+                <TextArea fx:id="comorbiditiesArea" promptText="e.g. hypertension, renal failure..." prefRowCount="3"/>
+            </VBox>
+
+            <Label fx:id="feedbackLabel" text="" managed="false" visible="false"/>
+
+            <HBox spacing="12">
+                <Button text="Save Changes" onAction="#onSave" styleClass="button-primary"/>
+                <Button text="Reset" onAction="#onReset" styleClass="button-secondary"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</HBox>

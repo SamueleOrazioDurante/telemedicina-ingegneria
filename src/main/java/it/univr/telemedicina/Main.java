@@ -1,14 +1,11 @@
 package it.univr.telemedicina;
 
-import it.univr.telemedicina.persistence.DatabaseManager;
-
+/**
+ * Launcher class required by the Maven Shade plugin.
+ * JavaFX applications packaged as fat JARs need a non-Application main class.
+ */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Database Layer Initialized");
-        DatabaseManager dbManager = new DatabaseManager();
-        dbManager.initializeDatabase();
-        
-        System.out.println("Application Started");
         App.main(args);
     }
 }

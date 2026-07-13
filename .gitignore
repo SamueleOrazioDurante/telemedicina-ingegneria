@@ -39,3 +39,4 @@ mvnw
 .mvn/wrapper/maven-wrapper.properties
 tools/
 telemedicina.db
+mvnw.cmd

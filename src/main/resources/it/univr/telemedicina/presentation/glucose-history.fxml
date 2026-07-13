@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.univr.telemedicina.presentation.controller.GlucoseHistoryController"
+      style="-fx-background-color: #1e1e2e;">
+
+    <!-- Sidebar -->
+    <VBox styleClass="sidebar" spacing="2">
+        <Label text="🩺 Patient" styleClass="sidebar-title"/>
+        <Separator/>
+        <Button text="📊  Dashboard" onAction="#onDashboard" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="🩸  Record Glucose" onAction="#onRecordGlucose" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="📋  Glucose History" onAction="#onGlucoseHistory" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
+        <Button text="💊  Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="🤒  Report Condition" onAction="#onReportCondition" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="📜  My Therapies" onAction="#onMyTherapies" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="✉️  Email Doctor" onAction="#onEmailDoctor" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <VBox VBox.vgrow="ALWAYS"/>
+        <Separator/>
+        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
+    </VBox>
+
+    <!-- Main Content -->
+    <VBox HBox.hgrow="ALWAYS" spacing="20" style="-fx-padding: 30;">
+        <Label text="Glucose Measurement History" styleClass="title"/>
+
+        <!-- Filters -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Label text="From:" styleClass="field-label"/>
+            <DatePicker fx:id="startDatePicker"/>
+            <Label text="To:" styleClass="field-label"/>
+            <DatePicker fx:id="endDatePicker"/>
+            <Button text="Filter" onAction="#onFilter" styleClass="button-primary"/>
+            <Button text="Show All" onAction="#onShowAll" styleClass="button-secondary"/>
+        </HBox>
+
+        <!-- Table -->
+        <TableView fx:id="glucoseTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="dateCol" text="Date" prefWidth="120"/>
+                <TableColumn fx:id="timeCol" text="Time" prefWidth="80"/>
+                <TableColumn fx:id="valueCol" text="Value (mg/dL)" prefWidth="120"/>
+                <TableColumn fx:id="timeSlotCol" text="Time Slot" prefWidth="140"/>
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="140"/>
+            </columns>
+            <placeholder>
+                <Label text="No measurements found." style="-fx-text-fill: #6c7086;"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+</HBox>

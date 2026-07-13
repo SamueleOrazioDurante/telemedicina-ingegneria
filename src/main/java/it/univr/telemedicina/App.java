@@ -1,20 +1,26 @@
 package it.univr.telemedicina;
 
+import it.univr.telemedicina.persistence.DatabaseManager;
+import it.univr.telemedicina.presentation.SceneManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
+/**
+ * Main JavaFX Application class.
+ * Initializes the SceneManager and loads the login screen.
+ */
 public class App extends Application {
+
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("presentation/main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Telemedicine System for Diabetic Patients");
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) {
+        DatabaseManager dbManager = new DatabaseManager();
+        dbManager.initializeDatabase();
+
+        SceneManager.init(stage, dbManager);
+        stage.setTitle("Telemedicine System — Diabetic Patients Monitoring");
+        stage.setMinWidth(900);
+        stage.setMinHeight(600);
+        SceneManager.switchScene("login-view.fxml");
     }
 
     public static void main(String[] args) {

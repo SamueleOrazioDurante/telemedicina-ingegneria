@@ -81,3 +81,33 @@ CREATE TABLE IF NOT EXISTS operation_log (
     FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE CASCADE,
     FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE SET NULL
 );
+
+-- SEED DATA: Initial demo data for testing and demonstration
+
+-- Doctors (password stored as plain text for demo; in production use hashing)
+INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, username, password)
+VALUES ('RSSMRA80A01H501Z', 'Mario', 'Rossi', 'dottore', 'dottore');
+
+INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, username, password)
+VALUES ('VRDLGI75B02F205X', 'Luigi', 'Verdi', 'drverdi', 'drverdi');
+
+-- Patients (assigned to doctor 1)
+INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
+VALUES ('BNCGNN90C03H501Y', 'Giovanni', 'Bianchi', '1990-03-03', 'paziente', 'paziente', 1, 'Smoker, Obesity', NULL, 'Hypertension');
+
+INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
+VALUES ('NRILRA85D04L219K', 'Laura', 'Neri', '1985-04-04', 'lneri', 'lneri', 1, NULL, 'Appendectomy (2010)', NULL);
+
+INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
+VALUES ('CNTMRC78E05H501W', 'Marco', 'Conti', '1978-05-05', 'mconti', 'mconti', 2, 'Ex-smoker', NULL, 'Hypertension, Dyslipidemia');
+
+-- Sample therapies for patient 1 (Giovanni Bianchi)
+INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
+VALUES (1, 1, 'Metformin', 2, '500mg', 'After meals', '2025-01-01', NULL, 1);
+
+INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
+VALUES (1, 1, 'Rapid Insulin', 3, '10 units', 'Before meals', '2025-03-15', NULL, 1);
+
+-- Sample therapy for patient 2 (Laura Neri)
+INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
+VALUES (2, 1, 'Metformin', 1, '850mg', 'After dinner', '2025-02-01', NULL, 1);
