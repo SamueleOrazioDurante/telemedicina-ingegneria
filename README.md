@@ -31,7 +31,64 @@ For detailed functional specifications, please refer to the [Functional Specific
 
 ## How to compile and run
 
-_(This section is currently empty)_
+This project provides utility scripts (`run.sh` for Linux/macOS and `run.bat` for Windows) to simplify compilation and execution in both development and production environments.
+
+### Prerequisites
+
+- **Java Development Kit (JDK) 17** or higher installed on your system.
+- **Maven** installed on your system (or `mvnw` / `mvnw.cmd` present in the root directory).
+
+### On Linux / macOS
+
+Make the script executable:
+
+```bash
+chmod +x run.sh
+```
+
+- **Development (quick launch):**
+  ```bash
+  ./run.sh dev
+  ```
+- **Compile for Production (builds a standalone executable fat JAR):**
+  ```bash
+  ./run.sh package
+  ```
+- **Run in Production (starts the pre-compiled standalone JAR):**
+  ```bash
+  ./run.sh prod
+  ```
+- **Run Tests (JUnit 5):**
+  ```bash
+  ./run.sh test
+  ```
+- **Clean Build Artifacts (`target/`):**
+  ```bash
+  ./run.sh clean
+  ```
+
+### On Windows
+
+- **Development:**
+  ```cmd
+  run.bat dev
+  ```
+- **Compile for Production:**
+  ```cmd
+  run.bat package
+  ```
+- **Run in Production:**
+  ```cmd
+  run.bat prod
+  ```
+- **Run Tests:**
+  ```cmd
+  run.bat test
+  ```
+- **Clean Build Artifacts:**
+  ```cmd
+  run.bat clean
+  ```
 
 ---
 
@@ -47,7 +104,17 @@ The application follows a **Layered Architecture** style, ensuring a clear separ
 
 ## Required Dependencies
 
-_(This section is currently empty)_
+Project dependencies are managed entirely by Maven via the `pom.xml` file. The main libraries used are:
+
+1. **JavaFX (v17.0.10)**:
+   - `javafx-controls`: For the graphical user interface.
+   - `javafx-fxml`: To load views defined in FXML.
+2. **SQLite JDBC (v3.45.1.0)**:
+   - Database driver for connecting to the local SQLite database.
+3. **JUnit 5 (v5.10.2)**:
+   - `junit-jupiter-api` & `junit-jupiter-engine`: For automated unit and integration tests.
+
+All dependencies are automatically downloaded during the first run or during the build phase (`./run.sh dev` or `./run.sh package`).
 
 ---
 

@@ -34,3 +34,6 @@ target/
 .vscode/
 *.code-workspace
 .DS_Store
+
+mvnw
+.mvn/wrapper/maven-wrapper.properties
