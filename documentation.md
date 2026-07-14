@@ -377,9 +377,9 @@ flowchart LR
     classDef usecase fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#78350f;
 
     %% Actors
-    P["🧑 Patient"]:::actor
-    D["👨‍⚕️ Doctor"]:::actor
-    S["⚙️ System"]:::actor
+    P["Patient"]:::actor
+    D["Doctor"]:::actor
+    S["System"]:::actor
 
     %% System Boundary
     subgraph TelemedicineSystem ["Telemedicine System"]
