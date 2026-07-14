@@ -42,7 +42,7 @@
             <Label fx:id="errorLabel" text="" style="-fx-text-fill: #f38ba8; -fx-font-size: 12px;" managed="false" visible="false"/>
 
             <Button text="Login" onAction="#onLogin" styleClass="button-primary" maxWidth="1.7976931348623157E308"/>
-            <Button text="Register New Account" onAction="#onRegisterPage" styleClass="button-secondary" maxWidth="1.7976931348623157E308"/>
+            <Button text="Register New Account (for demo only)" onAction="#onRegisterPage" styleClass="button-secondary" maxWidth="1.7976931348623157E308"/>
         </VBox>
 
     </VBox>

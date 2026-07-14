@@ -14,16 +14,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * System Tests (Black-Box) - Dominic Centrone (VR516778)
- *
- * These tests simulate end-to-end user workflows by executing the same logic
- * that the GUI controllers use (Controller → Business Logic → DAO → DB),
- * verifying the correct behavior of the complete system from the user's perspective.
- *
- * Unlike unit tests, these tests use a real SQLite database (in-memory / temp file)
- * and verify the integration of all layers together.
- */
 public class SystemTest {
 
     private DatabaseManager dbManager;
