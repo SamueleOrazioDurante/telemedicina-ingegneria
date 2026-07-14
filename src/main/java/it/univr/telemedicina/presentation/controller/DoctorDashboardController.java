@@ -56,7 +56,7 @@ public class DoctorDashboardController {
         taxCodeCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getTaxCode()));
         dobCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getDateOfBirth()));
         riskCol.setCellValueFactory(cd -> new SimpleStringProperty(
-                cd.getValue().getRiskFactors() != null ? cd.getValue().getRiskFactors() : "—"));
+                cd.getValue().getRiskFactors() != null ? cd.getValue().getRiskFactors() : "-"));
 
         actionCol.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -68,21 +68,9 @@ public class DoctorDashboardController {
                     Patient p = getTableView().getItems().get(getIndex());
                     Button viewBtn = new Button("View");
                     viewBtn.getStyleClass().add("button-primary");
-                    viewBtn.setStyle("-fx-font-size: 11px; -fx-padding: 5 12;");
+                    viewBtn.setStyle("-fx-font-size: 11px; -fx-padding: 5 16;");
                     viewBtn.setOnAction(e -> openPatientDetail(p));
-
-                    Button therapyBtn = new Button("Therapy");
-                    therapyBtn.getStyleClass().add("button-success");
-                    therapyBtn.setStyle("-fx-font-size: 11px; -fx-padding: 5 12;");
-                    therapyBtn.setOnAction(e -> openTherapyForm(p));
-
-                    Button infoBtn = new Button("Info");
-                    infoBtn.getStyleClass().add("button-secondary");
-                    infoBtn.setStyle("-fx-font-size: 11px; -fx-padding: 5 12;");
-                    infoBtn.setOnAction(e -> openPatientInfo(p));
-
-                    HBox box = new HBox(6, viewBtn, therapyBtn, infoBtn);
-                    setGraphic(box);
+                    setGraphic(viewBtn);
                 }
             }
         });
@@ -169,16 +157,6 @@ public class DoctorDashboardController {
 
     private void openPatientDetail(Patient patient) {
         PatientDetailController ctrl = SceneManager.switchSceneAndGetController("patient-detail.fxml");
-        if (ctrl != null) ctrl.setPatient(patient);
-    }
-
-    private void openTherapyForm(Patient patient) {
-        TherapyFormController ctrl = SceneManager.switchSceneAndGetController("therapy-form.fxml");
-        if (ctrl != null) ctrl.setPatient(patient);
-    }
-
-    private void openPatientInfo(Patient patient) {
-        PatientInfoEditController ctrl = SceneManager.switchSceneAndGetController("patient-info-edit.fxml");
         if (ctrl != null) ctrl.setPatient(patient);
     }
 

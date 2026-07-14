@@ -37,7 +37,7 @@ public class PatientTherapiesController {
         dailyCol.setCellValueFactory(cd -> new SimpleStringProperty(String.valueOf(cd.getValue().getDailyIntakes())));
         quantityCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getQuantityPerIntake()));
         directionsCol.setCellValueFactory(cd -> new SimpleStringProperty(
-                cd.getValue().getDirections() != null ? cd.getValue().getDirections() : "—"));
+                cd.getValue().getDirections() != null ? cd.getValue().getDirections() : "-"));
         startCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getStartDate()));
         endCol.setCellValueFactory(cd -> new SimpleStringProperty(
                 cd.getValue().getEndDate() != null ? cd.getValue().getEndDate() : "Ongoing"));

@@ -72,6 +72,18 @@ CREATE TABLE IF NOT EXISTS concomitant_condition (
     FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS patient_message (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    patient_id INTEGER NOT NULL,
+    doctor_id INTEGER NOT NULL,
+    subject TEXT NOT NULL,
+    message TEXT NOT NULL,
+    date TEXT NOT NULL,      -- YYYY-MM-DD
+    time TEXT NOT NULL,      -- HH:MM
+    FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE RESTRICT
+);
+
 CREATE TABLE IF NOT EXISTS operation_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     doctor_id INTEGER NOT NULL,

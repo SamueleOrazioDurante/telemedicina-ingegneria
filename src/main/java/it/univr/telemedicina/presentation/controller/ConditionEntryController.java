@@ -45,6 +45,10 @@ public class ConditionEntryController {
         if (startDate == null) { showFeedback("Please select a start date.", true); return; }
 
         LocalDate endDate = endDatePicker.getValue();
+        if (endDate != null && endDate.isBefore(startDate)) {
+            showFeedback("End date must be after or equal to start date.", true);
+            return;
+        }
         String endDateStr = endDate != null ? endDate.format(DateTimeFormatter.ISO_LOCAL_DATE) : null;
 
         try {
@@ -80,13 +84,10 @@ public class ConditionEntryController {
         feedbackLabel.setManaged(true);
     }
 
-    // --- Navigation ---
-    @FXML protected void onDashboard() { SceneManager.switchScene("patient-dashboard.fxml"); }
-    @FXML protected void onRecordGlucose() { SceneManager.switchScene("glucose-entry.fxml"); }
-    @FXML protected void onGlucoseHistory() { SceneManager.switchScene("glucose-history.fxml"); }
-    @FXML protected void onRecordDrugIntake() { SceneManager.switchScene("drug-intake-entry.fxml"); }
-    @FXML protected void onReportCondition() { SceneManager.switchScene("condition-entry.fxml"); }
-    @FXML protected void onMyTherapies() { SceneManager.switchScene("patient-therapies.fxml"); }
-    @FXML protected void onEmailDoctor() { SceneManager.switchScene("send-email.fxml"); }
-    @FXML protected void onLogout() { SceneManager.logout(); }
+    @FXML
+    protected void onClose() {
+        if (feedbackLabel.getScene() != null && feedbackLabel.getScene().getWindow() != null) {
+            ((javafx.stage.Stage) feedbackLabel.getScene().getWindow()).close();
+        }
+    }
 }

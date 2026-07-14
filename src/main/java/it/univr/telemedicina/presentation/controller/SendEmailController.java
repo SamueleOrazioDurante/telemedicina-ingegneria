@@ -2,16 +2,20 @@ package it.univr.telemedicina.presentation.controller;
 
 import it.univr.telemedicina.domain.Doctor;
 import it.univr.telemedicina.domain.Patient;
+import it.univr.telemedicina.domain.PatientMessage;
 import it.univr.telemedicina.persistence.DoctorDAO;
+import it.univr.telemedicina.persistence.PatientMessageDAO;
 import it.univr.telemedicina.presentation.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Controller for the "Send Email to Doctor" form.
- * Since the spec requires email functionality, this simulates it by printing
- * the message to console and showing a success confirmation.
- * In a real system, this would integrate with an email/SMTP service.
+ * Saves the messages/emails directly into the database.
  */
 public class SendEmailController {
 
@@ -47,17 +51,28 @@ public class SendEmailController {
         String message = messageArea.getText().trim();
         if (message.isEmpty()) { showFeedback("Please enter a message.", true); return; }
 
-        // Simulate email sending
-        System.out.println("=== EMAIL SENT ===");
-        System.out.println("From: " + patient.getFirstName() + " " + patient.getLastName() + " (Patient ID: " + patient.getId() + ")");
-        System.out.println("To: " + recipientField.getText());
-        System.out.println("Subject: " + subject);
-        System.out.println("Message: " + message);
-        System.out.println("==================");
+        String dateStr = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String timeStr = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
 
-        showFeedback("✅ Message sent successfully to " + recipientField.getText() + ".", false);
-        subjectField.clear();
-        messageArea.clear();
+        try {
+            PatientMessage msg = new PatientMessage(
+                    patient.getId(),
+                    patient.getReferenceDoctorId(),
+                    subject,
+                    message,
+                    dateStr,
+                    timeStr
+            );
+            PatientMessageDAO dao = new PatientMessageDAO(SceneManager.getDbManager());
+            dao.save(msg);
+
+            showFeedback("✅ Message sent successfully to " + recipientField.getText() + ".", false);
+            subjectField.clear();
+            messageArea.clear();
+        } catch (Exception e) {
+            showFeedback("Error sending message: " + e.getMessage(), true);
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -75,13 +90,10 @@ public class SendEmailController {
         feedbackLabel.setManaged(true);
     }
 
-    // --- Navigation ---
-    @FXML protected void onDashboard() { SceneManager.switchScene("patient-dashboard.fxml"); }
-    @FXML protected void onRecordGlucose() { SceneManager.switchScene("glucose-entry.fxml"); }
-    @FXML protected void onGlucoseHistory() { SceneManager.switchScene("glucose-history.fxml"); }
-    @FXML protected void onRecordDrugIntake() { SceneManager.switchScene("drug-intake-entry.fxml"); }
-    @FXML protected void onReportCondition() { SceneManager.switchScene("condition-entry.fxml"); }
-    @FXML protected void onMyTherapies() { SceneManager.switchScene("patient-therapies.fxml"); }
-    @FXML protected void onEmailDoctor() { SceneManager.switchScene("send-email.fxml"); }
-    @FXML protected void onLogout() { SceneManager.logout(); }
+    @FXML
+    protected void onClose() {
+        if (feedbackLabel.getScene() != null && feedbackLabel.getScene().getWindow() != null) {
+            ((javafx.stage.Stage) feedbackLabel.getScene().getWindow()).close();
+        }
+    }
 }

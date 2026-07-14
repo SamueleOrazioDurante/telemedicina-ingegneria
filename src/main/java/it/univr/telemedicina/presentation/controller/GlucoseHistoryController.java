@@ -93,6 +93,14 @@ public class GlucoseHistoryController {
         LocalDate start = startDatePicker.getValue();
         LocalDate end = endDatePicker.getValue();
         if (start != null && end != null) {
+            if (end.isBefore(start)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Date Range");
+                alert.setHeaderText(null);
+                alert.setContentText("The start date must be before or equal to the end date.");
+                alert.showAndWait();
+                return;
+            }
             loadData(start.format(DateTimeFormatter.ISO_LOCAL_DATE), end.format(DateTimeFormatter.ISO_LOCAL_DATE));
         }
     }

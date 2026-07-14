@@ -91,6 +91,10 @@ public class PatientInfoEditController {
         feedbackLabel.setManaged(true);
     }
 
-    @FXML protected void onBack() { SceneManager.switchScene("doctor-dashboard.fxml"); }
-    @FXML protected void onLogout() { SceneManager.logout(); }
+    @FXML
+    protected void onClose() {
+        if (feedbackLabel.getScene() != null && feedbackLabel.getScene().getWindow() != null) {
+            ((javafx.stage.Stage) feedbackLabel.getScene().getWindow()).close();
+        }
+    }
 }

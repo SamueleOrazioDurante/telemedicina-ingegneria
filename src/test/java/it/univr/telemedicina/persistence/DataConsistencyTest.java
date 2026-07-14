@@ -230,4 +230,28 @@ public class DataConsistencyTest {
         assertEquals(1, pathologies.size());
         assertEquals("Type 2 Diabetes", pathologies.get(0).getDescription());
     }
+
+    @Test
+    public void testPatientMessageOperations() throws SQLException {
+        Doctor doctor = new Doctor("CF_D_MSG", "D", "M", "duser_msg", "pass");
+        doctorDAO.save(doctor);
+        Patient patient = new Patient("CF_P_MSG", "P", "M", "1992-02-02", "puser_msg", "pass", doctor.getId());
+        patientDAO.save(patient);
+
+        PatientMessageDAO messageDAO = new PatientMessageDAO(dbManager);
+        PatientMessage msg = new PatientMessage(patient.getId(), doctor.getId(), "Test Subject", "Test MessageBody", "2026-07-14", "12:00");
+        messageDAO.save(msg);
+        assertNotNull(msg.getId());
+
+        List<PatientMessage> messages = messageDAO.findByPatientIdAndDoctorId(patient.getId(), doctor.getId());
+        assertEquals(1, messages.size());
+        assertEquals("Test Subject", messages.get(0).getSubject());
+        assertEquals("Test MessageBody", messages.get(0).getMessage());
+
+        List<PatientMessage> docMessages = messageDAO.findByDoctorId(doctor.getId());
+        assertEquals(1, docMessages.size());
+
+        List<PatientMessage> patMessages = messageDAO.findByPatientId(patient.getId());
+        assertEquals(1, patMessages.size());
+    }
 }

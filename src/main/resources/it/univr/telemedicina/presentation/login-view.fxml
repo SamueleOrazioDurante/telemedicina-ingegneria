@@ -42,8 +42,8 @@
             <Label fx:id="errorLabel" text="" style="-fx-text-fill: #f38ba8; -fx-font-size: 12px;" managed="false" visible="false"/>
 
             <Button text="Login" onAction="#onLogin" styleClass="button-primary" maxWidth="1.7976931348623157E308"/>
+            <Button text="Register New Account" onAction="#onRegisterPage" styleClass="button-secondary" maxWidth="1.7976931348623157E308"/>
         </VBox>
 
-        <Label text="v1.0 — University of Verona" style="-fx-text-fill: #6c7086; -fx-font-size: 11px; -fx-padding: 20 0 0 0;"/>
     </VBox>
 </StackPane>

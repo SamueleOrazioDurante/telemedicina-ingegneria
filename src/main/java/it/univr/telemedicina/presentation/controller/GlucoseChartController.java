@@ -49,7 +49,7 @@ public class GlucoseChartController {
     public void setPatient(Patient patient) {
         this.patient = patient;
         if (patient != null) {
-            titleLabel.setText("Glucose Trend — " + patient.getFirstName() + " " + patient.getLastName());
+            titleLabel.setText("Glucose Trend - " + patient.getFirstName() + " " + patient.getLastName());
             loadData();
         }
     }
@@ -125,8 +125,8 @@ public class GlucoseChartController {
         row.put("count", String.valueOf(data.size()));
 
         if (data.isEmpty()) {
-            row.put("avgBefore", "—");
-            row.put("avgAfter", "—");
+            row.put("avgBefore", "-");
+            row.put("avgAfter", "-");
             row.put("alerts", "0");
             return row;
         }
@@ -142,8 +142,8 @@ public class GlucoseChartController {
             return false;
         }).count();
 
-        row.put("avgBefore", avgBefore > 0 ? String.format("%.1f mg/dL", avgBefore) : "—");
-        row.put("avgAfter", avgAfter > 0 ? String.format("%.1f mg/dL", avgAfter) : "—");
+        row.put("avgBefore", avgBefore > 0 ? String.format("%.1f mg/dL", avgBefore) : "-");
+        row.put("avgAfter", avgAfter > 0 ? String.format("%.1f mg/dL", avgAfter) : "-");
         row.put("alerts", String.valueOf(abnormal));
         return row;
     }

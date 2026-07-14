@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * System Tests (Black-Box) — Dominic Centrone (VR516778)
+ * System Tests (Black-Box) - Dominic Centrone (VR516778)
  *
  * These tests simulate end-to-end user workflows by executing the same logic
  * that the GUI controllers use (Controller → Business Logic → DAO → DB),
@@ -71,9 +71,9 @@ public class SystemTest {
         patientDAO.save(testPatient);
     }
 
-    // ========================================================================
-    // TEST 1: Patient Login — Valid credentials lead to successful authentication
-    // ========================================================================
+    
+    // TEST 1: Patient Login - Valid credentials lead to successful authentication
+    
     @Test
     public void testLoginPatient() throws Exception {
         // Simulate: user enters credentials → system verifies against DB
@@ -85,9 +85,9 @@ public class SystemTest {
         assertEquals(testDoctor.getId(), found.getReferenceDoctorId(), "Should be assigned to correct doctor");
     }
 
-    // ========================================================================
-    // TEST 2: Doctor Login — Valid credentials lead to successful authentication
-    // ========================================================================
+    
+    // TEST 2: Doctor Login - Valid credentials lead to successful authentication
+    
     @Test
     public void testLoginDoctor() throws Exception {
         Doctor found = doctorDAO.findByUsername("testdoc");
@@ -97,9 +97,9 @@ public class SystemTest {
         assertEquals("Test", found.getFirstName());
     }
 
-    // ========================================================================
-    // TEST 3: Login — Invalid credentials return null (no user found)
-    // ========================================================================
+    
+    // TEST 3: Login - Invalid credentials return null (no user found)
+    
     @Test
     public void testLoginInvalidCredentials() throws Exception {
         Doctor doc = doctorDAO.findByUsername("nonexistent");
@@ -114,9 +114,9 @@ public class SystemTest {
         assertNotEquals("wrongpassword", found.getPassword(), "Wrong password should not match");
     }
 
-    // ========================================================================
+    
     // TEST 4: Patient enters glucose measurement → saved to DB correctly
-    // ========================================================================
+    
     @Test
     public void testPatientEnterGlucose() throws Exception {
         String today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
@@ -136,9 +136,9 @@ public class SystemTest {
         assertEquals("BEFORE_MEAL", results.get(0).getTimeSlot(), "Time slot should match");
     }
 
-    // ========================================================================
+    
     // TEST 5: Patient enters abnormal glucose → alert is generated
-    // ========================================================================
+    
     @Test
     public void testPatientGlucoseAlertGenerated() throws Exception {
         List<String> receivedAlerts = new ArrayList<>();
@@ -174,9 +174,9 @@ public class SystemTest {
         assertTrue(receivedAlerts.isEmpty(), "No alert for normal value");
     }
 
-    // ========================================================================
+    
     // TEST 6: Patient records drug intake → saved and coherent with therapy
-    // ========================================================================
+    
     @Test
     public void testPatientRecordDrugIntake() throws Exception {
         // Doctor prescribes therapy
@@ -202,9 +202,9 @@ public class SystemTest {
                 "Intake should reference the correct therapy");
     }
 
-    // ========================================================================
+    
     // TEST 7: Patient reports symptom → saved to DB
-    // ========================================================================
+    
     @Test
     public void testPatientReportSymptom() throws Exception {
         String today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
@@ -231,9 +231,9 @@ public class SystemTest {
         assertEquals(2, all.size(), "Should have 2 total conditions");
     }
 
-    // ========================================================================
+    
     // TEST 8: Doctor prescribes therapy → saved in DB + operation log created
-    // ========================================================================
+    
     @Test
     public void testDoctorPrescribeTherapy() throws Exception {
         PrescribedTherapy therapy = new PrescribedTherapy(
@@ -261,9 +261,9 @@ public class SystemTest {
         assertTrue(logs.get(0).getOperation().contains("Rapid Insulin"));
     }
 
-    // ========================================================================
+    
     // TEST 9: Doctor views patient data → all data is accessible
-    // ========================================================================
+    
     @Test
     public void testDoctorViewPatientData() throws Exception {
         // Create sample data
@@ -291,9 +291,9 @@ public class SystemTest {
         assertEquals(1, conditions.size(), "Doctor should see all conditions");
     }
 
-    // ========================================================================
+    
     // TEST 10: Doctor updates patient info → DB updated + audit log created
-    // ========================================================================
+    
     @Test
     public void testDoctorUpdatePatientInfo() throws Exception {
         // Initial state: no risk factors
@@ -320,9 +320,9 @@ public class SystemTest {
         assertTrue(logs.get(0).getOperation().contains("medical info"));
     }
 
-    // ========================================================================
+    
     // TEST 11: Missing therapy for 3+ days → alert generated for doctor
-    // ========================================================================
+    
     @Test
     public void testMissingTherapyAlertFlow() throws Exception {
         List<String> receivedAlerts = new ArrayList<>();
@@ -343,9 +343,9 @@ public class SystemTest {
                 "Alert should mention missed therapy");
     }
 
-    // ========================================================================
-    // TEST 12: Therapy compliance check — intakes are coherent with prescriptions
-    // ========================================================================
+    
+    // TEST 12: Therapy compliance check - intakes are coherent with prescriptions
+    
     @Test
     public void testTherapyComplianceCheck() throws Exception {
         List<String> receivedAlerts = new ArrayList<>();
@@ -369,7 +369,7 @@ public class SystemTest {
         }
 
         boolean missed = engine.checkMissingTherapy(intakes, therapy, today);
-        assertFalse(missed, "Patient is compliant — should NOT trigger alert");
+        assertFalse(missed, "Patient is compliant - should NOT trigger alert");
         assertTrue(receivedAlerts.isEmpty(), "No alerts for compliant patient");
     }
 }

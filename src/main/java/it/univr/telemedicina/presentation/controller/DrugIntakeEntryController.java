@@ -92,7 +92,7 @@ public class DrugIntakeEntryController {
             DrugIntakeDAO dao = new DrugIntakeDAO(SceneManager.getDbManager());
             dao.save(intake);
 
-            showFeedback("✅ Drug intake recorded: " + therapy.getDrugName() + " — " + quantity, false);
+            showFeedback("✅ Drug intake recorded: " + therapy.getDrugName() + " - " + quantity, false);
             quantityField.setText(therapy.getQuantityPerIntake());
         } catch (Exception e) {
             showFeedback("Error: " + e.getMessage(), true);
@@ -118,13 +118,10 @@ public class DrugIntakeEntryController {
         feedbackLabel.setManaged(true);
     }
 
-    // --- Navigation ---
-    @FXML protected void onDashboard() { SceneManager.switchScene("patient-dashboard.fxml"); }
-    @FXML protected void onRecordGlucose() { SceneManager.switchScene("glucose-entry.fxml"); }
-    @FXML protected void onGlucoseHistory() { SceneManager.switchScene("glucose-history.fxml"); }
-    @FXML protected void onRecordDrugIntake() { SceneManager.switchScene("drug-intake-entry.fxml"); }
-    @FXML protected void onReportCondition() { SceneManager.switchScene("condition-entry.fxml"); }
-    @FXML protected void onMyTherapies() { SceneManager.switchScene("patient-therapies.fxml"); }
-    @FXML protected void onEmailDoctor() { SceneManager.switchScene("send-email.fxml"); }
-    @FXML protected void onLogout() { SceneManager.logout(); }
+    @FXML
+    protected void onClose() {
+        if (feedbackLabel.getScene() != null && feedbackLabel.getScene().getWindow() != null) {
+            ((javafx.stage.Stage) feedbackLabel.getScene().getWindow()).close();
+        }
+    }
 }

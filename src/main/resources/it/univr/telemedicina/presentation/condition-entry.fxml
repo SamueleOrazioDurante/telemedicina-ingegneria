@@ -4,59 +4,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.univr.telemedicina.presentation.controller.ConditionEntryController"
-      style="-fx-background-color: #1e1e2e;">
+      style="-fx-background-color: #1e1e2e; -fx-padding: 30px;" spacing="20" prefWidth="500">
+      
+    <Label text="Report Condition / Symptom" styleClass="title"/>
+    <Label text="Report symptoms, concomitant pathologies, or concurrent therapies." styleClass="subtitle"/>
 
-    <!-- Sidebar -->
-    <VBox styleClass="sidebar" spacing="2">
-        <Label text="🩺 Patient" styleClass="sidebar-title"/>
-        <Separator/>
-        <Button text="📊  Dashboard" onAction="#onDashboard" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="🩸  Record Glucose" onAction="#onRecordGlucose" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="📋  Glucose History" onAction="#onGlucoseHistory" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="💊  Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="🤒  Report Condition" onAction="#onReportCondition" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
-        <Button text="📜  My Therapies" onAction="#onMyTherapies" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="✉️  Email Doctor" onAction="#onEmailDoctor" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <VBox VBox.vgrow="ALWAYS"/>
-        <Separator/>
-        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
-    </VBox>
-
-    <!-- Main Content -->
-    <VBox HBox.hgrow="ALWAYS" spacing="20" style="-fx-padding: 30;">
-        <Label text="Report Condition / Symptom" styleClass="title"/>
-        <Label text="Report symptoms, concomitant pathologies, or concurrent therapies." styleClass="subtitle"/>
-
-        <VBox styleClass="card" spacing="16" maxWidth="500">
-            <VBox spacing="6">
-                <Label text="TYPE" styleClass="field-label"/>
-                <ComboBox fx:id="typeCombo" maxWidth="1.7976931348623157E308" promptText="Select type..."/>
-            </VBox>
-
-            <VBox spacing="6">
-                <Label text="DESCRIPTION" styleClass="field-label"/>
-                <TextArea fx:id="descriptionArea" promptText="e.g. headache, nausea, hypertension..." prefRowCount="3"/>
-            </VBox>
-
-            <HBox spacing="16">
-                <VBox spacing="6" HBox.hgrow="ALWAYS">
-                    <Label text="START DATE" styleClass="field-label"/>
-                    <DatePicker fx:id="startDatePicker" maxWidth="1.7976931348623157E308"/>
-                </VBox>
-                <VBox spacing="6" HBox.hgrow="ALWAYS">
-                    <Label text="END DATE (optional)" styleClass="field-label"/>
-                    <DatePicker fx:id="endDatePicker" maxWidth="1.7976931348623157E308"/>
-                </VBox>
-            </HBox>
-
-            <Label fx:id="feedbackLabel" text="" managed="false" visible="false"/>
-
-            <HBox spacing="12">
-                <Button text="Save Condition" onAction="#onSave" styleClass="button-primary"/>
-                <Button text="Clear" onAction="#onClear" styleClass="button-secondary"/>
-            </HBox>
+    <VBox styleClass="card" spacing="16" maxWidth="450">
+        <VBox spacing="6">
+            <Label text="TYPE" styleClass="field-label"/>
+            <ComboBox fx:id="typeCombo" maxWidth="1.7976931348623157E308" promptText="Select type..."/>
         </VBox>
+
+        <VBox spacing="6">
+            <Label text="DESCRIPTION" styleClass="field-label"/>
+            <TextArea fx:id="descriptionArea" promptText="e.g. headache, nausea, hypertension..." prefRowCount="3"/>
+        </VBox>
+
+        <HBox spacing="16">
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="START DATE" styleClass="field-label"/>
+                <DatePicker fx:id="startDatePicker" maxWidth="1.7976931348623157E308"/>
+            </VBox>
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="END DATE (optional)" styleClass="field-label"/>
+                <DatePicker fx:id="endDatePicker" maxWidth="1.7976931348623157E308"/>
+            </VBox>
+        </HBox>
+
+        <Label fx:id="feedbackLabel" text="" managed="false" visible="false"/>
+
+        <HBox spacing="12">
+            <Button text="Save Condition" onAction="#onSave" styleClass="button-primary"/>
+            <Button text="Clear" onAction="#onClear" styleClass="button-secondary"/>
+            <Button text="Close" onAction="#onClose" styleClass="button-secondary"/>
+        </HBox>
     </VBox>
-</HBox>
+</VBox>

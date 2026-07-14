@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.univr.telemedicina.presentation.controller.PatientDetailController"
-      style="-fx-background-color: #1e1e2e;">
-
-    <!-- Sidebar -->
-    <VBox styleClass="sidebar" spacing="2">
-        <Label text="⚕️ Doctor" styleClass="sidebar-title"/>
-        <Separator/>
-        <Button text="📊  Dashboard" onAction="#onBack" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="👤  Patient Detail" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
-        <VBox VBox.vgrow="ALWAYS"/>
-        <Separator/>
-        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
-    </VBox>
-
-    <!-- Main Content -->
-    <ScrollPane HBox.hgrow="ALWAYS" fitToWidth="true" style="-fx-background-color: transparent;">
-        <VBox spacing="20" style="-fx-padding: 30;">
-            <HBox spacing="12" alignment="CENTER_LEFT">
-                <Button text="← Back" onAction="#onBack" styleClass="button-secondary"/>
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.univr.telemedicina.presentation.controller.PatientDetailController"
+            fitToWidth="true" style="-fx-background-color: #1e1e2e;">
+            
+    <VBox spacing="24" style="-fx-background-color: #1e1e2e; -fx-padding: 30;">
+        
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Button text="← Back to Dashboard" onAction="#onBack" styleClass="button-secondary"/>
+            <VBox HBox.hgrow="ALWAYS">
                 <Label fx:id="titleLabel" text="Patient Detail" styleClass="title"/>
-            </HBox>
-
-            <!-- Patient Info Card -->
-            <VBox styleClass="card" spacing="10">
-                <Label text="Patient Information" style="-fx-text-fill: #89b4fa; -fx-font-size: 16px; -fx-font-weight: bold;"/>
-                <Label fx:id="patientNameLabel" text="" style="-fx-text-fill: #cdd6f4; -fx-font-size: 14px;"/>
-                <Label fx:id="patientInfoLabel" text="" style="-fx-text-fill: #a6adc8; -fx-font-size: 13px;" wrapText="true"/>
-                <Label fx:id="riskLabel" text="" style="-fx-text-fill: #f9e2af; -fx-font-size: 13px;" wrapText="true"/>
             </VBox>
+            <Button text="🚪 Logout" onAction="#onLogout" styleClass="button-danger"/>
+        </HBox>
 
-            <!-- Glucose Table -->
-            <Label text="Recent Glucose Measurements" styleClass="section-title"/>
-            <TableView fx:id="glucoseTable" prefHeight="200">
+        <!-- Patient Info Card -->
+        <VBox styleClass="card" spacing="12">
+            <Label text="Patient Medical Folder" style="-fx-text-fill: #89b4fa; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label fx:id="patientNameLabel" text="Patient: Loading..." style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <Label fx:id="patientInfoLabel" text="" style="-fx-text-fill: #a6adc8; -fx-font-size: 13px;" wrapText="true"/>
+            <Label fx:id="riskLabel" text="" style="-fx-text-fill: #f9e2af; -fx-font-size: 13px;" wrapText="true"/>
+        </VBox>
+
+        <!-- Doctor Management Actions -->
+        <VBox styleClass="card" spacing="12">
+            <Label text="Management Actions" style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <HBox spacing="12">
+                <Button text="💊 New Therapy" onAction="#onNewTherapy" styleClass="button-success"/>
+                <Button text="📝 Edit Info" onAction="#onEditInfo" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
+
+        <!-- Glucose History Table -->
+        <VBox spacing="10">
+            <Label text="Recent Blood Glucose Measurements" styleClass="section-title"/>
+            <TableView fx:id="glucoseTable" prefHeight="180" minHeight="180">
                 <columns>
                     <TableColumn fx:id="gDateCol" text="Date" prefWidth="110"/>
                     <TableColumn fx:id="gTimeCol" text="Time" prefWidth="70"/>
@@ -44,38 +47,85 @@
                     <TableColumn fx:id="gSlotCol" text="Time Slot" prefWidth="120"/>
                     <TableColumn fx:id="gStatusCol" text="Status" prefWidth="120"/>
                 </columns>
+                <placeholder>
+                    <Label text="No measurements recorded." style="-fx-text-fill: #6c7086;"/>
+                </placeholder>
             </TableView>
+        </VBox>
 
-            <!-- Therapies Table -->
-            <Label text="Prescribed Therapies" styleClass="section-title"/>
-            <TableView fx:id="therapyTable" prefHeight="180">
+        <!-- Glucose Trend / Averages Chart Table -->
+        <VBox spacing="10">
+            <Label text="Glucose Averages &amp; Trends" styleClass="section-title"/>
+            
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Label text="Period:" styleClass="field-label"/>
+                <ComboBox fx:id="periodCombo" prefWidth="200"/>
+                <Button text="Refresh Trends" onAction="#onRefreshTrends" styleClass="button-primary" style="-fx-padding: 6 16;"/>
+            </HBox>
+            
+            <TableView fx:id="summaryTable" prefHeight="160" minHeight="160">
                 <columns>
-                    <TableColumn fx:id="tDrugCol" text="Drug" prefWidth="130"/>
-                    <TableColumn fx:id="tDailyCol" text="Daily" prefWidth="60"/>
+                    <TableColumn fx:id="periodCol" text="Period" prefWidth="180"/>
+                    <TableColumn fx:id="avgBeforeCol" text="Avg Before Meal" prefWidth="130"/>
+                    <TableColumn fx:id="avgAfterCol" text="Avg After Meal" prefWidth="130"/>
+                    <TableColumn fx:id="countCol" text="Measurements" prefWidth="110"/>
+                    <TableColumn fx:id="alertsCol" text="Abnormal Count" prefWidth="110"/>
+                </columns>
+                <placeholder>
+                    <Label text="No trend data available." style="-fx-text-fill: #6c7086;"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <!-- Prescribed Therapies Table -->
+        <VBox spacing="10">
+            <Label text="Prescribed Therapies" styleClass="section-title"/>
+            <TableView fx:id="therapyTable" prefHeight="160" minHeight="160">
+                <columns>
+                    <TableColumn fx:id="tDrugCol" text="Drug" prefWidth="140"/>
+                    <TableColumn fx:id="tDailyCol" text="Daily" prefWidth="70"/>
                     <TableColumn fx:id="tQtyCol" text="Quantity" prefWidth="90"/>
-                    <TableColumn fx:id="tDirCol" text="Directions" prefWidth="130"/>
-                    <TableColumn fx:id="tStartCol" text="Start" prefWidth="100"/>
+                    <TableColumn fx:id="tDirCol" text="Directions" prefWidth="150"/>
+                    <TableColumn fx:id="tStartCol" text="Start Date" prefWidth="100"/>
                     <TableColumn fx:id="tStatusCol" text="Status" prefWidth="90"/>
                 </columns>
+                <placeholder>
+                    <Label text="No therapies prescribed." style="-fx-text-fill: #6c7086;"/>
+                </placeholder>
             </TableView>
+        </VBox>
 
-            <!-- Conditions Table -->
-            <Label text="Reported Conditions" styleClass="section-title"/>
-            <TableView fx:id="conditionTable" prefHeight="150">
+        <!-- Reported Conditions Table -->
+        <VBox spacing="10">
+            <Label text="Reported Conditions &amp; Symptoms" styleClass="section-title"/>
+            <TableView fx:id="conditionTable" prefHeight="160" minHeight="160">
                 <columns>
                     <TableColumn fx:id="cTypeCol" text="Type" prefWidth="130"/>
-                    <TableColumn fx:id="cDescCol" text="Description" prefWidth="200"/>
-                    <TableColumn fx:id="cStartCol" text="Start" prefWidth="100"/>
-                    <TableColumn fx:id="cEndCol" text="End" prefWidth="100"/>
+                    <TableColumn fx:id="cDescCol" text="Description" prefWidth="230"/>
+                    <TableColumn fx:id="cStartCol" text="Start Date" prefWidth="110"/>
+                    <TableColumn fx:id="cEndCol" text="End Date" prefWidth="110"/>
                 </columns>
+                <placeholder>
+                    <Label text="No conditions reported by patient." style="-fx-text-fill: #6c7086;"/>
+                </placeholder>
             </TableView>
-
-            <!-- Actions -->
-            <HBox spacing="12">
-                <Button text="📈 Glucose Chart" onAction="#onGlucoseChart" styleClass="button-primary"/>
-                <Button text="💊 New Therapy" onAction="#onNewTherapy" styleClass="button-success"/>
-                <Button text="📝 Edit Info" onAction="#onEditInfo" styleClass="button-secondary"/>
-            </HBox>
         </VBox>
-    </ScrollPane>
-</HBox>
+
+        <!-- Emails Sent by Patient Table -->
+        <VBox spacing="10">
+            <Label text="Messages Received from Patient" styleClass="section-title"/>
+            <TableView fx:id="messageTable" prefHeight="180" minHeight="180">
+                <columns>
+                    <TableColumn fx:id="mDateCol" text="Date" prefWidth="100"/>
+                    <TableColumn fx:id="mTimeCol" text="Time" prefWidth="70"/>
+                    <TableColumn fx:id="mSubjectCol" text="Subject" prefWidth="180"/>
+                    <TableColumn fx:id="mMessageCol" text="Message Content" prefWidth="350"/>
+                </columns>
+                <placeholder>
+                    <Label text="No messages received from this patient." style="-fx-text-fill: #6c7086;"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

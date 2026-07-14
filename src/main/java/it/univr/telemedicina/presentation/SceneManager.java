@@ -65,7 +65,9 @@ public class SceneManager {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("presentation/" + fxmlPath));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 1100, 700);
+            double width = (primaryStage.getScene() != null) ? primaryStage.getScene().getWidth() : 1280;
+            double height = (primaryStage.getScene() != null) ? primaryStage.getScene().getHeight() : 720;
+            Scene scene = new Scene(root, width, height);
             String cssUrl = SceneManager.class.getResource(CSS_PATH) != null 
                 ? SceneManager.class.getResource(CSS_PATH).toExternalForm() 
                 : null;
@@ -88,7 +90,9 @@ public class SceneManager {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("presentation/" + fxmlPath));
             Parent root = loader.load();
-            Scene scene = new Scene(root, 1100, 700);
+            double width = (primaryStage.getScene() != null) ? primaryStage.getScene().getWidth() : 1280;
+            double height = (primaryStage.getScene() != null) ? primaryStage.getScene().getHeight() : 720;
+            Scene scene = new Scene(root, width, height);
             String cssUrl = SceneManager.class.getResource(CSS_PATH) != null 
                 ? SceneManager.class.getResource(CSS_PATH).toExternalForm() 
                 : null;
@@ -111,6 +115,40 @@ public class SceneManager {
     public static void logout() {
         currentUser = null;
         switchScene("login-view.fxml");
+    }
+
+    public static class ModalResult<T> {
+        public final T controller;
+        public final Stage stage;
+        public ModalResult(T controller, Stage stage) {
+            this.controller = controller;
+            this.stage = stage;
+        }
+    }
+
+    public static <T> ModalResult<T> createModal(String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("presentation/" + fxmlPath));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.initOwner(primaryStage);
+            
+            Scene scene = new Scene(root);
+            String cssUrl = SceneManager.class.getResource(CSS_PATH) != null 
+                ? SceneManager.class.getResource(CSS_PATH).toExternalForm() 
+                : null;
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl);
+            }
+            stage.setScene(scene);
+            return new ModalResult<>(loader.getController(), stage);
+        } catch (IOException e) {
+            System.err.println("Error creating modal: " + fxmlPath);
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Stage getPrimaryStage() {

@@ -17,7 +17,7 @@ public class App extends Application {
         dbManager.initializeDatabase();
 
         SceneManager.init(stage, dbManager);
-        stage.setTitle("Telemedicine System — Diabetic Patients Monitoring");
+        stage.setTitle("Diabetic Patients Monitoring");
         stage.setMinWidth(900);
         stage.setMinHeight(600);
         SceneManager.switchScene("login-view.fxml");
