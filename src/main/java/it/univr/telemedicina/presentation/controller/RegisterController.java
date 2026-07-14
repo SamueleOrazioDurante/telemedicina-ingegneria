@@ -95,6 +95,11 @@ public class RegisterController {
             return;
         }
 
+        if (!isValidTaxCode(taxCode)) {
+            showFeedback("Invalid tax code format.", true);
+            return;
+        }
+
         DatabaseManager dbManager = SceneManager.getDbManager();
 
         try {
@@ -117,6 +122,10 @@ public class RegisterController {
 
                 if (dob == null) {
                     showFeedback("Please select a date of birth.", true);
+                    return;
+                }
+                if (dob.isAfter(LocalDate.now().minusYears(18))) {
+                    showFeedback("Patient must be at least 18 years old.", true);
                     return;
                 }
                 if (refDoc == null) {
@@ -162,6 +171,12 @@ public class RegisterController {
     @FXML
     protected void onBackToLogin() {
         SceneManager.switchScene("login-view.fxml");
+    }
+
+    private boolean isValidTaxCode(String taxCode) {
+        if (taxCode == null) return false;
+        String regex = "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1}$";
+        return taxCode.matches(regex);
     }
 
     private void showFeedback(String message, boolean isError) {
