@@ -5,6 +5,12 @@ A Java-based desktop application for monitoring and managing diabetic patients, 
 > [!TIP]
 > **Quick Compile & Run**: To quickly package and run the application as a standalone executable JAR, jump directly to the [Standalone JAR Guide](#2-guide-compiling-and-running-from-a-standalone-jar).
 
+> [!TIP]
+> **Project Documentation (EN & IT)**: The project documentation is available in both **English** and **Italian**, and in both **Markdown (.md)** and **PDF (.pdf)** formats.
+>
+> - **English**: [documentation.md](./documentation.md) | [documentation.pdf](./documentation.pdf)
+> - **Italian**: [documentazione-it.md](./documentazione-it.md) | [documentazione-it.pdf](./documentazione-it.pdf)
+
 ## Table of Contents
 
 1. [Project Description](#project-description)
@@ -231,5 +237,15 @@ All documentation accompanying the source code follows a top-down engineering ap
 
 ### Documentation Links
 
-- [Technical Documentation (Markdown File)](./documentation.md)
-- [Technical Documentation (PDF File)](./documentation.pdf)
+- **English Version**:
+  - [Technical Documentation (Markdown File)](./documentation.md)
+  - [Technical Documentation (PDF File)](./documentation.pdf)
+- **Italian Version**:
+  - [Documentazione Tecnica (File Markdown)](./documentazione-it.md)
+  - [Documentazione Tecnica (File PDF)](./documentazione-it.pdf)
+
+To recompile both PDF documents from their Markdown source code (with fully rendered Mermaid diagrams), you can run:
+
+```bash
+./compile-docs.sh
+```

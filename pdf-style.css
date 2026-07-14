@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    "Outfit",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  color: #1e293b;
+  line-height: 1.6;
+  font-size: 11pt;
+}
+
+/* Cover page styling for the single H1 header */
+h1 {
+  text-align: center;
+  margin-top: 7cm;
+  margin-bottom: 2cm;
+  font-size: 36pt;
+  font-weight: 700;
+  color: #0f172a;
+  page-break-after: always;
+  break-after: page;
+}
+
+/* Major sections start on a new page */
+h2 {
+  font-size: 18pt;
+  color: #0f172a;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  page-break-before: always;
+  break-before: page;
+}
+
+h3 {
+  font-size: 14pt;
+  color: #1e293b;
+  margin-top: 25px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 12pt;
+  color: #334155;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+/* Prevent headers from splitting from their text */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+/* Prevent elements from breaking across pages */
+table,
+pre,
+img,
+blockquote,
+ul,
+ol {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Lists */
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  font-size: 9.5pt;
+}
+
+th,
+td {
+  border: 1px solid #cbd5e1;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #334155;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Images & Diagrams */
+img {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 20cm;
+  object-fit: contain;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Code Blocks */
+pre,
+code {
+  font-family: "Fira Code", "Courier New", Courier, monospace;
+  font-size: 9pt;
+}
+
+pre {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  background-color: #f1f5f9;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #0f172a;
+}
+
+/* horizontal rule styling */
+hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 30px 0;
+}
