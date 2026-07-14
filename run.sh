@@ -56,10 +56,10 @@ case "$CMD" in
         MVN=$(get_maven)
         echo -e "${GREEN}Packaging application for production...${RESET}"
         $MVN clean package
-        echo -e "${GREEN}Success! Standalone JAR created at: target/telemedicina-ingegneria-1.0-SNAPSHOT.jar${RESET}"
+        echo -e "${GREEN}Success! Standalone JAR created at: target/telemedicina-ingegneria.jar${RESET}"
         ;;
     prod)
-        JAR_PATH="target/telemedicina-ingegneria-1.0-SNAPSHOT.jar"
+        JAR_PATH="target/telemedicina-ingegneria.jar"
         if [ ! -f "$JAR_PATH" ]; then
             echo -e "${YELLOW}Standalone JAR not found. Packaging the application first...${RESET}" >&2
             MVN=$(get_maven)

@@ -32,11 +32,11 @@ goto :eof
 :package
 echo Packaging application for production...
 call %MVN% clean package
-echo Success! Standalone JAR created at: target\telemedicina-ingegneria-1.0-SNAPSHOT.jar
+echo Success! Standalone JAR created at: target\telemedicina-ingegneria.jar
 goto :eof
 
 :prod
-set "JAR_PATH=target\telemedicina-ingegneria-1.0-SNAPSHOT.jar"
+set "JAR_PATH=target\telemedicina-ingegneria.jar"
 if not exist "%JAR_PATH%" (
     echo Standalone JAR not found. Packaging the application first...
     call %MVN% clean package

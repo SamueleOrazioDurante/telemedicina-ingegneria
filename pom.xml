@@ -55,6 +55,7 @@
     </dependencies>
 
     <build>
+        <finalName>telemedicina-ingegneria</finalName>
         <plugins>
             <!-- Compiler Plugin -->
             <plugin>

@@ -7,7 +7,7 @@ A Java-based desktop application for monitoring and managing diabetic patients, 
 1. [Project Description](#project-description)
 2. [System Architecture](#system-architecture)
 3. [Required Dependencies](#required-dependencies)
-4. [Compilation and Execution](#compilation-and-execution)
+4. [Development & Distribution](#development--distribution)
 5. [Team & Division of Tasks](#team--division-of-tasks)
 6. [Testing Strategy](#testing-strategy)
 7. [Project Documentation](#project-documentation)
@@ -29,34 +29,30 @@ For detailed functional specifications, please refer to the [Functional Specific
 
 ---
 
-## How to compile and run
+## Development & Distribution
 
-This project provides utility scripts (`run.sh` for Linux/macOS and `run.bat` for Windows) to simplify compilation and execution in both development and production environments.
+This project provides utility scripts (`run.sh` for Linux/macOS and `run.bat` for Windows) to simplify compilation, execution, testing, and packaging in both development and production environments.
 
 ### Prerequisites
 
 - **Java Development Kit (JDK) 17** or higher installed on your system.
 - **Maven** installed on your system (or `mvnw` / `mvnw.cmd` present in the root directory).
 
-### On Linux / macOS
+---
 
-Make the script executable:
+### 1. Development and Basic CLI Commands
+
+#### On Linux / macOS
+
+First, make the wrapper script executable:
 
 ```bash
 chmod +x run.sh
 ```
 
-- **Development (quick launch):**
+- **Run in Development Mode (quick launch):**
   ```bash
   ./run.sh dev
-  ```
-- **Compile for Production (builds a standalone executable fat JAR):**
-  ```bash
-  ./run.sh package
-  ```
-- **Run in Production (starts the pre-compiled standalone JAR):**
-  ```bash
-  ./run.sh prod
   ```
 - **Run Tests (JUnit 5):**
   ```bash
@@ -67,27 +63,62 @@ chmod +x run.sh
   ./run.sh clean
   ```
 
-### On Windows
+#### On Windows
 
-- **Development:**
+- **Run in Development Mode (quick launch):**
   ```cmd
   run.bat dev
   ```
-- **Compile for Production:**
-  ```cmd
-  run.bat package
-  ```
-- **Run in Production:**
-  ```cmd
-  run.bat prod
-  ```
-- **Run Tests:**
+- **Run Tests (JUnit 5):**
   ```cmd
   run.bat test
   ```
 - **Clean Build Artifacts:**
   ```cmd
   run.bat clean
+  ```
+
+---
+
+### 2. Guide: Compiling and Running from a Standalone JAR
+
+The application can be packaged into a single executable "fat" JAR containing all dependencies (JavaFX runtime and SQLite driver).
+
+#### Packaging the JAR
+
+To compile and package the project:
+
+- **On Linux / macOS:**
+  ```bash
+  ./run.sh package
+  ```
+- **On Windows:**
+  ```cmd
+  run.bat package
+  ```
+- **Alternative (Universal Maven Command):**
+  ```bash
+  mvn clean package
+  ```
+
+This creates the packaged standalone JAR file at:
+`target/telemedicina-ingegneria.jar`
+
+#### Running from the JAR
+
+Once the JAR is built, you can run it directly:
+
+- **On Linux / macOS:**
+  ```bash
+  ./run.sh prod
+  ```
+- **On Windows:**
+  ```cmd
+  run.bat prod
+  ```
+- **Alternative (Universal Command Line):**
+  ```bash
+  java -jar target/telemedicina-ingegneria.jar
   ```
 
 ---
