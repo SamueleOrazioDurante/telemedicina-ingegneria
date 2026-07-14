@@ -79,11 +79,11 @@ public class DoctorDashboardController {
     private void loadPatients(Doctor doctor) {
         try {
             PatientDAO dao = new PatientDAO(SceneManager.getDbManager());
-            List<Patient> patients = dao.findAll(); // Doctor can see all patients per spec
+            List<Patient> patients = dao.findByDoctorId(doctor.getId()); // Doctor can only see their assigned patients
             patientsTable.setItems(FXCollections.observableArrayList(patients));
             totalPatientsLabel.setText(String.valueOf(patients.size()));
 
-            // Count active therapies across all patients
+            // Count active therapies across doctor's patients
             PrescribedTherapyDAO therapyDAO = new PrescribedTherapyDAO(SceneManager.getDbManager());
             int totalActive = 0;
             for (Patient p : patients) {
@@ -106,7 +106,7 @@ public class DoctorDashboardController {
             PrescribedTherapyDAO therapyDAO = new PrescribedTherapyDAO(db);
             DrugIntakeDAO intakeDAO = new DrugIntakeDAO(db);
 
-            List<Patient> patients = patientDAO.findAll();
+            List<Patient> patients = patientDAO.findByDoctorId(doctor.getId());
             MedicalRulesEngine engine = new MedicalRulesEngine();
             String today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
