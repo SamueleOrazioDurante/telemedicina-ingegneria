@@ -89,28 +89,141 @@ CREATE TABLE IF NOT EXISTS operation_log (
 
 -- Doctors (password stored as plain text for demo; in production use hashing)
 INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, email, username, password)
-VALUES ('RSSMRA80A01H501Z', 'Mario', 'Rossi', 'mario.rossi@telemedicina.it', 'dottore', 'dottore');
+VALUES ('FRCRSS70A01H501Z', 'Francesco', 'Rossi', 'francesco.rossi@gmail.com', 'franross', 'franross');
 
 INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, email, username, password)
-VALUES ('VRDLGI75B02F205X', 'Luigi', 'Verdi', 'luigi.verdi@telemedicina.it', 'drverdi', 'drverdi');
+VALUES ('GVNNCG75B42F205Y', 'Giovanna', 'Bianchi', 'giovanna.bianchi@gmail.com', 'giovbian', 'giovbian');
 
--- Patients (assigned to doctor 1)
+-- Patients (1, 2, 3 are the students, born in 2005)
 INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
-VALUES ('BNCGNN90C03H501Y', 'Giovanni', 'Bianchi', '1990-03-03', 'paziente', 'paziente', 1, 'Smoker, Obesity', NULL, 'Hypertension');
-
-INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
-VALUES ('NRILRA85D04L219K', 'Laura', 'Neri', '1985-04-04', 'lneri', 'lneri', 1, NULL, 'Appendectomy (2010)', NULL);
+VALUES ('PSQTMS05P09H501X', 'Tommaso', 'Pasquin', '2005-09-09', 'tommpasq', 'tommpasq', 1, 'Ex-smoker', NULL, 'Dyslipidemia');
 
 INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
-VALUES ('CNTMRC78E05H501W', 'Marco', 'Conti', '1978-05-05', 'mconti', 'mconti', 2, 'Ex-smoker', NULL, 'Hypertension, Dyslipidemia');
+VALUES ('DRNSML05M08F205K', 'Samuele Orazio', 'Durante', '2006-08-08', 'samudura', 'samudura', 1, 'Sedentary Lifestyle', 'Appendectomy (2018)', NULL);
 
--- Sample therapies for patient 1 (Giovanni Bianchi)
+INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
+VALUES ('CNTDNC05L07H501W', 'Dominic', 'Centrone', '2005-07-07', 'domicent', 'domicent', 2, 'Smoker, Obesity', NULL, 'Hypertension');
+
+-- Other Patients (with conditions of choice)
+INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
+VALUES ('VRDLCA85E52F205Y', 'Alice', 'Verdi', '1985-05-12', 'alicverd', 'alicverd', 1, 'Obesity', NULL, 'Hypertension');
+
+INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)
+VALUES ('NRIRRT79S20H501T', 'Roberto', 'Neri', '1979-11-20', 'robeneri', 'robeneri', 2, 'Smoker', 'Myocardial Infarction (2020)', NULL);
+
+-- Prescribed Therapies for Patients
 INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
-VALUES (1, 1, 'Metformin', 2, '500mg', 'After meals', '2025-01-01', NULL, 1);
+VALUES (1, 1, 'Metformin', 2, '500mg', 'After breakfast and dinner', '2026-05-01', NULL, 1);
 
 INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
-VALUES (1, 1, 'Rapid Insulin', 3, '10 units', 'Before meals', '2025-03-15', NULL, 1);
+VALUES (2, 1, 'Rapid Insulin', 3, '10 units', 'Before meals', '2026-05-15', NULL, 1);
 
--- Sample therapy for patient 2 (Laura Neri)
 INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
-VALUES (2, 1, 'Metformin', 1, '850mg', 'After dinner', '2025-02-01', NULL, 1);
+VALUES (3, 2, 'Lantus Insulin', 1, '20 units', 'Before sleep', '2026-05-10', NULL, 1);
+
+INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
+VALUES (4, 1, 'Metformin', 1, '850mg', 'After dinner', '2026-05-20', NULL, 1);
+
+INSERT OR IGNORE INTO prescribed_therapy (patient_id, doctor_id, drug_name, daily_intakes, quantity_per_intake, directions, start_date, end_date, is_active)
+VALUES (5, 2, 'Januvia', 1, '100mg', 'In the morning', '2026-05-01', NULL, 1);
+
+-- Blood Glucose Measurements (June and July 2026)
+-- Patient 1 (Tommaso)
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 105.0, 'BEFORE_MEAL', '2026-06-05', '08:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 145.0, 'AFTER_MEAL', '2026-06-05', '13:30');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 110.0, 'BEFORE_MEAL', '2026-06-20', '08:15');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 138.0, 'AFTER_MEAL', '2026-06-20', '14:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 98.0, 'BEFORE_MEAL', '2026-07-02', '07:45');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 135.0, 'AFTER_MEAL', '2026-07-02', '13:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 102.0, 'BEFORE_MEAL', '2026-07-12', '08:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (1, 142.0, 'AFTER_MEAL', '2026-07-12', '13:30');
+
+-- Patient 2 (Samuele)
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 125.0, 'BEFORE_MEAL', '2026-06-12', '08:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 175.0, 'AFTER_MEAL', '2026-06-12', '14:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 118.0, 'BEFORE_MEAL', '2026-06-28', '08:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 195.0, 'AFTER_MEAL', '2026-06-28', '14:15'); -- High after meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 122.0, 'BEFORE_MEAL', '2026-07-06', '07:50');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 168.0, 'AFTER_MEAL', '2026-07-06', '13:45');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 132.0, 'BEFORE_MEAL', '2026-07-13', '08:05'); -- High before meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (2, 185.0, 'AFTER_MEAL', '2026-07-13', '14:10'); -- High after meal
+
+-- Patient 3 (Dominic)
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 95.0, 'BEFORE_MEAL', '2026-06-08', '07:30');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 130.0, 'AFTER_MEAL', '2026-06-08', '13:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 100.0, 'BEFORE_MEAL', '2026-06-22', '07:45');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 140.0, 'AFTER_MEAL', '2026-06-22', '13:15');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 92.0, 'BEFORE_MEAL', '2026-07-05', '07:30');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 128.0, 'AFTER_MEAL', '2026-07-05', '13:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 105.0, 'BEFORE_MEAL', '2026-07-11', '07:40');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (3, 135.0, 'AFTER_MEAL', '2026-07-11', '13:20');
+
+-- Patient 4 (Alice)
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 115.0, 'BEFORE_MEAL', '2026-06-10', '08:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 155.0, 'AFTER_MEAL', '2026-06-10', '13:45');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 120.0, 'BEFORE_MEAL', '2026-06-25', '08:10');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 160.0, 'AFTER_MEAL', '2026-06-25', '14:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 112.0, 'BEFORE_MEAL', '2026-07-04', '08:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 150.0, 'AFTER_MEAL', '2026-07-04', '13:30');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 118.0, 'BEFORE_MEAL', '2026-07-12', '08:05');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (4, 158.0, 'AFTER_MEAL', '2026-07-12', '13:50');
+
+-- Patient 5 (Roberto)
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 140.0, 'BEFORE_MEAL', '2026-06-04', '07:30'); -- High before meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 190.0, 'AFTER_MEAL', '2026-06-04', '13:00');  -- High after meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 135.0, 'BEFORE_MEAL', '2026-06-18', '07:45'); -- High before meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 185.0, 'AFTER_MEAL', '2026-06-18', '13:15');  -- High after meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 128.0, 'BEFORE_MEAL', '2026-07-03', '07:30');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 178.0, 'AFTER_MEAL', '2026-07-03', '13:00');
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 142.0, 'BEFORE_MEAL', '2026-07-10', '07:40'); -- High before meal
+INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, date, time) VALUES (5, 205.0, 'AFTER_MEAL', '2026-07-10', '13:20');  -- High after meal
+
+-- Drug Intakes (June and July 2026)
+-- Patient 1 (Metformin, 2 daily intakes - therapy ID 1)
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-05', '08:30', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-05', '20:30', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-20', '08:30', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-20', '20:30', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-02', '08:15', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-02', '20:15', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-12', '08:30', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-12', '20:30', 'Metformin', '500mg');
+
+-- Patient 2 (Rapid Insulin, 3 daily intakes - therapy ID 2)
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-12', '08:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-12', '13:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-12', '20:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-28', '08:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-28', '13:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-28', '20:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-06', '08:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-06', '13:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-06', '20:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-13', '08:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-13', '13:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-13', '20:00', 'Rapid Insulin', '10 units');
+
+-- Patient 3 (Lantus Insulin, 1 daily intake - therapy ID 3)
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-06-08', '22:00', 'Lantus Insulin', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-06-22', '22:00', 'Lantus Insulin', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-07-05', '22:00', 'Lantus Insulin', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-07-11', '22:00', 'Lantus Insulin', '20 units');
+
+-- Patient 4 (Metformin, 1 daily intake - therapy ID 4)
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-06-10', '20:30', 'Metformin', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-06-25', '20:45', 'Metformin', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-07-04', '20:15', 'Metformin', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-07-12', '20:30', 'Metformin', '850mg');
+
+-- Patient 5 (Januvia, 1 daily intake - therapy ID 5)
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-06-04', '08:00', 'Januvia', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-06-18', '08:00', 'Januvia', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-07-03', '08:00', 'Januvia', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-07-10', '08:00', 'Januvia', '100mg');
+
+-- Concomitant Conditions (June and July 2026)
+INSERT OR IGNORE INTO concomitant_condition (patient_id, type, description, start_date, end_date) VALUES (1, 'SYMPTOM', 'Mild headache', '2026-06-05', NULL);
+INSERT OR IGNORE INTO concomitant_condition (patient_id, type, description, start_date, end_date) VALUES (1, 'SYMPTOM', 'Fatigue in the evening', '2026-07-02', '2026-07-03');
+INSERT OR IGNORE INTO concomitant_condition (patient_id, type, description, start_date, end_date) VALUES (2, 'SYMPTOM', 'Nausea', '2026-06-12', NULL);
+INSERT OR IGNORE INTO concomitant_condition (patient_id, type, description, start_date, end_date) VALUES (2, 'SYMPTOM', 'Dizziness after exercise', '2026-07-06', NULL);
+INSERT OR IGNORE INTO concomitant_condition (patient_id, type, description, start_date, end_date) VALUES (5, 'PATHOLOGY', 'Seasonal allergy', '2026-06-01', '2026-06-20');

@@ -27,6 +27,32 @@ The application is built using:
 
 For detailed functional specifications, please refer to the [Functional Specifications Document (PDF)](./specifications.pdf).
 
+### Demo Login Credentials
+
+For demonstration and testing purposes, you can log in using the following credentials:
+
+#### Doctors
+
+| Name                 | Username   | Password   | Email                        |
+| :------------------- | :--------- | :--------- | :--------------------------- |
+| Dr. Francesco Rossi  | `franross` | `franross` | `francesco.rossi@gmail.com`  |
+| Dr. Giovanna Bianchi | `giovbian` | `giovbian` | `giovanna.bianchi@gmail.com` |
+
+#### Patients (Students - Born in 2005)
+
+| Name                   | Username   | Password   | Reference Doctor     |
+| :--------------------- | :--------- | :--------- | :------------------- |
+| Tommaso Pasquin        | `tommpasq` | `tommpasq` | Dr. Francesco Rossi  |
+| Samuele Orazio Durante | `samudura` | `samudura` | Dr. Francesco Rossi  |
+| Dominic Centrone       | `domicent` | `domicent` | Dr. Giovanna Bianchi |
+
+#### Other Patients
+
+| Name         | Username   | Password   | Reference Doctor     |
+| :----------- | :--------- | :--------- | :------------------- |
+| Alice Verdi  | `alicverd` | `alicverd` | Dr. Francesco Rossi  |
+| Roberto Neri | `robeneri` | `robeneri` | Dr. Giovanna Bianchi |
+
 ---
 
 ## Development & Distribution
