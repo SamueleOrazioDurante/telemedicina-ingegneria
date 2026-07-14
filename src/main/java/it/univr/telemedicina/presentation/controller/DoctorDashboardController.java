@@ -163,5 +163,12 @@ public class DoctorDashboardController {
 
     // --- Navigation ---
     @FXML protected void onDashboard() { SceneManager.switchScene("doctor-dashboard.fxml"); }
+    @FXML
+    protected void onViewLogs() {
+        SceneManager.ModalResult<AuditLogsController> res = SceneManager.createModal("audit-logs.fxml", "Audit Logs");
+        if (res != null) {
+            res.stage.showAndWait();
+        }
+    }
     @FXML protected void onLogout() { SceneManager.logout(); }
 }
