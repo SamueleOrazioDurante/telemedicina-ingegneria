@@ -362,35 +362,4 @@ public class SystemTest {
         assertFalse(missed, "Patient is compliant - should NOT trigger alert");
         assertTrue(receivedAlerts.isEmpty(), "No alerts for compliant patient");
     }
-
-    // TEST 13: Italian Tax Code validation regex check
-    @Test
-    public void testTaxCodeValidation() {
-        String regex = "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1}$";
-        
-        // Valid Italian Tax Codes
-        assertTrue("RSSMRA80A01H501Z".matches(regex));
-        assertTrue("VRDLGI75B02F205X".matches(regex));
-        assertTrue("BNCGNN90C03H501Y".matches(regex));
-        
-        // Invalid Italian Tax Codes
-        assertFalse("RSSMRA80A01H501".matches(regex)); // Too short
-        assertFalse("RSSMRA80A01H501ZZ".matches(regex)); // Too long
-        assertFalse("123MRA80A01H501Z".matches(regex)); // Numbers at start
-        assertFalse("RSSMRA80A01H5011".matches(regex)); // Number at end
-    }
-
-    // TEST 14: Age validation check
-    @Test
-    public void testAgeValidation() {
-        LocalDate today = LocalDate.now();
-        
-        // Adult date of birth
-        LocalDate adultDob = today.minusYears(18);
-        assertFalse(adultDob.isAfter(today.minusYears(18))); // Should pass age >= 18 check
-        
-        // Underage date of birth
-        LocalDate underageDob = today.minusYears(18).plusDays(1);
-        assertTrue(underageDob.isAfter(today.minusYears(18))); // Should fail age >= 18 check
-    }
 }

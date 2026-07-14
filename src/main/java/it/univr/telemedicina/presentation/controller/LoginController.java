@@ -59,11 +59,6 @@ public class LoginController {
         }
     }
 
-    @FXML
-    protected void onRegisterPage() {
-        SceneManager.switchScene("register-view.fxml");
-    }
-
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
