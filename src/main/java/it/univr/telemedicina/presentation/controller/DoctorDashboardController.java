@@ -97,6 +97,7 @@ public class DoctorDashboardController {
 
     private void loadAlerts(Doctor doctor) {
         DatabaseManager db = SceneManager.getDbManager();
+        alertsBox.getChildren().clear();
         alertCount = 0;
 
         try {

@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS prescribed_therapy (
     end_date TEXT,            -- YYYY-MM-DD
     is_active INTEGER NOT NULL DEFAULT 1,
     FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE,
-    FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE RESTRICT
+    FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE RESTRICT,
+    UNIQUE(patient_id, drug_name, start_date)
 );
 
 CREATE TABLE IF NOT EXISTS drug_intake (

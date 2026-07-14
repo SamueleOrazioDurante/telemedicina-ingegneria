@@ -44,6 +44,9 @@
         <VBox spacing="10">
             <Label text="My Prescribed Therapies" styleClass="section-title"/>
             <TableView fx:id="therapyTable" prefHeight="160" minHeight="160">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="tDrugCol" text="Drug" prefWidth="150"/>
                     <TableColumn fx:id="tDailyCol" text="Daily Intakes" prefWidth="90"/>
@@ -74,6 +77,9 @@
             </HBox>
             
             <TableView fx:id="glucoseTable" prefHeight="180" minHeight="180">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="gDateCol" text="Date" prefWidth="110"/>
                     <TableColumn fx:id="gTimeCol" text="Time" prefWidth="70"/>
@@ -91,6 +97,9 @@
         <VBox spacing="10">
             <Label text="Reported Symptoms &amp; Conditions" styleClass="section-title"/>
             <TableView fx:id="conditionTable" prefHeight="160" minHeight="160">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="cTypeCol" text="Type" prefWidth="150"/>
                     <TableColumn fx:id="cDescCol" text="Description" prefWidth="250"/>

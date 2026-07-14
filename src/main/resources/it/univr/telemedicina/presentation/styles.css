@@ -286,20 +286,64 @@
 }
 
 .date-picker .text-field {
+  -fx-background-color: transparent;
+  -fx-text-fill: #cdd6f4;
   -fx-border-width: 0;
+}
+
+.date-picker > .arrow-button {
+  -fx-background-color: transparent;
+  -fx-background-radius: 0 8px 8px 0;
+}
+
+.date-picker > .arrow-button > .arrow {
+  -fx-background-color: #a6adc8;
+}
+
+.date-picker > .arrow-button:hover {
+  -fx-background-color: #313244;
 }
 
 .date-picker-popup {
   -fx-background-color: #313244;
   -fx-border-color: #45475a;
+  -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+}
+
+.date-picker-popup > .month-year-pane {
+  -fx-background-color: #181825;
+  -fx-background-radius: 8px 8px 0 0;
+}
+
+.date-picker-popup > .calendar-grid {
+  -fx-background-color: #313244;
+  -fx-background-radius: 0 0 8px 8px;
+}
+
+.date-picker-popup .left-button,
+.date-picker-popup .right-button {
+  -fx-background-color: transparent;
+}
+
+.date-picker-popup .left-button:hover,
+.date-picker-popup .right-button:hover {
+  -fx-background-color: #313244;
+}
+
+.date-picker-popup .left-arrow,
+.date-picker-popup .right-arrow {
+  -fx-background-color: #a6adc8;
 }
 
 .date-picker-popup .month-year-pane .label {
   -fx-text-fill: #cdd6f4;
+  -fx-font-weight: bold;
 }
 
 .date-picker-popup .day-name-cell {
   -fx-text-fill: #a6adc8;
+  -fx-font-size: 11px;
 }
 
 .date-picker-popup .day-cell {
@@ -316,15 +360,42 @@
   -fx-text-fill: #11111b;
 }
 
+.date-picker-popup .previous-month,
+.date-picker-popup .next-month {
+  -fx-text-fill: #585b70;
+}
+
+.date-picker-popup .today {
+  -fx-border-color: #89b4fa;
+  -fx-border-radius: 4px;
+}
+
 /* --- Tables --- */
 .table-view {
   -fx-background-color: #1e1e2e;
   -fx-border-color: #45475a;
   -fx-border-radius: 8px;
+  -fx-background-radius: 8px;
+  -fx-background-insets: 0;
+}
+
+.table-view .virtual-flow {
+  -fx-background-color: #1e1e2e;
 }
 
 .table-view .column-header-background {
   -fx-background-color: #181825;
+}
+
+.table-view .column-header-background .nested-column-header {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+.table-view .filler {
+  -fx-background-color: #181825;
+  -fx-border-color: #313244;
+  -fx-border-width: 0 0 1px 0;
 }
 
 .table-view .column-header {
@@ -344,24 +415,38 @@
   -fx-background-color: #1e1e2e;
   -fx-border-color: #313244;
   -fx-border-width: 0 0 1px 0;
+  -fx-background-insets: 0;
 }
 
 .table-view .table-row-cell:odd {
   -fx-background-color: #181825;
+  -fx-background-insets: 0;
 }
 
 .table-view .table-row-cell:selected {
   -fx-background-color: #313244;
+  -fx-background-insets: 0;
 }
 
 .table-view .table-row-cell:hover {
   -fx-background-color: #313244;
+  -fx-background-insets: 0;
+}
+
+.table-view:focused .table-row-cell:focused {
+  -fx-background-insets: 0;
+}
+
+.table-view:focused .table-row-cell:focused:selected {
+  -fx-background-insets: 0;
 }
 
 .table-view .table-cell {
   -fx-text-fill: #cdd6f4;
   -fx-padding: 8px;
   -fx-font-size: 12px;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
 }
 
 .table-view .placeholder .label {
@@ -403,7 +488,7 @@
 
 .alert-badge-success .label {
   -fx-text-fill: #a6e3a1;
-}
+}   
 
 .alert-badge-info {
   -fx-background-color: rgba(137, 180, 250, 0.15);

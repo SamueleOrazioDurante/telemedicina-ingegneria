@@ -44,6 +44,9 @@
         <VBox spacing="10">
             <Label text="My Patients" styleClass="section-title"/>
             <TableView fx:id="patientsTable" prefHeight="250" minHeight="250">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="nameCol" text="Name" prefWidth="180"/>
                     <TableColumn fx:id="taxCodeCol" text="Tax Code" prefWidth="160"/>
