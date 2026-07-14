@@ -19,6 +19,17 @@
             <Button text="🚪 Logout" onAction="#onLogout" styleClass="button-danger" style="-fx-padding: 8 16;"/>
         </HBox>
 
+        <!-- Action Buttons -->
+        <VBox styleClass="card" spacing="12">
+            <Label text="Quick Actions" style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <HBox spacing="12">
+                <Button text="🩸 Record Glucose" onAction="#onRecordGlucose" styleClass="button-primary"/>
+                <Button text="💊 Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="button-success"/>
+                <Button text="🤒 Report Condition" onAction="#onReportCondition" styleClass="button-secondary"/>
+                <Button text="✉️ Email Doctor" onAction="#onEmailDoctor" styleClass="button-secondary"/>
+            </HBox>
+        </VBox>
+ 
         <!-- Stats Row -->
         <HBox spacing="16">
             <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
@@ -34,12 +45,12 @@
                 <Label text="Today's Drug Intakes" styleClass="stat-label"/>
             </VBox>
         </HBox>
-
+ 
         <!-- Alerts Area -->
         <VBox fx:id="alertsBox" spacing="8">
             <Label text="Notifications &amp; Alerts" styleClass="section-title"/>
         </VBox>
-
+ 
         <!-- Prescribed Therapies Table -->
         <VBox spacing="10">
             <Label text="My Prescribed Therapies" styleClass="section-title"/>
@@ -61,7 +72,7 @@
                 </placeholder>
             </TableView>
         </VBox>
-
+ 
         <!-- Glucose History Table -->
         <VBox spacing="10">
             <Label text="Blood Glucose Measurement History" styleClass="section-title"/>
@@ -92,7 +103,7 @@
                 </placeholder>
             </TableView>
         </VBox>
-
+ 
         <!-- Reported Conditions Table -->
         <VBox spacing="10">
             <Label text="Reported Symptoms &amp; Conditions" styleClass="section-title"/>
@@ -111,17 +122,5 @@
                 </placeholder>
             </TableView>
         </VBox>
-
-        <!-- Action Buttons -->
-        <VBox styleClass="card" spacing="12">
-            <Label text="Quick Actions" style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
-            <HBox spacing="12">
-                <Button text="🩸 Record Glucose" onAction="#onRecordGlucose" styleClass="button-primary"/>
-                <Button text="💊 Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="button-success"/>
-                <Button text="🤒 Report Condition" onAction="#onReportCondition" styleClass="button-secondary"/>
-                <Button text="✉️ Email Doctor" onAction="#onEmailDoctor" styleClass="button-secondary"/>
-            </HBox>
-        </VBox>
-
     </VBox>
 </ScrollPane>
