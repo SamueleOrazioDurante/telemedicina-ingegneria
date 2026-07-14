@@ -16,7 +16,7 @@
             <VBox HBox.hgrow="ALWAYS">
                 <Label fx:id="titleLabel" text="Patient Detail" styleClass="title"/>
             </VBox>
-            <Button text="🚪 Logout" onAction="#onLogout" styleClass="button-danger"/>
+            <Button text="Logout" onAction="#onLogout" styleClass="button-danger"/>
         </HBox>
 
         <!-- Patient Info Card -->
@@ -31,7 +31,7 @@
         <VBox styleClass="card" spacing="12">
             <Label text="Management Actions" style="-fx-text-fill: -color-text-main; -fx-font-size: 15px; -fx-font-weight: bold;"/>
             <HBox spacing="12">
-                <Button text="💊 New Therapy" onAction="#onNewTherapy" styleClass="button-success"/>
+                <Button text="New Therapy" onAction="#onNewTherapy" styleClass="button-success"/>
                 <Button text="📝 Edit Info" onAction="#onEditInfo" styleClass="button-primary"/>
             </HBox>
         </VBox>

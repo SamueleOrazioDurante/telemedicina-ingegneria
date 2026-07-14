@@ -66,7 +66,7 @@ public class PatientInfoEditController {
                     "Updated patient medical info (risk factors, pathologies, comorbidities)",
                     LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
-            showFeedback("✅ Patient information updated successfully.", false);
+            showFeedback("Patient information updated successfully.", false);
         } catch (Exception e) {
             showFeedback("Error: " + e.getMessage(), true);
             e.printStackTrace();

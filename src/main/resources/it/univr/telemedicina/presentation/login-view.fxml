@@ -19,10 +19,7 @@
         </padding>
 
         <!-- Logo area -->
-        <Label text="🩺" style="-fx-font-size: 48px;"/>
         <Label text="Telemedicine System" style="-fx-text-fill: -color-accent; -fx-font-size: 28px; -fx-font-weight: bold;"/>
-        <Label text="Diabetic Patients Monitoring Portal" style="-fx-text-fill: -color-text-muted; -fx-font-size: 14px;"/>
-
         <VBox spacing="0" style="-fx-padding: 10 0 0 0;"/>
 
         <!-- Login Card -->

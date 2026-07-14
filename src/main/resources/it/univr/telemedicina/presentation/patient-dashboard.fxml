@@ -16,17 +16,17 @@
                 <Label fx:id="welcomeLabel" text="Welcome back" styleClass="title"/>
                 <Label fx:id="dateLabel" text="" styleClass="subtitle"/>
             </VBox>
-            <Button text="🚪 Logout" onAction="#onLogout" styleClass="button-danger" style="-fx-padding: 8 16;"/>
+            <Button text="Logout" onAction="#onLogout" styleClass="button-danger" style="-fx-padding: 8 16;"/>
         </HBox>
 
         <!-- Action Buttons -->
         <VBox styleClass="card" spacing="12">
             <Label text="Quick Actions" style="-fx-text-fill: -color-text-main; -fx-font-size: 15px; -fx-font-weight: bold;"/>
             <HBox spacing="12">
-                <Button text="🩸 Record Glucose" onAction="#onRecordGlucose" styleClass="button-primary"/>
-                <Button text="💊 Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="button-success"/>
-                <Button text="🤒 Report Condition" onAction="#onReportCondition" styleClass="button-secondary"/>
-                <Button text="✉️ Email Doctor" onAction="#onEmailDoctor" styleClass="button-secondary"/>
+                <Button text="Record Glucose" onAction="#onRecordGlucose" styleClass="button-primary"/>
+                <Button text="Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="button-success"/>
+                <Button text="Report Condition" onAction="#onReportCondition" styleClass="button-secondary"/>
+                <Button text="Email Doctor" onAction="#onEmailDoctor" styleClass="button-secondary"/>
             </HBox>
         </VBox>
  

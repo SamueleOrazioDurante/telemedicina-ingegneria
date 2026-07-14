@@ -66,7 +66,7 @@ public class SendEmailController {
             PatientMessageDAO dao = new PatientMessageDAO(SceneManager.getDbManager());
             dao.save(msg);
 
-            showFeedback("✅ Message sent successfully to " + recipientField.getText() + ".", false);
+            showFeedback("Message sent successfully to " + recipientField.getText() + ".", false);
             subjectField.clear();
             messageArea.clear();
         } catch (Exception e) {

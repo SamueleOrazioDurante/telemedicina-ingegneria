@@ -59,7 +59,7 @@ public class ConditionEntryController {
             ConcomitantConditionDAO dao = new ConcomitantConditionDAO(SceneManager.getDbManager());
             dao.save(condition);
 
-            showFeedback("✅ Condition reported successfully: " + desc, false);
+            showFeedback("Condition reported successfully: " + desc, false);
             descriptionArea.clear();
         } catch (Exception e) {
             showFeedback("Error: " + e.getMessage(), true);

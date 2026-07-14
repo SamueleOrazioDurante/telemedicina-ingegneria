@@ -71,11 +71,11 @@ public class GlucoseEntryController {
             boolean alert = engine.checkGlucoseThreshold(measurement);
 
             if (alert) {
-                showFeedback("⚠️ Measurement saved. WARNING: Abnormal glucose level detected (" + value + " mg/dL, " +
+                showFeedback("Measurement saved. WARNING: Abnormal glucose level detected (" + value + " mg/dL, " +
                         timeSlot.replace("_", " ").toLowerCase() + "). Your doctor will be notified.", true);
                 feedbackLabel.setStyle("-fx-text-fill: #f9e2af; -fx-font-size: 13px; -fx-font-weight: bold;");
             } else {
-                showFeedback("✅ Measurement saved successfully (" + value + " mg/dL).", false);
+                showFeedback("Measurement saved successfully (" + value + " mg/dL).", false);
             }
 
             glucoseValueField.clear();

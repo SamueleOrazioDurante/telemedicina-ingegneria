@@ -92,7 +92,7 @@ public class DrugIntakeEntryController {
             DrugIntakeDAO dao = new DrugIntakeDAO(SceneManager.getDbManager());
             dao.save(intake);
 
-            showFeedback("✅ Drug intake recorded: " + therapy.getDrugName() + " - " + quantity, false);
+            showFeedback("Drug intake recorded: " + therapy.getDrugName() + " - " + quantity, false);
             quantityField.setText(therapy.getQuantityPerIntake());
         } catch (Exception e) {
             showFeedback("Error: " + e.getMessage(), true);

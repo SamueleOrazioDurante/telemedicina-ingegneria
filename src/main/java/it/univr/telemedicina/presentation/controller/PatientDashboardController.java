@@ -133,7 +133,7 @@ public class PatientDashboardController {
                 if (intakesForTherapy < therapy.getDailyIntakes()) {
                     long remaining = therapy.getDailyIntakes() - intakesForTherapy;
                     addAlertBadge("warning",
-                            "⚠️ " + therapy.getDrugName() + ": " + remaining + " intake(s) remaining today (" +
+                            therapy.getDrugName() + ": " + remaining + " intake(s) remaining today (" +
                             intakesForTherapy + "/" + therapy.getDailyIntakes() + " completed)");
                     hasAlert = true;
                 }
@@ -150,13 +150,13 @@ public class PatientDashboardController {
             for (BloodGlucoseMeasurement m : todayGlucose) {
                 if (engine.checkGlucoseThreshold(m)) {
                     addAlertBadge("danger",
-                            "🔴 Abnormal glucose: " + m.getValue() + " mg/dL (" + m.getTimeSlot().replace("_", " ").toLowerCase() + " at " + m.getTime() + ")");
+                            "Abnormal glucose: " + m.getValue() + " mg/dL (" + m.getTimeSlot().replace("_", " ").toLowerCase() + " at " + m.getTime() + ")");
                     hasAlert = true;
                 }
             }
 
             if (!hasAlert) {
-                addAlertBadge("success", "✅ All good! No pending alerts.");
+                addAlertBadge("success", "All good! No pending alerts.");
             }
 
         } catch (Exception e) {
@@ -185,7 +185,7 @@ public class PatientDashboardController {
         tEndCol.setCellValueFactory(cd -> new SimpleStringProperty(
                 cd.getValue().getEndDate() != null ? cd.getValue().getEndDate() : "Ongoing"));
         tStatusCol.setCellValueFactory(cd -> new SimpleStringProperty(
-                cd.getValue().isActive() ? "✅ Active" : "⛔ Stopped"));
+                cd.getValue().isActive() ? "Active" : "Stopped"));
 
         tStatusCol.setCellFactory(col -> new TableCell<>() {
             @Override
@@ -219,7 +219,7 @@ public class PatientDashboardController {
             BloodGlucoseMeasurement m = cd.getValue();
             boolean abnormal = ("BEFORE_MEAL".equals(m.getTimeSlot()) && (m.getValue() < 80 || m.getValue() > 130))
                     || ("AFTER_MEAL".equals(m.getTimeSlot()) && m.getValue() > 180);
-            return new SimpleStringProperty(abnormal ? "⚠️ Abnormal" : "✅ Normal");
+            return new SimpleStringProperty(abnormal ? "Abnormal" : "Normal");
         });
 
         gStatusCol.setCellFactory(col -> new TableCell<>() {

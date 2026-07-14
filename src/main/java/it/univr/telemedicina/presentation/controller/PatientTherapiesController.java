@@ -42,7 +42,7 @@ public class PatientTherapiesController {
         endCol.setCellValueFactory(cd -> new SimpleStringProperty(
                 cd.getValue().getEndDate() != null ? cd.getValue().getEndDate() : "Ongoing"));
         statusCol.setCellValueFactory(cd -> new SimpleStringProperty(
-                cd.getValue().isActive() ? "✅ Active" : "⛔ Stopped"));
+                cd.getValue().isActive() ? "Active" : "Stopped"));
 
         statusCol.setCellFactory(col -> new TableCell<>() {
             @Override

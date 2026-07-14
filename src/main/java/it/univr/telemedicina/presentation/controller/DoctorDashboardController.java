@@ -116,7 +116,7 @@ public class DoctorDashboardController {
                 List<BloodGlucoseMeasurement> recentGlucose = glucoseDAO.findByPatientIdAndPeriod(p.getId(), threeDaysAgo, today);
                 for (BloodGlucoseMeasurement m : recentGlucose) {
                     if (engine.checkGlucoseThreshold(m)) {
-                        addAlert("danger", "🔴 " + p.getFirstName() + " " + p.getLastName() +
+                        addAlert("danger", p.getFirstName() + " " + p.getLastName() +
                                 ": Abnormal glucose " + m.getValue() + " mg/dL (" + m.getTimeSlot().replace("_", " ").toLowerCase() + ") on " + m.getDate());
                         alertCount++;
                     }
@@ -127,7 +127,7 @@ public class DoctorDashboardController {
                 List<DrugIntake> intakes = intakeDAO.findByPatientId(p.getId());
                 for (PrescribedTherapy therapy : activeTherapies) {
                     if (engine.checkMissingTherapy(intakes, therapy, LocalDate.now())) {
-                        addAlert("danger", "🔴 " + p.getFirstName() + " " + p.getLastName() +
+                        addAlert("danger", p.getFirstName() + " " + p.getLastName() +
                                 ": Missed therapy '" + therapy.getDrugName() + "' for 3+ consecutive days!");
                         alertCount++;
                     }
@@ -135,7 +135,7 @@ public class DoctorDashboardController {
             }
 
             if (alertCount == 0) {
-                addAlert("success", "✅ No active alerts. All patients are on track.");
+                addAlert("success", "No active alerts. All patients are on track.");
             }
 
             alertCountLabel.setText(String.valueOf(alertCount));

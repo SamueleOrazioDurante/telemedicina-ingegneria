@@ -87,7 +87,7 @@ public class TherapyFormController {
                     "Prescribed therapy: " + drugName + " (" + quantity + " x" + dailyIntakes + "/day)",
                     LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
-            showFeedback("✅ Therapy prescribed successfully: " + drugName, false);
+            showFeedback("Therapy prescribed successfully: " + drugName, false);
             drugNameField.clear();
             quantityField.clear();
             directionsArea.clear();

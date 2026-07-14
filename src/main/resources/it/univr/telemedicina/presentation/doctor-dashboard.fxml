@@ -16,7 +16,7 @@
                 <Label fx:id="welcomeLabel" text="Welcome, Doctor" styleClass="title"/>
                 <Label fx:id="dateLabel" text="" styleClass="subtitle"/>
             </VBox>
-            <Button text="🚪 Logout" onAction="#onLogout" styleClass="button-danger" style="-fx-padding: 8 16;"/>
+            <Button text="Logout" onAction="#onLogout" styleClass="button-danger" style="-fx-padding: 8 16;"/>
         </HBox>
 
         <!-- Stats -->

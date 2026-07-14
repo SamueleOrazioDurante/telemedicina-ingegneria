@@ -88,7 +88,7 @@ public class PatientDetailController {
             BloodGlucoseMeasurement m = cd.getValue();
             boolean abnormal = ("BEFORE_MEAL".equals(m.getTimeSlot()) && (m.getValue() < 80 || m.getValue() > 130))
                     || ("AFTER_MEAL".equals(m.getTimeSlot()) && m.getValue() > 180);
-            return new SimpleStringProperty(abnormal ? "⚠️ Abnormal" : "✅ Normal");
+            return new SimpleStringProperty(abnormal ? "Abnormal" : "Normal");
         });
 
         gStatusCol.setCellFactory(col -> new TableCell<>() {

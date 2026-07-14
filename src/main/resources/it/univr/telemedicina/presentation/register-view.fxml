@@ -15,7 +15,6 @@
             </padding>
 
             <!-- Logo area -->
-            <Label text="🩺" style="-fx-font-size: 40px;"/>
             <Label text="Register New Account" style="-fx-text-fill: -color-accent; -fx-font-size: 24px; -fx-font-weight: bold;"/>
             <Label text="Create your Doctor or Patient credentials" style="-fx-text-fill: -color-text-muted; -fx-font-size: 13px;"/>
 

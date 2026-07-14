@@ -51,7 +51,7 @@ public class GlucoseHistoryController {
             } else if ("AFTER_MEAL".equals(m.getTimeSlot())) {
                 abnormal = m.getValue() > 180;
             }
-            return new SimpleStringProperty(abnormal ? "⚠️ Abnormal" : "✅ Normal");
+            return new SimpleStringProperty(abnormal ? "Abnormal" : "Normal");
         });
 
         // Color the status column

@@ -108,7 +108,7 @@ public class RegisterController {
                 
                 Doctor doctor = new Doctor(null, taxCode, firstName, lastName, username, password);
                 doctorDAO.save(doctor);
-                showFeedback("✅ Registration successful! Please login.", false);
+                showFeedback("Registration successful! Please login.", false);
                 clearFields();
             } else {
                 // Patient
@@ -150,7 +150,7 @@ public class RegisterController {
                 );
 
                 patientDAO.save(patient);
-                showFeedback("✅ Registration successful! Please login.", false);
+                showFeedback("Registration successful! Please login.", false);
                 clearFields();
             }
         } catch (SQLException e) {

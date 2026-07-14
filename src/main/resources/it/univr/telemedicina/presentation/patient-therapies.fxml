@@ -9,18 +9,18 @@
 
     <!-- Sidebar -->
     <VBox styleClass="sidebar" spacing="2">
-        <Label text="🩺 Patient" styleClass="sidebar-title"/>
+        <Label text="Patient" styleClass="sidebar-title"/>
         <Separator/>
         <Button text="📊  Dashboard" onAction="#onDashboard" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="🩸  Record Glucose" onAction="#onRecordGlucose" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="Record Glucose" onAction="#onRecordGlucose" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
         <Button text="📋  Glucose History" onAction="#onGlucoseHistory" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="💊  Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
-        <Button text="🤒  Report Condition" onAction="#onReportCondition" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="Report Condition" onAction="#onReportCondition" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
         <Button text="📜  My Therapies" onAction="#onMyTherapies" styleClass="sidebar-button,sidebar-button-active" maxWidth="1.7976931348623157E308"/>
-        <Button text="✉️  Email Doctor" onAction="#onEmailDoctor" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
+        <Button text="Email Doctor" onAction="#onEmailDoctor" styleClass="sidebar-button" maxWidth="1.7976931348623157E308"/>
         <VBox VBox.vgrow="ALWAYS"/>
         <Separator/>
-        <Button text="🚪  Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
+        <Button text="Logout" onAction="#onLogout" styleClass="sidebar-button" style="-fx-text-fill: #f38ba8;" maxWidth="1.7976931348623157E308"/>
     </VBox>
 
     <!-- Main Content -->
