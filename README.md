@@ -2,6 +2,9 @@
 
 A Java-based desktop application for monitoring and managing diabetic patients, facilitating communication between patients and medical professionals.
 
+> [!TIP]
+> **Quick Compile & Run**: To quickly package and run the application as a standalone executable JAR, jump directly to the [Standalone JAR Guide](#2-guide-compiling-and-running-from-a-standalone-jar).
+
 ## Table of Contents
 
 1. [Project Description](#project-description)
@@ -21,9 +24,12 @@ The **Telemedicine System for Diabetic Patients** is a desktop application desig
 
 The application is built using:
 
-- **Language**: Java
-- **Graphical User Interface (GUI)**: JavaFX
-- **Database**: SQLite
+- **Language**: Java (JDK 17)
+- **Graphical User Interface (GUI)**: JavaFX (v17.0.10)
+- **Database**: SQLite (via SQLite JDBC Driver v3.45.1.0)
+- **Testing Framework**: JUnit 5 / Jupiter (v5.10.2)
+
+For a detailed list of all dependencies and libraries, please refer to the [Required Dependencies & Libraries](#required-dependencies--libraries) section.
 
 For detailed functional specifications, please refer to the [Functional Specifications Document (PDF)](./specifications.pdf).
 
@@ -159,19 +165,19 @@ The application follows a **Layered Architecture** style, ensuring a clear separ
 
 ---
 
-## Required Dependencies
+## Required Dependencies & Libraries
 
-Project dependencies are managed entirely by Maven via the `pom.xml` file. The main libraries used are:
+Project dependencies and external libraries are managed entirely by Maven via the `pom.xml` file. The application utilizes the following libraries:
 
-1. **JavaFX (v17.0.10)**:
-   - `javafx-controls`: For the graphical user interface.
-   - `javafx-fxml`: To load views defined in FXML.
-2. **SQLite JDBC (v3.45.1.0)**:
-   - Database driver for connecting to the local SQLite database.
-3. **JUnit 5 (v5.10.2)**:
-   - `junit-jupiter-api` & `junit-jupiter-engine`: For automated unit and integration tests.
+- **JavaFX (v17.0.10)**:
+  - `javafx-controls`: Provides the graphical user interface elements (such as buttons, tables, forms, and charts).
+  - `javafx-fxml`: Loads and parses FXML files to decouple the visual structure of the dashboard from the Java controllers.
+- **SQLite JDBC Driver (v3.45.1.0)**:
+  - `sqlite-jdbc`: Serves as the JDBC driver to query the local relational database (`telemedicina.db`) storing patient profiles, glucose logs, and audits.
+- **JUnit 5 / Jupiter (v5.10.2)**:
+  - `junit-jupiter-api` & `junit-jupiter-engine`: Used to build and execute automated unit tests (for the rules engine) and database consistency tests.
 
-All dependencies are automatically downloaded during the first run or during the build phase (`./run.sh dev` or `./run.sh package`).
+All libraries are automatically downloaded from the Maven Central Repository during the compilation or run phase (`./run.sh dev` or `./run.sh package`).
 
 ---
 
