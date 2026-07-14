@@ -5,22 +5,24 @@ public class Doctor {
     private String taxCode;
     private String firstName;
     private String lastName;
+    private String email;
     private String username;
     private String password;
 
     public Doctor() {}
 
-    public Doctor(Integer id, String taxCode, String firstName, String lastName, String username, String password) {
+    public Doctor(Integer id, String taxCode, String firstName, String lastName, String email, String username, String password) {
         this.id = id;
         this.taxCode = taxCode;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public Doctor(String taxCode, String firstName, String lastName, String username, String password) {
-        this(null, taxCode, firstName, lastName, username, password);
+    public Doctor(String taxCode, String firstName, String lastName, String email, String username, String password) {
+        this(null, taxCode, firstName, lastName, email, username, password);
     }
 
     public Integer getId() {
@@ -53,6 +55,14 @@ public class Doctor {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

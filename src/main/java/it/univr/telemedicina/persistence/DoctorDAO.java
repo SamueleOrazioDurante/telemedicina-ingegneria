@@ -18,14 +18,15 @@ public class DoctorDAO {
      */
     public void save(Doctor doctor) throws SQLException {
         if (doctor.getId() == null) {
-            String sql = "INSERT INTO doctor (tax_code, first_name, last_name, username, password) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO doctor (tax_code, first_name, last_name, email, username, password) VALUES (?, ?, ?, ?, ?, ?)";
             try (Connection conn = dbManager.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 pstmt.setString(1, doctor.getTaxCode());
                 pstmt.setString(2, doctor.getFirstName());
                 pstmt.setString(3, doctor.getLastName());
-                pstmt.setString(4, doctor.getUsername());
-                pstmt.setString(5, doctor.getPassword());
+                pstmt.setString(4, doctor.getEmail());
+                pstmt.setString(5, doctor.getUsername());
+                pstmt.setString(6, doctor.getPassword());
                 pstmt.executeUpdate();
 
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -35,15 +36,16 @@ public class DoctorDAO {
                 }
             }
         } else {
-            String sql = "UPDATE doctor SET tax_code = ?, first_name = ?, last_name = ?, username = ?, password = ? WHERE id = ?";
+            String sql = "UPDATE doctor SET tax_code = ?, first_name = ?, last_name = ?, email = ?, username = ?, password = ? WHERE id = ?";
             try (Connection conn = dbManager.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, doctor.getTaxCode());
                 pstmt.setString(2, doctor.getFirstName());
                 pstmt.setString(3, doctor.getLastName());
-                pstmt.setString(4, doctor.getUsername());
-                pstmt.setString(5, doctor.getPassword());
-                pstmt.setInt(6, doctor.getId());
+                pstmt.setString(4, doctor.getEmail());
+                pstmt.setString(5, doctor.getUsername());
+                pstmt.setString(6, doctor.getPassword());
+                pstmt.setInt(7, doctor.getId());
                 pstmt.executeUpdate();
             }
         }
@@ -105,6 +107,7 @@ public class DoctorDAO {
                 rs.getString("tax_code"),
                 rs.getString("first_name"),
                 rs.getString("last_name"),
+                rs.getString("email"),
                 rs.getString("username"),
                 rs.getString("password")
         );

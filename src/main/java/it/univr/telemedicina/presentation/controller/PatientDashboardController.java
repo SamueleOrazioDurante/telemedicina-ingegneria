@@ -328,10 +328,30 @@ public class PatientDashboardController {
 
     @FXML
     protected void onEmailDoctor() {
-        SceneManager.ModalResult<SendEmailController> res = SceneManager.createModal("send-email.fxml", "Email Doctor");
-        if (res != null) {
-            res.stage.showAndWait();
-            loadAllData(SceneManager.getCurrentPatient());
+        Patient patient = SceneManager.getCurrentPatient();
+        if (patient == null) return;
+        try {
+            DoctorDAO doctorDAO = new DoctorDAO(SceneManager.getDbManager());
+            Doctor doctor = doctorDAO.findById(patient.getReferenceDoctorId());
+            if (doctor != null && doctor.getEmail() != null && !doctor.getEmail().trim().isEmpty()) {
+                String email = doctor.getEmail().trim();
+                String subject = "Richiesta paziente: " + patient.getFirstName() + " " + patient.getLastName();
+                String mailtoUri = "mailto:" + email + "?subject=" + java.net.URLEncoder.encode(subject, "UTF-8").replace("+", "%20");
+                SceneManager.showDocument(mailtoUri);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Reference doctor email is not configured.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Error loading reference doctor details: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 

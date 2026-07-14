@@ -16,7 +16,7 @@ public class App extends Application {
         DatabaseManager dbManager = new DatabaseManager();
         dbManager.initializeDatabase();
 
-        SceneManager.init(stage, dbManager);
+        SceneManager.init(stage, dbManager, this);
         stage.setTitle("Diabetic Patients Monitoring");
         stage.setMinWidth(900);
         stage.setMinHeight(600);

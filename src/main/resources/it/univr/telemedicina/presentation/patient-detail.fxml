@@ -122,25 +122,5 @@
                 </placeholder>
             </TableView>
         </VBox>
-
-        <!-- Emails Sent by Patient Table -->
-        <VBox spacing="10">
-            <Label text="Messages Received from Patient" styleClass="section-title"/>
-            <TableView fx:id="messageTable" prefHeight="180" minHeight="180">
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                </columnResizePolicy>
-                <columns>
-                    <TableColumn fx:id="mDateCol" text="Date" prefWidth="100"/>
-                    <TableColumn fx:id="mTimeCol" text="Time" prefWidth="70"/>
-                    <TableColumn fx:id="mSubjectCol" text="Subject" prefWidth="180"/>
-                    <TableColumn fx:id="mMessageCol" text="Message Content" prefWidth="350"/>
-                </columns>
-                <placeholder>
-                    <Label text="No messages received from this patient." style="-fx-text-fill: -color-border;"/>
-                </placeholder>
-            </TableView>
-        </VBox>
-
     </VBox>
 </ScrollPane>

@@ -43,7 +43,7 @@ public class DataConsistencyTest {
 
     @Test
     public void testCreateAndRetrieveDoctorAndPatient() throws SQLException {
-        Doctor doctor = new Doctor("MRNRSS80A01H501Z", "Mario", "Rossi", "mariorossi", "password123");
+        Doctor doctor = new Doctor("MRNRSS80A01H501Z", "Mario", "Rossi", "mario.rossi@test.it", "mariorossi", "password123");
         doctorDAO.save(doctor);
         assertNotNull(doctor.getId(), "Doctor ID should be generated");
 
@@ -64,16 +64,16 @@ public class DataConsistencyTest {
 
     @Test
     public void testUniqueConstraints() throws SQLException {
-        Doctor doctor = new Doctor("CF1", "Doc", "One", "sameuser", "pass");
+        Doctor doctor = new Doctor("CF1", "Doc", "One", "doc.one@test.it", "sameuser", "pass");
         doctorDAO.save(doctor);
 
         // Attempting to save another doctor with the same username should throw SQLException
-        Doctor duplicateUserDoctor = new Doctor("CF2", "Doc", "Two", "sameuser", "pass");
+        Doctor duplicateUserDoctor = new Doctor("CF2", "Doc", "Two", "doc.two@test.it", "sameuser", "pass");
         assertThrows(SQLException.class, () -> doctorDAO.save(duplicateUserDoctor), 
                 "Should fail due to duplicate username constraint");
 
         // Attempting to save another doctor with the same Tax Code should throw SQLException
-        Doctor duplicateCfDoctor = new Doctor("CF1", "Doc", "Three", "otheruser", "pass");
+        Doctor duplicateCfDoctor = new Doctor("CF1", "Doc", "Three", "doc.three@test.it", "otheruser", "pass");
         assertThrows(SQLException.class, () -> doctorDAO.save(duplicateCfDoctor), 
                 "Should fail due to duplicate tax code constraint");
     }
@@ -87,7 +87,7 @@ public class DataConsistencyTest {
 
     @Test
     public void testDoctorDeletionRestricted() throws SQLException {
-        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "docuser", "pass");
+        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "doc.test@test.it", "docuser", "pass");
         doctorDAO.save(doctor);
 
         Patient patient = new Patient("CF_PAT", "Pat", "Test", "1995-05-05", "patuser", "pass", doctor.getId());
@@ -104,7 +104,7 @@ public class DataConsistencyTest {
 
     @Test
     public void testCascadingDeletePatient() throws SQLException {
-        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "docuser", "pass");
+        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "doc.test2@test.it", "docuser", "pass");
         doctorDAO.save(doctor);
 
         Patient patient = new Patient("CF_PAT", "Pat", "Test", "1995-05-05", "patuser", "pass", doctor.getId());
@@ -144,7 +144,7 @@ public class DataConsistencyTest {
 
     @Test
     public void testBloodGlucoseDateFilters() throws SQLException {
-        Doctor doctor = new Doctor("CF_D", "D", "D", "duser", "pass");
+        Doctor doctor = new Doctor("CF_D", "D", "D", "d.d@test.it", "duser", "pass");
         doctorDAO.save(doctor);
         Patient patient = new Patient("CF_P", "P", "P", "1990-01-01", "puser", "pass", doctor.getId());
         patientDAO.save(patient);
@@ -163,7 +163,7 @@ public class DataConsistencyTest {
 
     @Test
     public void testLogOperazioneAndAudit() throws SQLException {
-        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "docuser", "pass");
+        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "doc.test3@test.it", "docuser", "pass");
         doctorDAO.save(doctor);
 
         Patient patient = new Patient("CF_PAT", "Pat", "Test", "1995-05-05", "patuser", "pass", doctor.getId());
@@ -192,7 +192,7 @@ public class DataConsistencyTest {
 
     @Test
     public void testConcomitantConditionOperations() throws SQLException {
-        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "docuser", "pass");
+        Doctor doctor = new Doctor("CF_DOC", "Doc", "Test", "doc.test4@test.it", "docuser", "pass");
         doctorDAO.save(doctor);
 
         Patient patient = new Patient("CF_PAT", "Pat", "Test", "1995-05-05", "patuser", "pass", doctor.getId());
@@ -229,29 +229,5 @@ public class DataConsistencyTest {
         List<ConcomitantCondition> pathologies = conditionDAO.findByPatientIdAndType(patient.getId(), "PATHOLOGY");
         assertEquals(1, pathologies.size());
         assertEquals("Type 2 Diabetes", pathologies.get(0).getDescription());
-    }
-
-    @Test
-    public void testPatientMessageOperations() throws SQLException {
-        Doctor doctor = new Doctor("CF_D_MSG", "D", "M", "duser_msg", "pass");
-        doctorDAO.save(doctor);
-        Patient patient = new Patient("CF_P_MSG", "P", "M", "1992-02-02", "puser_msg", "pass", doctor.getId());
-        patientDAO.save(patient);
-
-        PatientMessageDAO messageDAO = new PatientMessageDAO(dbManager);
-        PatientMessage msg = new PatientMessage(patient.getId(), doctor.getId(), "Test Subject", "Test MessageBody", "2026-07-14", "12:00");
-        messageDAO.save(msg);
-        assertNotNull(msg.getId());
-
-        List<PatientMessage> messages = messageDAO.findByPatientIdAndDoctorId(patient.getId(), doctor.getId());
-        assertEquals(1, messages.size());
-        assertEquals("Test Subject", messages.get(0).getSubject());
-        assertEquals("Test MessageBody", messages.get(0).getMessage());
-
-        List<PatientMessage> docMessages = messageDAO.findByDoctorId(doctor.getId());
-        assertEquals(1, docMessages.size());
-
-        List<PatientMessage> patMessages = messageDAO.findByPatientId(patient.getId());
-        assertEquals(1, patMessages.size());
     }
 }

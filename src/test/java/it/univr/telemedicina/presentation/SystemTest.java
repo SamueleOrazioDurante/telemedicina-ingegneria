@@ -53,7 +53,7 @@ public class SystemTest {
         engine = new MedicalRulesEngine();
 
         // Create base test data (simulates admin inserting initial users)
-        testDoctor = new Doctor("TSTDOC80A01H501Z", "Test", "Doctor", "testdoc", "password123");
+        testDoctor = new Doctor("TSTDOC80A01H501Z", "Test", "Doctor", "testdoc@telemedicina.it", "testdoc", "password123");
         doctorDAO.save(testDoctor);
 
         testPatient = new Patient("TSTPAT90B02H501Y", "Test", "Patient", "1990-02-02",

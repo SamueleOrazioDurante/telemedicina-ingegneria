@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS doctor (
     tax_code TEXT UNIQUE NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL
 );
@@ -73,17 +74,6 @@ CREATE TABLE IF NOT EXISTS concomitant_condition (
     FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS patient_message (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    patient_id INTEGER NOT NULL,
-    doctor_id INTEGER NOT NULL,
-    subject TEXT NOT NULL,
-    message TEXT NOT NULL,
-    date TEXT NOT NULL,      -- YYYY-MM-DD
-    time TEXT NOT NULL,      -- HH:MM
-    FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE,
-    FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE RESTRICT
-);
 
 CREATE TABLE IF NOT EXISTS operation_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -98,11 +88,11 @@ CREATE TABLE IF NOT EXISTS operation_log (
 -- SEED DATA: Initial demo data for testing and demonstration
 
 -- Doctors (password stored as plain text for demo; in production use hashing)
-INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, username, password)
-VALUES ('RSSMRA80A01H501Z', 'Mario', 'Rossi', 'dottore', 'dottore');
+INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, email, username, password)
+VALUES ('RSSMRA80A01H501Z', 'Mario', 'Rossi', 'mario.rossi@telemedicina.it', 'dottore', 'dottore');
 
-INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, username, password)
-VALUES ('VRDLGI75B02F205X', 'Luigi', 'Verdi', 'drverdi', 'drverdi');
+INSERT OR IGNORE INTO doctor (tax_code, first_name, last_name, email, username, password)
+VALUES ('VRDLGI75B02F205X', 'Luigi', 'Verdi', 'luigi.verdi@telemedicina.it', 'drverdi', 'drverdi');
 
 -- Patients (assigned to doctor 1)
 INSERT OR IGNORE INTO patient (tax_code, first_name, last_name, date_of_birth, username, password, reference_doctor_id, risk_factors, past_pathologies, comorbidities)

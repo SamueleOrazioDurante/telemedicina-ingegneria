@@ -61,13 +61,6 @@ public class PatientDetailController {
     @FXML private TableColumn<Map<String, String>, String> countCol;
     @FXML private TableColumn<Map<String, String>, String> alertsCol;
 
-    // Email Log Table
-    @FXML private TableView<PatientMessage> messageTable;
-    @FXML private TableColumn<PatientMessage, String> mDateCol;
-    @FXML private TableColumn<PatientMessage, String> mTimeCol;
-    @FXML private TableColumn<PatientMessage, String> mSubjectCol;
-    @FXML private TableColumn<PatientMessage, String> mMessageCol;
-
     private Patient patient;
 
     @FXML
@@ -138,12 +131,6 @@ public class PatientDetailController {
         avgAfterCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().get("avgAfter")));
         countCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().get("count")));
         alertsCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().get("alerts")));
-
-        // Email Log Table
-        mDateCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getDate()));
-        mTimeCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getTime()));
-        mSubjectCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getSubject()));
-        mMessageCol.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getMessage()));
     }
 
     public void setPatient(Patient patient) {
@@ -187,12 +174,7 @@ public class PatientDetailController {
             List<ConcomitantCondition> conditions = conditionDAO.findByPatientId(patient.getId());
             conditionTable.setItems(FXCollections.observableArrayList(conditions));
 
-            // Load email messages
-            if (doctor != null) {
-                PatientMessageDAO messageDAO = new PatientMessageDAO(db);
-                List<PatientMessage> messages = messageDAO.findByPatientIdAndDoctorId(patient.getId(), doctor.getId());
-                messageTable.setItems(FXCollections.observableArrayList(messages));
-            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

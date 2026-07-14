@@ -19,14 +19,22 @@ public class SceneManager {
 
     private static Stage primaryStage;
     private static DatabaseManager dbManager;
+    private static javafx.application.Application appInstance;
     private static Object currentUser; // Doctor or Patient
     private static final String CSS_PATH = "/it/univr/telemedicina/presentation/styles.css";
 
     private SceneManager() {}
 
-    public static void init(Stage stage, DatabaseManager dbManager) {
+    public static void init(Stage stage, DatabaseManager dbManager, javafx.application.Application appInstance) {
         SceneManager.primaryStage = stage;
         SceneManager.dbManager = dbManager;
+        SceneManager.appInstance = appInstance;
+    }
+
+    public static void showDocument(String uri) {
+        if (appInstance != null) {
+            appInstance.getHostServices().showDocument(uri);
+        }
     }
 
     public static DatabaseManager getDbManager() {
