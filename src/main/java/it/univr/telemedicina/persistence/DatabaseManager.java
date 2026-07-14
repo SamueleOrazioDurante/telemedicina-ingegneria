@@ -41,6 +41,18 @@ public class DatabaseManager {
      * Reads database.sql DDL script and initializes the SQLite tables.
      */
     public void initializeDatabase() {
+        // If the database file already exists and is non-empty, skip initialization
+        if (dbUrl.startsWith("jdbc:sqlite:")) {
+            String dbPath = dbUrl.substring("jdbc:sqlite:".length());
+            if (!dbPath.equals(":memory:") && !dbPath.trim().isEmpty()) {
+                java.io.File file = new java.io.File(dbPath);
+                if (file.exists() && file.length() > 0) {
+                    System.out.println("Database already exists. Skipping initialization.");
+                    return;
+                }
+            }
+        }
+
         try (Connection conn = getConnection();
              InputStream is = DatabaseManager.class.getResourceAsStream("/database.sql")) {
             
