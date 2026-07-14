@@ -1,4 +1,4 @@
-# Technical Database Documentation & Data Model
+# Technical Documentation
 
 This documentation describes the data architecture, conceptual model, and SQLite database schema for the **Telemedicine System for Diabetic Patients**.
 
@@ -308,9 +308,13 @@ classDiagram
     MedicalRulesEngine o--> AlertObserver : notifies
 ```
 
-## 5. Sequence Diagram
+## 5. Sequence Diagrams
 
-The following sequence diagram illustrates the flow when a patient inserts a new blood glucose reading and the rules engine evaluates it, eventually notifying the doctor.
+The following sequence diagrams illustrate the detailed interaction flows for the primary use cases of the telemedicine system.
+
+### 5.1 UC-02: Record Glucose Measurement
+
+This diagram shows the flow when a patient records a new blood glucose reading. The presentation layer saves the measurement to the database and evaluates it via the rules engine, which notifies active observers if the value is abnormal.
 
 ```mermaid
 sequenceDiagram
@@ -329,6 +333,93 @@ sequenceDiagram
     end
     Engine-->>GUI: threshold result
     GUI-->>Patient: Display confirmation
+```
+
+### 5.2 UC-01: Login and Session Routing
+
+This diagram shows the authentication flow when a user logs in. The system queries the corresponding database tables based on credentials to verify identity and redirect to the correct dashboard.
+
+```mermaid
+sequenceDiagram
+    actor User as Patient or Doctor
+    participant GUI as LoginController
+    participant SM as SceneManager
+    participant DAO as PatientDAO / DoctorDAO
+    participant DB as SQLite DB
+
+    User->>GUI: Enters credentials (username, password)
+    GUI->>DAO: findByUsername(username)
+    DAO->>DB: Query user records
+    DB-->>DAO: User record (or empty)
+    DAO-->>GUI: User object (or null)
+    alt Credentials Valid
+        GUI->>SM: setCurrentUser(user)
+        GUI->>SM: switchScene(dashboard)
+        SM-->>User: Show role-based dashboard
+    else Credentials Invalid
+        GUI-->>User: Show "Invalid credentials" error message
+    end
+```
+
+### 5.3 UC-08: Prescribe Therapy
+
+This diagram shows the flow when a doctor prescribes a therapy. The therapy is saved as active, and the action is logged in the audit trail database table.
+
+```mermaid
+sequenceDiagram
+    actor Doctor
+    participant GUI as TherapyFormController
+    participant SM as SceneManager
+    participant TDAO as PrescribedTherapyDAO
+    participant LDAO as OperationLogDAO
+    participant DB as SQLite DB
+
+    Doctor->>GUI: Enters drug name, dosage, directions, dates
+    GUI->>GUI: Validates input fields
+    alt Valid Input
+        GUI->>TDAO: save(therapy)
+        TDAO->>DB: INSERT INTO prescribed_therapy
+        DB-->>TDAO: success (auto-generated ID)
+        TDAO-->>GUI: success
+        GUI->>LDAO: save(operationLog)
+        LDAO->>DB: INSERT INTO operation_log (audit log)
+        DB-->>LDAO: success
+        LDAO-->>GUI: success
+        GUI->>SM: switchScene("patient-detail.fxml")
+        SM-->>Doctor: Show updated patient details
+    else Invalid Input
+        GUI-->>Doctor: Show validation error
+    end
+```
+
+### 5.4 UC-04: Record Drug Intake
+
+This diagram shows the flow when a patient reports a drug intake associated with a prescribed therapy.
+
+```mermaid
+sequenceDiagram
+    actor Patient
+    participant GUI as DrugIntakeEntryController
+    participant TDAO as PrescribedTherapyDAO
+    participant IDAO as DrugIntakeDAO
+    participant DB as SQLite DB
+
+    Patient->>GUI: Opens form & selects active therapy
+    GUI->>TDAO: findActiveByPatientId(patientId)
+    TDAO->>DB: Query active therapies
+    DB-->>TDAO: List of therapies
+    TDAO-->>GUI: List of therapies
+    Patient->>GUI: Enters date, time, quantity and saves
+    GUI->>GUI: Validates intake inputs
+    alt Valid Input
+        GUI->>IDAO: save(intake)
+        IDAO->>DB: INSERT INTO drug_intake
+        DB-->>IDAO: success
+        IDAO-->>GUI: success
+        GUI-->>Patient: Show confirmation message
+    else Invalid Input
+        GUI-->>Patient: Show validation error
+    end
 ```
 
 ## 6. Architecture and Design Patterns
@@ -654,3 +745,58 @@ flowchart TD
     L -->|Yes| B
     L -->|No| M([End])
 ```
+
+---
+
+## 11. Detailed Description of Test Activities
+
+This section provides a detailed description of the verification activities carried out to ensure the correctness, robustness, and compliance of the telemedicine system. The testing strategy leverages JUnit 5 and is structured into three layers: Unit Tests, Data Consistency Tests, and System Tests.
+
+### 11.1 Unit Tests (White-Box)
+
+Unit tests verify individual business logic rules and methods in isolation. These are implemented in `MedicalRulesEngineTest.java` and focus on verifying the `MedicalRulesEngine` functionality.
+
+- **Test Cases for Glycemic Thresholds:**
+  - `testCheckGlucoseThreshold_NormalBeforeMeal`: Asserts that a blood glucose value of 100.0 mg/dL before meals is considered normal (returns `false` and triggers no observer alert notifications).
+  - `testCheckGlucoseThreshold_HighBeforeMeal`: Asserts that a blood glucose value of 140.0 mg/dL before meals is detected as abnormal (returns `true` and triggers an observer alert notification).
+  - `testCheckGlucoseThreshold_NormalAfterMeal`: Asserts that a blood glucose value of 150.0 mg/dL after meals is considered normal (returns `false` and triggers no observer alert notifications).
+  - `testCheckGlucoseThreshold_HighAfterMeal`: Asserts that a blood glucose value of 190.0 mg/dL after meals is detected as abnormal (returns `true` and triggers an observer alert notification).
+- **Test Cases for Therapy Adherence (Alert Rules):**
+  - `testCheckMissingTherapy_NotMissing`: Verifies that if a patient reports intakes matching their prescribed frequency for the past 3 consecutive days, the rules engine does not raise an alert.
+  - `testCheckMissingTherapy_MissingThreeDays`: Verifies that if no intakes are reported for the last 3 days for an active therapy, the engine correctly returns `true` and triggers a medical alert to notify the doctor.
+
+### 11.2 Data Consistency Tests (Bioinformatics Constraint)
+
+Data consistency tests are designed to validate database constraints, relational rules, referential integrity, and transaction correctness in the SQLite database. These are implemented in `DataConsistencyTest.java`.
+
+- **Relational Integrity and Uniqueness Constraints:**
+  - `testCreateAndRetrieveDoctorAndPatient`: Inserts doctor and patient records and asserts that auto-generated primary keys are created and attributes are successfully retrieved.
+  - `testUniqueConstraints`: Asserts that saving two doctors with duplicate usernames or duplicate tax codes (Codice Fiscale) fails by raising a database `SQLException`.
+  - `testForeignKeyDoctorDoesNotExist`: Validates referential integrity by asserting that trying to save a patient with a non-existent doctor ID throws a foreign key constraint violation.
+- **Deletion Constraints and Cascades:**
+  - `testDoctorDeletionRestricted`: Asserts that a doctor assigned to active patients cannot be deleted due to `ON DELETE RESTRICT` constraints, ensuring patients are never orphaned.
+  - `testCascadingDeletePatient`: Verifies that deleting a patient recursively cascade-deletes all associated entities (`BLOOD_GLUCOSE_MEASUREMENT`, `PRESCRIBED_THERAPY`, `DRUG_INTAKE`, and `CONCOMITANT_CONDITION`) using SQLite's `ON DELETE CASCADE`.
+  - `testLogOperazioneAndAudit`: Verifies that when a patient is deleted, their associated audit logs in the `operation_log` table persist, but the `patient_id` field is set to `NULL` (`ON DELETE SET NULL`), preserving the log details while removing the reference.
+- **Query and CRUD correctness:**
+  - `testBloodGlucoseDateFilters`: Asserts that range-based queries return only blood glucose measurements recorded within the requested start and end dates.
+  - `testConcomitantConditionOperations`: Verifies basic CRUD operations (creation, query by type, update) for user-reported symptoms and pathologies.
+
+### 11.3 System Tests (Black-Box / E2E Integration)
+
+System tests simulate end-to-end integration workflows, verifying that all layers (presentation, logic, database) work seamlessly together to fulfill requirements. These are implemented in `SystemTest.java`.
+
+- **Authentication & Access Control:**
+  - `testLoginPatient` & `testLoginDoctor`: Verifies that valid patient and doctor credentials yield successful login operations.
+  - `testLoginInvalidCredentials`: Verifies that login attempts with non-existent usernames or wrong passwords fail correctly.
+- **Patient Workflows:**
+  - `testPatientEnterGlucose`: Simulates a patient entering daily measurements and verifies that it is stored correctly in the database.
+  - `testPatientGlucoseAlertGenerated`: Simulates a patient entering abnormal glucose values and verifies that it triggers warnings in the presentation layer and alert messages in the rules engine.
+  - `testPatientRecordDrugIntake`: Simulates recording a medication intake matching a prescribed therapy.
+  - `testPatientReportSymptom`: Verifies that user-reported symptoms and concurrent conditions are saved and categorized correctly.
+- **Doctor Workflows:**
+  - `testDoctorPrescribeTherapy`: Simulates a doctor prescribing a new therapy and verifies that the therapy is saved as active and the action is recorded in the audit trail (`operation_log`).
+  - `testDoctorViewPatientData`: Simulates a doctor viewing a patient's detail view, ensuring all medical history, blood glucose trends, and therapies are visible.
+  - `testDoctorUpdatePatientInfo`: Simulates a doctor updating risk factors, pathologies, and comorbidities, and checks that this information is successfully updated and audited.
+- **System Alert Engine Integration:**
+  - `testMissingTherapyAlertFlow`: Simulates checking therapy compliance for a patient who has not recorded intakes for the past 3 days and asserts that the rules engine raises an alert badge on the doctor's dashboard.
+  - `testTherapyComplianceCheck`: Asserts that a compliant patient who registers medication intakes on time does not trigger any alert.
