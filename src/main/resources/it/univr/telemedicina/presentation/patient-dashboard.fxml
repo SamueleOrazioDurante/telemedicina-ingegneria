@@ -6,9 +6,9 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.univr.telemedicina.presentation.controller.PatientDashboardController"
-            fitToWidth="true" style="-fx-background-color: #1e1e2e;">
+            fitToWidth="true" style="-fx-background-color: -color-bg-base;">
             
-    <VBox spacing="24" style="-fx-background-color: #1e1e2e; -fx-padding: 30;">
+    <VBox spacing="24" style="-fx-background-color: -color-bg-base; -fx-padding: 30;">
         
         <!-- Header -->
         <HBox alignment="CENTER_LEFT" spacing="12">
@@ -21,7 +21,7 @@
 
         <!-- Action Buttons -->
         <VBox styleClass="card" spacing="12">
-            <Label text="Quick Actions" style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <Label text="Quick Actions" style="-fx-text-fill: -color-text-main; -fx-font-size: 15px; -fx-font-weight: bold;"/>
             <HBox spacing="12">
                 <Button text="🩸 Record Glucose" onAction="#onRecordGlucose" styleClass="button-primary"/>
                 <Button text="💊 Record Drug Intake" onAction="#onRecordDrugIntake" styleClass="button-success"/>
@@ -68,7 +68,7 @@
                     <TableColumn fx:id="tStatusCol" text="Status" prefWidth="90"/>
                 </columns>
                 <placeholder>
-                    <Label text="No therapies prescribed." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No therapies prescribed." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>
@@ -99,7 +99,7 @@
                     <TableColumn fx:id="gStatusCol" text="Status" prefWidth="120"/>
                 </columns>
                 <placeholder>
-                    <Label text="No measurements found." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No measurements found." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>
@@ -118,7 +118,7 @@
                     <TableColumn fx:id="cEndCol" text="End Date" prefWidth="110"/>
                 </columns>
                 <placeholder>
-                    <Label text="No conditions reported." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No conditions reported." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>

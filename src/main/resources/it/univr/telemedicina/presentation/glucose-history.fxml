@@ -6,7 +6,7 @@
 
 <HBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.univr.telemedicina.presentation.controller.GlucoseHistoryController"
-      style="-fx-background-color: #1e1e2e;">
+      style="-fx-background-color: -color-bg-base;">
 
     <!-- Sidebar -->
     <VBox styleClass="sidebar" spacing="2">
@@ -48,7 +48,7 @@
                 <TableColumn fx:id="statusCol" text="Status" prefWidth="140"/>
             </columns>
             <placeholder>
-                <Label text="No measurements found." style="-fx-text-fill: #6c7086;"/>
+                <Label text="No measurements found." style="-fx-text-fill: -color-border;"/>
             </placeholder>
         </TableView>
     </VBox>

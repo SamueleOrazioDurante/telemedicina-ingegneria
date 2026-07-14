@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.univr.telemedicina.presentation.controller.GlucoseEntryController"
-      style="-fx-background-color: #1e1e2e; -fx-padding: 30px;" spacing="20" prefWidth="500">
+      style="-fx-background-color: -color-bg-base; -fx-padding: 30px;" spacing="20" prefWidth="500">
       
     <Label text="Record Blood Glucose" styleClass="title"/>
     <Label text="Enter your blood glucose reading before or after a meal." styleClass="subtitle"/>

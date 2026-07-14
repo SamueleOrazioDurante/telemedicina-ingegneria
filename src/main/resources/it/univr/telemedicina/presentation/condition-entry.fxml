@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.univr.telemedicina.presentation.controller.ConditionEntryController"
-      style="-fx-background-color: #1e1e2e; -fx-padding: 30px;" spacing="20" prefWidth="500">
+      style="-fx-background-color: -color-bg-base; -fx-padding: 30px;" spacing="20" prefWidth="500">
       
     <Label text="Report Condition / Symptom" styleClass="title"/>
     <Label text="Report symptoms, concomitant pathologies, or concurrent therapies." styleClass="subtitle"/>

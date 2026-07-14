@@ -6,18 +6,18 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.univr.telemedicina.presentation.controller.RegisterController"
-            fitToWidth="true" style="-fx-background-color: #1e1e2e;">
+            fitToWidth="true" style="-fx-background-color: -color-bg-base;">
     
-    <StackPane style="-fx-background-color: #1e1e2e;">
-        <VBox alignment="CENTER" spacing="12" maxWidth="500" style="-fx-background-color: #1e1e2e;">
+    <StackPane style="-fx-background-color: -color-bg-base;">
+        <VBox alignment="CENTER" spacing="12" maxWidth="500" style="-fx-background-color: -color-bg-base;">
             <padding>
                 <Insets bottom="30" left="40" right="40" top="30"/>
             </padding>
 
             <!-- Logo area -->
             <Label text="🩺" style="-fx-font-size: 40px;"/>
-            <Label text="Register New Account" style="-fx-text-fill: #89b4fa; -fx-font-size: 24px; -fx-font-weight: bold;"/>
-            <Label text="Create your Doctor or Patient credentials" style="-fx-text-fill: #a6adc8; -fx-font-size: 13px;"/>
+            <Label text="Register New Account" style="-fx-text-fill: -color-accent; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Label text="Create your Doctor or Patient credentials" style="-fx-text-fill: -color-text-muted; -fx-font-size: 13px;"/>
 
             <!-- Registration Card -->
             <VBox spacing="14" styleClass="card" maxWidth="450">

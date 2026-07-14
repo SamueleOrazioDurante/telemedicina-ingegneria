@@ -64,7 +64,7 @@ public class GlucoseHistoryController {
                     setStyle("");
                 } else {
                     setText(item);
-                    setStyle(item.contains("Abnormal") ? "-fx-text-fill: #f38ba8;" : "-fx-text-fill: #a6e3a1;");
+                    setStyle(item.contains("Abnormal") ? "-fx-text-fill: #f38ba8;" : "-fx-text-fill: -color-accent;");
                 }
             }
         });

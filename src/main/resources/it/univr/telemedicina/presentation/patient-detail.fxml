@@ -6,9 +6,9 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.univr.telemedicina.presentation.controller.PatientDetailController"
-            fitToWidth="true" style="-fx-background-color: #1e1e2e;">
+            fitToWidth="true" style="-fx-background-color: -color-bg-base;">
             
-    <VBox spacing="24" style="-fx-background-color: #1e1e2e; -fx-padding: 30;">
+    <VBox spacing="24" style="-fx-background-color: -color-bg-base; -fx-padding: 30;">
         
         <!-- Header -->
         <HBox alignment="CENTER_LEFT" spacing="12">
@@ -21,15 +21,15 @@
 
         <!-- Patient Info Card -->
         <VBox styleClass="card" spacing="12">
-            <Label text="Patient Medical Folder" style="-fx-text-fill: #89b4fa; -fx-font-size: 16px; -fx-font-weight: bold;"/>
-            <Label fx:id="patientNameLabel" text="Patient: Loading..." style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
-            <Label fx:id="patientInfoLabel" text="" style="-fx-text-fill: #a6adc8; -fx-font-size: 13px;" wrapText="true"/>
+            <Label text="Patient Medical Folder" style="-fx-text-fill: -color-accent; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label fx:id="patientNameLabel" text="Patient: Loading..." style="-fx-text-fill: -color-text-main; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <Label fx:id="patientInfoLabel" text="" style="-fx-text-fill: -color-text-muted; -fx-font-size: 13px;" wrapText="true"/>
             <Label fx:id="riskLabel" text="" style="-fx-text-fill: #f9e2af; -fx-font-size: 13px;" wrapText="true"/>
         </VBox>
 
         <!-- Doctor Management Actions -->
         <VBox styleClass="card" spacing="12">
-            <Label text="Management Actions" style="-fx-text-fill: #cdd6f4; -fx-font-size: 15px; -fx-font-weight: bold;"/>
+            <Label text="Management Actions" style="-fx-text-fill: -color-text-main; -fx-font-size: 15px; -fx-font-weight: bold;"/>
             <HBox spacing="12">
                 <Button text="💊 New Therapy" onAction="#onNewTherapy" styleClass="button-success"/>
                 <Button text="📝 Edit Info" onAction="#onEditInfo" styleClass="button-primary"/>
@@ -51,7 +51,7 @@
                     <TableColumn fx:id="gStatusCol" text="Status" prefWidth="120"/>
                 </columns>
                 <placeholder>
-                    <Label text="No measurements recorded." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No measurements recorded." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>
@@ -78,7 +78,7 @@
                     <TableColumn fx:id="alertsCol" text="Abnormal Count" prefWidth="110"/>
                 </columns>
                 <placeholder>
-                    <Label text="No trend data available." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No trend data available." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>
@@ -99,7 +99,7 @@
                     <TableColumn fx:id="tStatusCol" text="Status" prefWidth="90"/>
                 </columns>
                 <placeholder>
-                    <Label text="No therapies prescribed." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No therapies prescribed." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>
@@ -118,7 +118,7 @@
                     <TableColumn fx:id="cEndCol" text="End Date" prefWidth="110"/>
                 </columns>
                 <placeholder>
-                    <Label text="No conditions reported by patient." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No conditions reported by patient." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>
@@ -137,7 +137,7 @@
                     <TableColumn fx:id="mMessageCol" text="Message Content" prefWidth="350"/>
                 </columns>
                 <placeholder>
-                    <Label text="No messages received from this patient." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No messages received from this patient." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>

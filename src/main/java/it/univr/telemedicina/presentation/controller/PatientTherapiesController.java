@@ -51,7 +51,7 @@ public class PatientTherapiesController {
                 if (empty || item == null) { setText(null); setStyle(""); }
                 else {
                     setText(item);
-                    setStyle(item.contains("Active") ? "-fx-text-fill: #a6e3a1;" : "-fx-text-fill: #6c7086;");
+                    setStyle(item.contains("Active") ? "-fx-text-fill: -color-accent;" : "-fx-text-fill: -color-text-muted;");
                 }
             }
         });

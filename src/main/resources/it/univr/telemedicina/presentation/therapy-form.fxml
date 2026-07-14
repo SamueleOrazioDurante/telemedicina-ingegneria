@@ -5,7 +5,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.univr.telemedicina.presentation.controller.TherapyFormController"
-      style="-fx-background-color: #1e1e2e; -fx-padding: 30px;" spacing="20" prefWidth="550">
+      style="-fx-background-color: -color-bg-base; -fx-padding: 30px;" spacing="20" prefWidth="550">
       
     <Label fx:id="titleLabel" text="Prescribe New Therapy" styleClass="title"/>
     <Label fx:id="patientLabel" text="" styleClass="subtitle"/>

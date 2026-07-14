@@ -5,7 +5,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="it.univr.telemedicina.presentation.controller.SendEmailController"
-      style="-fx-background-color: #1e1e2e; -fx-padding: 30px;" spacing="20" prefWidth="550">
+      style="-fx-background-color: -color-bg-base; -fx-padding: 30px;" spacing="20" prefWidth="550">
       
     <Label text="Send Message to Doctor" styleClass="title"/>
     <Label text="Send a message to your reference doctor for questions and requests." styleClass="subtitle"/>

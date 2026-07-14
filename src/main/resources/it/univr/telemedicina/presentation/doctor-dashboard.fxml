@@ -6,9 +6,9 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="it.univr.telemedicina.presentation.controller.DoctorDashboardController"
-            fitToWidth="true" style="-fx-background-color: #1e1e2e;">
+            fitToWidth="true" style="-fx-background-color: -color-bg-base;">
             
-    <VBox spacing="24" style="-fx-background-color: #1e1e2e; -fx-padding: 30;">
+    <VBox spacing="24" style="-fx-background-color: -color-bg-base; -fx-padding: 30;">
         
         <!-- Header -->
         <HBox alignment="CENTER_LEFT" spacing="12">
@@ -30,7 +30,7 @@
                 <Label text="Active Alerts" styleClass="stat-label"/>
             </VBox>
             <VBox styleClass="stat-card" HBox.hgrow="ALWAYS">
-                <Label fx:id="activeTherapiesLabel" text="0" styleClass="stat-value" style="-fx-text-fill: #a6e3a1;"/>
+                <Label fx:id="activeTherapiesLabel" text="0" styleClass="stat-value" style="-fx-text-fill: -color-accent;"/>
                 <Label text="Active Therapies" styleClass="stat-label"/>
             </VBox>
         </HBox>
@@ -55,7 +55,7 @@
                     <TableColumn fx:id="actionCol" text="Actions" prefWidth="120"/>
                 </columns>
                 <placeholder>
-                    <Label text="No patients assigned." style="-fx-text-fill: #6c7086;"/>
+                    <Label text="No patients assigned." style="-fx-text-fill: -color-border;"/>
                 </placeholder>
             </TableView>
         </VBox>

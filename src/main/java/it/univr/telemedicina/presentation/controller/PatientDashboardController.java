@@ -142,7 +142,7 @@ public class PatientDashboardController {
             BloodGlucoseMeasurementDAO glucoseDAO = new BloodGlucoseMeasurementDAO(db);
             List<BloodGlucoseMeasurement> todayGlucose = glucoseDAO.findByPatientIdAndPeriod(patient.getId(), today, today);
             if (todayGlucose.isEmpty()) {
-                addAlertBadge("info", "ℹ️ You haven't recorded any glucose measurements today.");
+                addAlertBadge("info", "You haven't recorded any glucose measurements today.");
                 hasAlert = true;
             }
 
@@ -194,7 +194,7 @@ public class PatientDashboardController {
                 if (empty || item == null) { setText(null); setStyle(""); }
                 else {
                     setText(item);
-                    setStyle(item.contains("Active") ? "-fx-text-fill: #a6e3a1;" : "-fx-text-fill: #6c7086;");
+                    setStyle(item.contains("Active") ? "-fx-text-fill: -color-accent;" : "-fx-text-fill: -color-text-muted;");
                 }
             }
         });
@@ -229,7 +229,7 @@ public class PatientDashboardController {
                 if (empty || item == null) { setText(null); setStyle(""); }
                 else {
                     setText(item);
-                    setStyle(item.contains("Abnormal") ? "-fx-text-fill: #f38ba8; -fx-font-weight: bold;" : "-fx-text-fill: #a6e3a1;");
+                    setStyle(item.contains("Abnormal") ? "-fx-text-fill: #f38ba8; -fx-font-weight: bold;" : "-fx-text-fill: -color-accent;");
                 }
             }
         });

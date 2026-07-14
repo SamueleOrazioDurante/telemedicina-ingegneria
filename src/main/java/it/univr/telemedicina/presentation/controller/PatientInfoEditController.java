@@ -86,7 +86,7 @@ public class PatientInfoEditController {
 
     private void showFeedback(String message, boolean isError) {
         feedbackLabel.setText(message);
-        feedbackLabel.setStyle(isError ? "-fx-text-fill: #f38ba8; -fx-font-size: 13px;" : "-fx-text-fill: #a6e3a1; -fx-font-size: 13px;");
+        feedbackLabel.setStyle(isError ? "-fx-text-fill: #f38ba8; -fx-font-size: 13px;" : "-fx-text-fill: -color-accent; -fx-font-size: 13px;");
         feedbackLabel.setVisible(true);
         feedbackLabel.setManaged(true);
     }
