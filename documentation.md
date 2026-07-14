@@ -15,6 +15,7 @@ classDiagram
         +String taxCode
         +String firstName
         +String lastName
+        +String email
         +String username
         +String password
     }
@@ -100,6 +101,7 @@ erDiagram
         TEXT tax_code UK
         TEXT first_name
         TEXT last_name
+        TEXT email
         TEXT username UK
         TEXT password
     }
@@ -190,6 +192,7 @@ Stores credentials and demographic information of diabetologists.
 * **tax_code**: `TEXT` (UNIQUE, NOT NULL). Codice Fiscale / Tax code.
 * **first_name**: `TEXT` (NOT NULL). First name.
 * **last_name**: `TEXT` (NOT NULL). Last name.
+* **email**: `TEXT` (UNIQUE, NOT NULL). Doctor's email address.
 * **username**: `TEXT` (UNIQUE, NOT NULL). Login credential.
 * **password**: `TEXT` (NOT NULL). Encrypted login password.
 
@@ -343,7 +346,8 @@ The application adopts a **Layered Architecture** strictly separating Presentati
 | FR-07 | Doctors shall view patient data (glucose measurements, therapies, conditions) including synthetic summaries (weekly/monthly averages). | Doctor | High |
 | FR-08 | Doctors shall update patient medical information (risk factors, past pathologies, comorbidities), with audit logging. | Doctor | Medium |
 | FR-09 | The system shall alert doctors when patients miss prescribed therapy intakes for 3+ consecutive days. | System | High |
-| FR-10 | Patients shall be able to send messages to their reference doctor. | Patient | Low |
+| FR-10 | Patients shall be able to email their reference doctor via system integration with the native mail client. | Patient | Low |
+| FR-11 | Doctors shall be able to view all audit logs of their own database operations. | Doctor | Medium |
 
 ---
 
@@ -364,13 +368,14 @@ graph TB
         UC4["UC-04: Record Drug Intake"]
         UC5["UC-05: Report Concomitant Condition"]
         UC6["UC-06: View Prescribed Therapies"]
-        UC7["UC-07: Send Message to Doctor"]
+        UC7["UC-07: Email Reference Doctor"]
         UC8["UC-08: Prescribe Therapy"]
         UC9["UC-09: View Patient Data"]
         UC10["UC-10: Update Patient Medical Info"]
         UC11["UC-11: View Glucose Trend"]
         UC12["UC-12: Generate Glucose Alert"]
         UC13["UC-13: Generate Missing Therapy Alert"]
+        UC14["UC-14: View Doctor Audit Logs"]
     end
 
     P --> UC1
@@ -386,6 +391,7 @@ graph TB
     D --> UC9
     D --> UC10
     D --> UC11
+    D --> UC14
 
     UC2 -.->|"<<include>>"| UC12
     UC12 --> S
@@ -510,6 +516,17 @@ graph TB
 | **Precondition** | Doctor is authenticated and viewing a patient's detail. |
 | **Main Flow** | 1. Doctor clicks "Glucose Chart". 2. Doctor selects period (weekly or monthly). 3. System computes average glucose values (before/after meal), total measurements, and abnormal count for each period. 4. System displays the summary in a table. |
 | **Postcondition** | Doctor sees the glucose evolution over time in a synthetic format. |
+
+### UC-14: View Doctor Audit Logs
+
+| Field | Description |
+|-------|-------------|
+| **ID** | UC-14 |
+| **Name** | View Doctor Audit Logs |
+| **Actor(s)** | Doctor |
+| **Precondition** | Doctor is authenticated. |
+| **Main Flow** | 1. Doctor clicks "View Audit Logs" on dashboard. 2. System retrieves all logs from `operation_log` where `doctor_id` matches the current doctor. 3. System maps target patient IDs to full names. 4. System displays the logs in a table sorted by timestamp descending. |
+| **Postcondition** | Doctor views a modal list of their performed medical database actions. |
 
 ---
 
