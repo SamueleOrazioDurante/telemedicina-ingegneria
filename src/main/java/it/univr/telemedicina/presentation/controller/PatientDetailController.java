@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 /**
  * Controller for the patient details page viewed by a Doctor.
- * Shows patient card, measurements, therapies, conditions, trend analysis,
- * and email correspondence history in a single unified view.
+ * Shows patient card, measurements, therapies, conditions, and trend analysis
+ * in a single unified view.
  * "New Therapy" and "Edit Info" buttons launch modular modal dialogs.
  */
 public class PatientDetailController {

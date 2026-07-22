@@ -60,6 +60,8 @@ public class MedicalRulesEngine implements AlertSubject {
             
             if (intakesForDay < therapy.getDailyIntakes()) {
                 consecutiveMissingDays++;
+            } else {
+                break;
             }
         }
         

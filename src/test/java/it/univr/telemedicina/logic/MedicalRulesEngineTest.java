@@ -77,4 +77,18 @@ class MedicalRulesEngineTest {
         assertTrue(engine.checkMissingTherapy(intakes, therapy, LocalDate.of(2024, 10, 10)));
         assertEquals(1, receivedAlerts.size());
     }
+
+    @Test
+    void testCheckMissingTherapy_NonConsecutiveMissing() {
+        PrescribedTherapy therapy = new PrescribedTherapy(1, 2, "Insulin", 1, "10mg", "After meal", "2024-10-01", null);
+        therapy.setId(10);
+
+        List<DrugIntake> intakes = new ArrayList<>();
+        // Compliant on day -2, but missing on day -1 and day -3
+        intakes.add(new DrugIntake(1, 10, "2024-10-08", "08:00", "Insulin", "10mg"));
+
+        assertFalse(engine.checkMissingTherapy(intakes, therapy, LocalDate.of(2024, 10, 10)),
+                "Non-consecutive missed days should NOT trigger alert");
+        assertTrue(receivedAlerts.isEmpty());
+    }
 }
