@@ -274,9 +274,9 @@ classDiagram
     }
     class DrugIntake {
         +Integer id
+        +Integer therapyId
         +String date
         +String time
-        +String drugName
         +String quantityTaken
     }
     class ConcomitantCondition {
@@ -451,17 +451,28 @@ classDiagram
         +notifyObservers(String alertMessage)
     }
 
+    class GlucoseSeverity {
+        <<enumeration>>
+        NONE
+        MODERATE_HYPOGLYCEMIA
+        SEVERE_HYPOGLYCEMIA
+        MODERATE_HYPERGLYCEMIA
+        SEVERE_HYPERGLYCEMIA
+    }
+
     class MedicalRulesEngine {
         -List~AlertObserver~ observers
         +registerObserver(AlertObserver observer)
         +removeObserver(AlertObserver observer)
         +notifyObservers(String alertMessage)
+        +getGlucoseSeverity(BloodGlucoseMeasurement measurement) GlucoseSeverity
         +checkGlucoseThreshold(BloodGlucoseMeasurement measurement) boolean
         +checkMissingTherapy(List~DrugIntake~ intakes, PrescribedTherapy therapy, LocalDate today) boolean
     }
 
     AlertSubject <|.. MedicalRulesEngine : implements
     MedicalRulesEngine o--> AlertObserver : notifies
+    MedicalRulesEngine ..> GlucoseSeverity : uses
 ```
 
 ---

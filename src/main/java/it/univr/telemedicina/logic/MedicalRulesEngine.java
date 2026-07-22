@@ -30,22 +30,48 @@ public class MedicalRulesEngine implements AlertSubject {
         }
     }
 
-    public boolean checkGlucoseThreshold(BloodGlucoseMeasurement measurement) {
-        boolean alert = false;
+    public enum GlucoseSeverity {
+        NONE,
+        MODERATE_HYPOGLYCEMIA,
+        SEVERE_HYPOGLYCEMIA,
+        MODERATE_HYPERGLYCEMIA,
+        SEVERE_HYPERGLYCEMIA
+    }
+
+    public GlucoseSeverity getGlucoseSeverity(BloodGlucoseMeasurement measurement) {
+        if (measurement == null) return GlucoseSeverity.NONE;
+        double val = measurement.getValue();
+
+        if (val < 70.0) {
+            return GlucoseSeverity.SEVERE_HYPOGLYCEMIA;
+        }
+
         if ("BEFORE_MEAL".equals(measurement.getTimeSlot())) {
-            if (measurement.getValue() < 80 || measurement.getValue() > 130) {
-                alert = true;
+            if (val >= 70.0 && val < 80.0) {
+                return GlucoseSeverity.MODERATE_HYPOGLYCEMIA;
+            } else if (val > 130.0 && val <= 250.0) {
+                return GlucoseSeverity.MODERATE_HYPERGLYCEMIA;
+            } else if (val > 250.0) {
+                return GlucoseSeverity.SEVERE_HYPERGLYCEMIA;
             }
         } else if ("AFTER_MEAL".equals(measurement.getTimeSlot())) {
-            if (measurement.getValue() > 180) {
-                alert = true;
+            if (val > 180.0 && val <= 250.0) {
+                return GlucoseSeverity.MODERATE_HYPERGLYCEMIA;
+            } else if (val > 250.0) {
+                return GlucoseSeverity.SEVERE_HYPERGLYCEMIA;
             }
         }
-        
-        if (alert) {
-            notifyObservers("ALERT: Abnormal glucose level detected for patient ID " + measurement.getPatientId() + ": " + measurement.getValue() + " mg/dL (" + measurement.getTimeSlot() + ")");
+        return GlucoseSeverity.NONE;
+    }
+
+    public boolean checkGlucoseThreshold(BloodGlucoseMeasurement measurement) {
+        GlucoseSeverity severity = getGlucoseSeverity(measurement);
+        if (severity != GlucoseSeverity.NONE) {
+            notifyObservers("ALERT [" + severity + "]: Abnormal glucose level detected for patient ID " 
+                    + measurement.getPatientId() + ": " + measurement.getValue() + " mg/dL (" + measurement.getTimeSlot() + ")");
+            return true;
         }
-        return alert;
+        return false;
     }
 
     public boolean checkMissingTherapy(List<DrugIntake> intakes, PrescribedTherapy therapy, LocalDate today) {

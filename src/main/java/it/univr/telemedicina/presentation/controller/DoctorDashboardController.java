@@ -147,8 +147,10 @@ public class DoctorDashboardController {
                 String threeDaysAgo = LocalDate.now().minusDays(3).format(DateTimeFormatter.ISO_LOCAL_DATE);
                 List<BloodGlucoseMeasurement> recentGlucose = glucoseDAO.findByPatientIdAndPeriod(p.getId(), threeDaysAgo, today);
                 for (BloodGlucoseMeasurement m : recentGlucose) {
-                    if (engine.checkGlucoseThreshold(m)) {
-                        addAlert("danger", p.getFirstName() + " " + p.getLastName() +
+                    MedicalRulesEngine.GlucoseSeverity severity = engine.getGlucoseSeverity(m);
+                    if (severity != MedicalRulesEngine.GlucoseSeverity.NONE) {
+                        String severityTag = severity.name().startsWith("SEVERE") ? "[CRITICAL] " : "[WARNING] ";
+                        addAlert("danger", severityTag + p.getFirstName() + " " + p.getLastName() +
                                 ": Abnormal glucose " + m.getValue() + " mg/dL (" + m.getTimeSlot().replace("_", " ").toLowerCase() + ") on " + m.getDate());
                         alertCount++;
                     }

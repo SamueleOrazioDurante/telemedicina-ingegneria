@@ -53,6 +53,28 @@ class MedicalRulesEngineTest {
     }
 
     @Test
+    void testPostPrandialHypoglycemia() {
+        BloodGlucoseMeasurement measurement = new BloodGlucoseMeasurement(1, 65.0, "AFTER_MEAL", "2024-10-10", "14:00");
+        assertTrue(engine.checkGlucoseThreshold(measurement));
+        assertEquals(MedicalRulesEngine.GlucoseSeverity.SEVERE_HYPOGLYCEMIA, engine.getGlucoseSeverity(measurement));
+    }
+
+    @Test
+    void testGlucoseSeverityLevels() {
+        BloodGlucoseMeasurement severeHypo = new BloodGlucoseMeasurement(1, 60.0, "BEFORE_MEAL", "2024-10-10", "08:00");
+        assertEquals(MedicalRulesEngine.GlucoseSeverity.SEVERE_HYPOGLYCEMIA, engine.getGlucoseSeverity(severeHypo));
+
+        BloodGlucoseMeasurement modHypo = new BloodGlucoseMeasurement(1, 75.0, "BEFORE_MEAL", "2024-10-10", "08:00");
+        assertEquals(MedicalRulesEngine.GlucoseSeverity.MODERATE_HYPOGLYCEMIA, engine.getGlucoseSeverity(modHypo));
+
+        BloodGlucoseMeasurement modHyper = new BloodGlucoseMeasurement(1, 200.0, "AFTER_MEAL", "2024-10-10", "14:00");
+        assertEquals(MedicalRulesEngine.GlucoseSeverity.MODERATE_HYPERGLYCEMIA, engine.getGlucoseSeverity(modHyper));
+
+        BloodGlucoseMeasurement severeHyper = new BloodGlucoseMeasurement(1, 280.0, "AFTER_MEAL", "2024-10-10", "14:00");
+        assertEquals(MedicalRulesEngine.GlucoseSeverity.SEVERE_HYPERGLYCEMIA, engine.getGlucoseSeverity(severeHyper));
+    }
+
+    @Test
     void testCheckMissingTherapy_NotMissing() {
         PrescribedTherapy therapy = new PrescribedTherapy(1, 2, "Insulin", 1, "10mg", "After meal", "2024-10-01", null);
         therapy.setId(10);
