@@ -517,26 +517,28 @@ I seguenti diagrammi di sequenza illustrano i flussi di interazione dettagliati 
 
 ### 8.1 UC-02: Registra Misurazione Glicemia
 
-Questo diagramma mostra il flusso quando un paziente registra una nuova lettura della glicemia. Il livello di presentazione salva la misurazione nel database e la valuta tramite il motore delle regole, che notifica gli osservatori attivi se il valore è anomalo.
+Questo diagramma mostra il flusso quando un paziente registra una nuova lettura della glicemia. Il livello di presentazione salva la misurazione nel database tramite DAO e ricarica i dati valutandoli con il motore delle regole mediche (`MedicalRulesEngine`).
 
 ```mermaid
 sequenceDiagram
     actor Patient as Paziente
-    participant GUI as Livello Presentazione
+    participant GUI as PatientDashboardController / GlucoseEntryController
+    participant DAO as BloodGlucoseMeasurementDAO
+    participant DB as SQLite DB
     participant Engine as MedicalRulesEngine
-    participant DB as Livello Persistenza (DAO)
-    participant Observer as AlertObserver (UI Observer)
 
     Patient->>GUI: Inserisce misurazione glicemica
-    GUI->>DB: save(measurement)
-    DB-->>GUI: successo
+    GUI->>DAO: save(measurement)
+    DAO->>DB: INSERT INTO blood_glucose_measurement
+    DB-->>DAO: Registro salvato
+    DAO-->>GUI: successo
+    GUI->>GUI: loadAllData()
     GUI->>Engine: checkGlucoseThreshold(measurement)
-    alt Il valore supera la soglia (anomalo)
-        Engine->>Observer: notifyObservers("ALERT: Abnormal glucose")
-        Observer->>Observer: onAlert(alertMessage)
+    alt Valore anomalo fuori soglia
+        Engine-->>GUI: Rilevata anomalia (severity)
+        GUI->>GUI: Visualizza badge di allerta
     end
-    Engine-->>GUI: alert (boolean)
-    GUI-->>Patient: Mostra conferma e feedback a schermo
+    GUI-->>Patient: Mostra conferme e notifiche aggiornate
 ```
 
 ### 8.2 UC-01: Login e Reindirizzamento Sessione

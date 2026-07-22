@@ -517,26 +517,28 @@ The following sequence diagrams illustrate the detailed interaction flows for th
 
 ### 8.1 UC-02: Record Glucose Measurement
 
-This diagram shows the flow when a patient records a new blood glucose reading. The presentation layer saves the measurement to the database and evaluates it via the rules engine, which notifies active observers if the value is abnormal.
+This diagram shows the flow when a patient records a new blood glucose reading. The presentation layer saves the measurement to the database via DAO and refreshes the data evaluating it with the medical rules engine (`MedicalRulesEngine`).
 
 ```mermaid
 sequenceDiagram
     actor Patient
-    participant GUI as Presentation Layer
+    participant GUI as PatientDashboardController / GlucoseEntryController
+    participant DAO as BloodGlucoseMeasurementDAO
+    participant DB as SQLite DB
     participant Engine as MedicalRulesEngine
-    participant DB as Persistence Layer (DAO)
-    participant Observer as AlertObserver (UI Observer)
 
     Patient->>GUI: Inserts Glucose Measurement
-    GUI->>DB: save(measurement)
-    DB-->>GUI: success
+    GUI->>DAO: save(measurement)
+    DAO->>DB: INSERT INTO blood_glucose_measurement
+    DB-->>DAO: Record saved
+    DAO-->>GUI: success
+    GUI->>GUI: loadAllData()
     GUI->>Engine: checkGlucoseThreshold(measurement)
     alt Value exceeds threshold (abnormal)
-        Engine->>Observer: notifyObservers("ALERT: Abnormal glucose")
-        Observer->>Observer: onAlert(alertMessage)
+        Engine-->>GUI: Abnormal detected (severity)
+        GUI->>GUI: Display alert badge
     end
-    Engine-->>GUI: alert (boolean)
-    GUI-->>Patient: Display confirmation and feedback
+    GUI-->>Patient: Display confirmation and updated notifications
 ```
 
 ### 8.2 UC-01: Login and Session Routing
