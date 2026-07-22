@@ -58,7 +58,6 @@ CREATE TABLE IF NOT EXISTS drug_intake (
     therapy_id INTEGER NOT NULL,
     date TEXT NOT NULL, -- YYYY-MM-DD
     time TEXT NOT NULL, -- HH:MM
-    drug_name TEXT NOT NULL,
     quantity_taken TEXT NOT NULL,
     FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE,
     FOREIGN KEY (therapy_id) REFERENCES prescribed_therapy(id) ON DELETE CASCADE
@@ -180,46 +179,46 @@ INSERT OR IGNORE INTO blood_glucose_measurement (patient_id, value, time_slot, d
 
 -- Drug Intakes (June and July 2026)
 -- Patient 1 (Metformin, 2 daily intakes - therapy ID 1)
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-05', '08:30', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-05', '20:30', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-20', '08:30', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-06-20', '20:30', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-02', '08:15', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-02', '20:15', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-12', '08:30', 'Metformin', '500mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (1, 1, '2026-07-12', '20:30', 'Metformin', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-06-05', '08:30', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-06-05', '20:30', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-06-20', '08:30', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-06-20', '20:30', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-07-02', '08:15', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-07-02', '20:15', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-07-12', '08:30', '500mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (1, 1, '2026-07-12', '20:30', '500mg');
 
 -- Patient 2 (Rapid Insulin, 3 daily intakes - therapy ID 2)
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-12', '08:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-12', '13:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-12', '20:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-28', '08:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-28', '13:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-06-28', '20:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-06', '08:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-06', '13:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-06', '20:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-13', '08:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-13', '13:00', 'Rapid Insulin', '10 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (2, 2, '2026-07-13', '20:00', 'Rapid Insulin', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-06-12', '08:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-06-12', '13:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-06-12', '20:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-06-28', '08:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-06-28', '13:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-06-28', '20:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-07-06', '08:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-07-06', '13:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-07-06', '20:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-07-13', '08:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-07-13', '13:00', '10 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (2, 2, '2026-07-13', '20:00', '10 units');
 
 -- Patient 3 (Lantus Insulin, 1 daily intake - therapy ID 3)
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-06-08', '22:00', 'Lantus Insulin', '20 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-06-22', '22:00', 'Lantus Insulin', '20 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-07-05', '22:00', 'Lantus Insulin', '20 units');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (3, 3, '2026-07-11', '22:00', 'Lantus Insulin', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (3, 3, '2026-06-08', '22:00', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (3, 3, '2026-06-22', '22:00', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (3, 3, '2026-07-05', '22:00', '20 units');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (3, 3, '2026-07-11', '22:00', '20 units');
 
 -- Patient 4 (Metformin, 1 daily intake - therapy ID 4)
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-06-10', '20:30', 'Metformin', '850mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-06-25', '20:45', 'Metformin', '850mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-07-04', '20:15', 'Metformin', '850mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (4, 4, '2026-07-12', '20:30', 'Metformin', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (4, 4, '2026-06-10', '20:30', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (4, 4, '2026-06-25', '20:45', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (4, 4, '2026-07-04', '20:15', '850mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (4, 4, '2026-07-12', '20:30', '850mg');
 
 -- Patient 5 (Januvia, 1 daily intake - therapy ID 5)
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-06-04', '08:00', 'Januvia', '100mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-06-18', '08:00', 'Januvia', '100mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-07-03', '08:00', 'Januvia', '100mg');
-INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (5, 5, '2026-07-10', '08:00', 'Januvia', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (5, 5, '2026-06-04', '08:00', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (5, 5, '2026-06-18', '08:00', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (5, 5, '2026-07-03', '08:00', '100mg');
+INSERT OR IGNORE INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (5, 5, '2026-07-10', '08:00', '100mg');
 
 -- Concomitant Conditions (June and July 2026)
 INSERT OR IGNORE INTO concomitant_condition (patient_id, type, description, start_date, end_date) VALUES (1, 'SYMPTOM', 'Mild headache', '2026-06-05', NULL);

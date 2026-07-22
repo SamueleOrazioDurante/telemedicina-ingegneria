@@ -480,17 +480,18 @@ sequenceDiagram
     participant GUI as Presentation Layer
     participant Engine as MedicalRulesEngine
     participant DB as Persistence Layer (DAO)
-    actor Doctor as AlertObserver (Doctor UI)
+    participant Observer as AlertObserver (UI Observer)
 
     Patient->>GUI: Inserts Glucose Measurement
-    GUI->>DB: saveMeasurement(measurement)
+    GUI->>DB: save(measurement)
     DB-->>GUI: success
     GUI->>Engine: checkGlucoseThreshold(measurement)
-    alt Value exceeds threshold
-        Engine->>Doctor: onAlert("Abnormal glucose level detected")
+    alt Value exceeds threshold (abnormal)
+        Engine->>Observer: notifyObservers("ALERT: Abnormal glucose")
+        Observer->>Observer: onAlert(alertMessage)
     end
-    Engine-->>GUI: threshold result
-    GUI-->>Patient: Display confirmation
+    Engine-->>GUI: alert (boolean)
+    GUI-->>Patient: Display confirmation and feedback
 ```
 
 ### 8.2 UC-01: Login and Session Routing
@@ -636,7 +637,6 @@ erDiagram
         INTEGER therapy_id FK
         TEXT date
         TEXT time
-        TEXT drug_name
         TEXT quantity_taken
     }
     CONCOMITANT_CONDITION {
@@ -739,10 +739,9 @@ Tracks actual compliance entries reported by patients.
 
 - **id**: `INTEGER` (PRIMARY KEY, AUTOINCREMENT). Entry identifier.
 - **patient_id**: `INTEGER` (NOT NULL, FOREIGN KEY). Reference to patient.
-- **therapy_id**: `INTEGER` (NOT NULL, FOREIGN KEY). Reference to prescription.
+- **therapy_id**: `INTEGER` (NOT NULL, FOREIGN KEY). Reference to prescription (`prescribed_therapy`).
 - **date**: `TEXT` (NOT NULL). Log date (`YYYY-MM-DD`).
 - **time**: `TEXT` (NOT NULL). Log time (`HH:MM`).
-- **drug_name**: `TEXT` (NOT NULL). Logged drug name.
 - **quantity_taken**: `TEXT` (NOT NULL). Logged dose.
 
 ### Table: `concomitant_condition`

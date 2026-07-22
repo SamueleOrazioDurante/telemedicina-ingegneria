@@ -58,9 +58,9 @@ class MedicalRulesEngineTest {
         therapy.setId(10);
         
         List<DrugIntake> intakes = new ArrayList<>();
-        intakes.add(new DrugIntake(1, 10, "2024-10-09", "08:00", "Insulin", "10mg"));
-        intakes.add(new DrugIntake(1, 10, "2024-10-08", "08:00", "Insulin", "10mg"));
-        intakes.add(new DrugIntake(1, 10, "2024-10-07", "08:00", "Insulin", "10mg"));
+        intakes.add(new DrugIntake(1, 10, "2024-10-09", "08:00", "10mg"));
+        intakes.add(new DrugIntake(1, 10, "2024-10-08", "08:00", "10mg"));
+        intakes.add(new DrugIntake(1, 10, "2024-10-07", "08:00", "10mg"));
         
         assertFalse(engine.checkMissingTherapy(intakes, therapy, LocalDate.of(2024, 10, 10)));
         assertTrue(receivedAlerts.isEmpty());
@@ -85,7 +85,7 @@ class MedicalRulesEngineTest {
 
         List<DrugIntake> intakes = new ArrayList<>();
         // Compliant on day -2, but missing on day -1 and day -3
-        intakes.add(new DrugIntake(1, 10, "2024-10-08", "08:00", "Insulin", "10mg"));
+        intakes.add(new DrugIntake(1, 10, "2024-10-08", "08:00", "10mg"));
 
         assertFalse(engine.checkMissingTherapy(intakes, therapy, LocalDate.of(2024, 10, 10)),
                 "Non-consecutive missed days should NOT trigger alert");

@@ -92,7 +92,7 @@ public class DrugIntakeEntryController {
 
         try {
             DrugIntake intake = new DrugIntake(patient.getId(), therapy.getId(),
-                    date.format(DateTimeFormatter.ISO_LOCAL_DATE), time, therapy.getDrugName(), quantity);
+                    date.format(DateTimeFormatter.ISO_LOCAL_DATE), time, quantity);
 
             DrugIntakeDAO dao = new DrugIntakeDAO(SceneManager.getDbManager());
             dao.save(intake);

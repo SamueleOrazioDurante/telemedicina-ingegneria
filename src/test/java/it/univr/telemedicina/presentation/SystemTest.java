@@ -179,7 +179,7 @@ public class SystemTest {
         // Patient records intake
         String today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
         DrugIntake intake = new DrugIntake(testPatient.getId(), therapy.getId(),
-                today, "13:00", "Metformin", "500mg");
+                today, "13:00", "500mg");
         intakeDAO.save(intake);
 
         assertNotNull(intake.getId(), "Intake ID should be auto-generated");
@@ -187,9 +187,7 @@ public class SystemTest {
         // Verify retrieval
         List<DrugIntake> todayIntakes = intakeDAO.findByPatientIdAndDate(testPatient.getId(), today);
         assertEquals(1, todayIntakes.size(), "Should have 1 intake today");
-        assertEquals("Metformin", todayIntakes.get(0).getDrugName());
-        assertEquals(therapy.getId(), todayIntakes.get(0).getTherapyId(),
-                "Intake should reference the correct therapy");
+        assertEquals("500mg", todayIntakes.get(0).getQuantityTaken());
     }
 
     
@@ -353,7 +351,7 @@ public class SystemTest {
         for (int i = 1; i <= 3; i++) {
             String date = today.minusDays(i).format(DateTimeFormatter.ISO_LOCAL_DATE);
             DrugIntake intake = new DrugIntake(testPatient.getId(), therapy.getId(),
-                    date, "08:00", "Insulin", "10mg");
+                    date, "08:00", "10mg");
             intakeDAO.save(intake);
             intakes.add(intake);
         }

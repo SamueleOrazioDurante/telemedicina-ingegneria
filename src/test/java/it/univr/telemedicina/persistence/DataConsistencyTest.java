@@ -116,7 +116,7 @@ public class DataConsistencyTest {
         PrescribedTherapy therapy = new PrescribedTherapy(patient.getId(), doctor.getId(), "Metformin", 2, "500mg", "after meals", "2026-07-10", null);
         therapyDAO.save(therapy);
 
-        DrugIntake intake = new DrugIntake(patient.getId(), therapy.getId(), "2026-07-13", "13:00", "Metformin", "500mg");
+        DrugIntake intake = new DrugIntake(patient.getId(), therapy.getId(), "2026-07-13", "13:00", "500mg");
         intakeDAO.save(intake);
 
         ConcomitantCondition condition = new ConcomitantCondition(patient.getId(), "SYMPTOM", "Headache", "2026-07-13", null);

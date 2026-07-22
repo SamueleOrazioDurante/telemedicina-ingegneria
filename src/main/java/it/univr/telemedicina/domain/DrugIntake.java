@@ -6,25 +6,21 @@ public class DrugIntake {
     private Integer therapyId;
     private String date; // YYYY-MM-DD
     private String time; // HH:MM
-    private String drugName;
     private String quantityTaken;
 
     public DrugIntake() {}
 
-    public DrugIntake(Integer id, Integer patientId, Integer therapyId, String date, String time, 
-                      String drugName, String quantityTaken) {
+    public DrugIntake(Integer id, Integer patientId, Integer therapyId, String date, String time, String quantityTaken) {
         this.id = id;
         this.patientId = patientId;
         this.therapyId = therapyId;
         this.date = date;
         this.time = time;
-        this.drugName = drugName;
         this.quantityTaken = quantityTaken;
     }
 
-    public DrugIntake(Integer patientId, Integer therapyId, String date, String time, 
-                      String drugName, String quantityTaken) {
-        this(null, patientId, therapyId, date, time, drugName, quantityTaken);
+    public DrugIntake(Integer patientId, Integer therapyId, String date, String time, String quantityTaken) {
+        this(null, patientId, therapyId, date, time, quantityTaken);
     }
 
     public Integer getId() {
@@ -67,14 +63,6 @@ public class DrugIntake {
         this.time = time;
     }
 
-    public String getDrugName() {
-        return drugName;
-    }
-
-    public void setDrugName(String drugName) {
-        this.drugName = drugName;
-    }
-
     public String getQuantityTaken() {
         return quantityTaken;
     }
@@ -90,7 +78,7 @@ public class DrugIntake {
                 ", patientId=" + patientId +
                 ", therapyId=" + therapyId +
                 ", date='" + date + '\'' +
-                ", drugName='" + drugName + '\'' +
+                ", quantityTaken='" + quantityTaken + '\'' +
                 '}';
     }
 }

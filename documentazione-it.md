@@ -480,17 +480,18 @@ sequenceDiagram
     participant GUI as Livello Presentazione
     participant Engine as MedicalRulesEngine
     participant DB as Livello Persistenza (DAO)
-    actor Doctor as AlertObserver (UI Medico)
+    participant Observer as AlertObserver (UI Observer)
 
     Patient->>GUI: Inserisce misurazione glicemica
-    GUI->>DB: saveMeasurement(measurement)
+    GUI->>DB: save(measurement)
     DB-->>GUI: successo
     GUI->>Engine: checkGlucoseThreshold(measurement)
-    alt Il valore supera la soglia
-        Engine->>Doctor: onAlert("Rilevato livello di glicemia anomalo")
+    alt Il valore supera la soglia (anomalo)
+        Engine->>Observer: notifyObservers("ALERT: Abnormal glucose")
+        Observer->>Observer: onAlert(alertMessage)
     end
-    Engine-->>GUI: risultato soglia
-    GUI-->>Patient: Mostra conferma
+    Engine-->>GUI: alert (boolean)
+    GUI-->>Patient: Mostra conferma e feedback a schermo
 ```
 
 ### 8.2 UC-01: Login e Reindirizzamento Sessione
@@ -636,7 +637,6 @@ erDiagram
         INTEGER therapy_id FK
         TEXT date
         TEXT time
-        TEXT drug_name
         TEXT quantity_taken
     }
     CONCOMITANT_CONDITION {
@@ -739,10 +739,9 @@ Traccia i registri di assunzione effettivi inseriti dai pazienti.
 
 - **id**: `INTEGER` (PRIMARY KEY, AUTOINCREMENT). Identificativo del registro.
 - **patient_id**: `INTEGER` (NOT NULL, FOREIGN KEY). Riferimento al paziente.
-- **therapy_id**: `INTEGER` (NOT NULL, FOREIGN KEY). Riferimento alla prescrizione associata.
+- **therapy_id**: `INTEGER` (NOT NULL, FOREIGN KEY). Riferimento alla prescrizione associata (`prescribed_therapy`).
 - **date**: `TEXT` (NOT NULL). Data del registro (`YYYY-MM-DD`).
 - **time**: `TEXT` (NOT NULL). Ora del registro (`HH:MM`).
-- **drug_name**: `TEXT` (NOT NULL). Nome del farmaco registrato.
 - **quantity_taken**: `TEXT` (NOT NULL). Quantità assunta.
 
 ### Tabella: `concomitant_condition`

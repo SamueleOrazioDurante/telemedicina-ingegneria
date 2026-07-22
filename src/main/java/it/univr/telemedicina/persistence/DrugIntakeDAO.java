@@ -18,15 +18,14 @@ public class DrugIntakeDAO {
      */
     public void save(DrugIntake intake) throws SQLException {
         if (intake.getId() == null) {
-            String sql = "INSERT INTO drug_intake (patient_id, therapy_id, date, time, drug_name, quantity_taken) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO drug_intake (patient_id, therapy_id, date, time, quantity_taken) VALUES (?, ?, ?, ?, ?)";
             try (Connection conn = dbManager.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 pstmt.setInt(1, intake.getPatientId());
                 pstmt.setInt(2, intake.getTherapyId());
                 pstmt.setString(3, intake.getDate());
                 pstmt.setString(4, intake.getTime());
-                pstmt.setString(5, intake.getDrugName());
-                pstmt.setString(6, intake.getQuantityTaken());
+                pstmt.setString(5, intake.getQuantityTaken());
                 pstmt.executeUpdate();
 
                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -36,16 +35,15 @@ public class DrugIntakeDAO {
                 }
             }
         } else {
-            String sql = "UPDATE drug_intake SET patient_id = ?, therapy_id = ?, date = ?, time = ?, drug_name = ?, quantity_taken = ? WHERE id = ?";
+            String sql = "UPDATE drug_intake SET patient_id = ?, therapy_id = ?, date = ?, time = ?, quantity_taken = ? WHERE id = ?";
             try (Connection conn = dbManager.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, intake.getPatientId());
                 pstmt.setInt(2, intake.getTherapyId());
                 pstmt.setString(3, intake.getDate());
                 pstmt.setString(4, intake.getTime());
-                pstmt.setString(5, intake.getDrugName());
-                pstmt.setString(6, intake.getQuantityTaken());
-                pstmt.setInt(7, intake.getId());
+                pstmt.setString(5, intake.getQuantityTaken());
+                pstmt.setInt(6, intake.getId());
                 pstmt.executeUpdate();
             }
         }
@@ -115,7 +113,6 @@ public class DrugIntakeDAO {
                 rs.getInt("therapy_id"),
                 rs.getString("date"),
                 rs.getString("time"),
-                rs.getString("drug_name"),
                 rs.getString("quantity_taken")
         );
     }
