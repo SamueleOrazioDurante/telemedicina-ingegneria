@@ -28,6 +28,8 @@ public class DoctorDashboardController {
     @FXML private Label alertCountLabel;
     @FXML private Label activeTherapiesLabel;
     @FXML private VBox alertsBox;
+    @FXML private Label patientsHeaderLabel;
+    @FXML private ComboBox<String> patientFilterCombo;
     @FXML private TableView<Patient> patientsTable;
     @FXML private TableColumn<Patient, String> nameCol;
     @FXML private TableColumn<Patient, String> taxCodeCol;
@@ -36,6 +38,7 @@ public class DoctorDashboardController {
     @FXML private TableColumn<Patient, String> actionCol;
 
     private int alertCount = 0;
+    private List<Patient> allPatients = new java.util.ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -44,6 +47,9 @@ public class DoctorDashboardController {
 
         welcomeLabel.setText("Welcome, Dr. " + doctor.getLastName());
         dateLabel.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy")));
+
+        patientFilterCombo.setItems(FXCollections.observableArrayList("My Patients", "All Patients"));
+        patientFilterCombo.setValue("My Patients");
 
         setupColumns();
         loadPatients(doctor);
@@ -76,20 +82,43 @@ public class DoctorDashboardController {
         });
     }
 
-    private void loadPatients(Doctor doctor) {
-        try {
-            PatientDAO dao = new PatientDAO(SceneManager.getDbManager());
-            List<Patient> patients = dao.findByDoctorId(doctor.getId()); // Doctor can only see their assigned patients
-            patientsTable.setItems(FXCollections.observableArrayList(patients));
-            totalPatientsLabel.setText(String.valueOf(patients.size()));
+    @FXML
+    protected void onFilterChanged() {
+        Doctor doctor = SceneManager.getCurrentDoctor();
+        if (doctor == null) return;
+        updatePatientDisplay(doctor);
+        loadAlerts(doctor);
+    }
 
-            // Count active therapies across doctor's patients
+    private void updatePatientDisplay(Doctor doctor) {
+        boolean showAll = "All Patients".equals(patientFilterCombo.getValue());
+        patientsHeaderLabel.setText(showAll ? "All Patients" : "My Patients");
+
+        List<Patient> filtered = showAll ? allPatients : allPatients.stream()
+                .filter(p -> p.getReferenceDoctorId() != null && p.getReferenceDoctorId().equals(doctor.getId()))
+                .collect(java.util.stream.Collectors.toList());
+
+        patientsTable.setItems(FXCollections.observableArrayList(filtered));
+        totalPatientsLabel.setText(String.valueOf(filtered.size()));
+
+        // Count active therapies across displayed patients
+        try {
             PrescribedTherapyDAO therapyDAO = new PrescribedTherapyDAO(SceneManager.getDbManager());
             int totalActive = 0;
-            for (Patient p : patients) {
+            for (Patient p : filtered) {
                 totalActive += therapyDAO.findActiveByPatientId(p.getId()).size();
             }
             activeTherapiesLabel.setText(String.valueOf(totalActive));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadPatients(Doctor doctor) {
+        try {
+            PatientDAO dao = new PatientDAO(SceneManager.getDbManager());
+            allPatients = dao.findAll(); // Load all system patients
+            updatePatientDisplay(doctor);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,16 +130,19 @@ public class DoctorDashboardController {
         alertCount = 0;
 
         try {
-            PatientDAO patientDAO = new PatientDAO(db);
             BloodGlucoseMeasurementDAO glucoseDAO = new BloodGlucoseMeasurementDAO(db);
             PrescribedTherapyDAO therapyDAO = new PrescribedTherapyDAO(db);
             DrugIntakeDAO intakeDAO = new DrugIntakeDAO(db);
 
-            List<Patient> patients = patientDAO.findByDoctorId(doctor.getId());
+            boolean showAll = "All Patients".equals(patientFilterCombo.getValue());
+            List<Patient> targetPatients = showAll ? allPatients : allPatients.stream()
+                    .filter(p -> p.getReferenceDoctorId() != null && p.getReferenceDoctorId().equals(doctor.getId()))
+                    .collect(java.util.stream.Collectors.toList());
+
             MedicalRulesEngine engine = new MedicalRulesEngine();
             String today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE);
 
-            for (Patient p : patients) {
+            for (Patient p : targetPatients) {
                 // Check abnormal glucose in the last 3 days
                 String threeDaysAgo = LocalDate.now().minusDays(3).format(DateTimeFormatter.ISO_LOCAL_DATE);
                 List<BloodGlucoseMeasurement> recentGlucose = glucoseDAO.findByPatientIdAndPeriod(p.getId(), threeDaysAgo, today);

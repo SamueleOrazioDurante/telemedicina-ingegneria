@@ -53,9 +53,9 @@ public class AuditLogsController {
 
         DatabaseManager db = SceneManager.getDbManager();
         try {
-            // First load all doctor's patients to map ID to Name
+            // First load all patients to map ID to Name
             PatientDAO patientDAO = new PatientDAO(db);
-            List<Patient> patients = patientDAO.findByDoctorId(doctor.getId());
+            List<Patient> patients = patientDAO.findAll();
             for (Patient p : patients) {
                 patientNamesMap.put(p.getId(), p.getFirstName() + " " + p.getLastName());
             }

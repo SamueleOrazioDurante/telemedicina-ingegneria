@@ -43,7 +43,12 @@
 
         <!-- Patients Table -->
         <VBox spacing="10">
-            <Label text="My Patients" styleClass="section-title"/>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label fx:id="patientsHeaderLabel" text="My Patients" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="View Filter:" style="-fx-font-size: 12px; -fx-text-fill: -color-text-muted;"/>
+                <ComboBox fx:id="patientFilterCombo" onAction="#onFilterChanged" prefWidth="160"/>
+            </HBox>
             <TableView fx:id="patientsTable" prefHeight="250" minHeight="250">
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
