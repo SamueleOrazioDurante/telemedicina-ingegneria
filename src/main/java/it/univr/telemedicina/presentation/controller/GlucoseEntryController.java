@@ -57,7 +57,12 @@ public class GlucoseEntryController {
         if (date == null) { showFeedback("Please select a date.", true); return; }
 
         String time = timeField.getText().trim();
-        if (!time.matches("\\d{2}:\\d{2}")) { showFeedback("Time must be in HH:MM format.", true); return; }
+        try {
+            java.time.LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+        } catch (Exception e) {
+            showFeedback("Time must be a valid time in HH:MM format (e.g. 08:30, 14:15).", true);
+            return;
+        }
 
         try {
             BloodGlucoseMeasurement measurement = new BloodGlucoseMeasurement(
