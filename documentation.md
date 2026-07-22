@@ -170,6 +170,18 @@ flowchart LR
 | **Main Flow**     | 1. Patient navigates to therapies view. 2. System loads all therapies (active and stopped). 3. System displays them in a table with drug, dosage, directions, dates, and status. |
 | **Postcondition** | Patient sees all current and past therapies.                                                                                                                                     |
 
+### UC-07: Email Reference Doctor
+
+| Field                | Description                                                                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**               | UC-07                                                                                                                                                                                       |
+| **Name**             | Email Reference Doctor                                                                                                                                                                      |
+| **Actor(s)**         | Patient                                                                                                                                                                                     |
+| **Precondition**     | Patient is authenticated and has an assigned reference doctor.                                                                                                                              |
+| **Main Flow**        | 1. Patient clicks "Email Doctor" button. 2. System retrieves reference doctor's email. 3. System opens default mail client with pre-filled recipient and subject line via a `mailto:` link. |
+| **Alternative Flow** | 2a. Doctor email is missing or not configured → System shows an error alert.                                                                                                                |
+| **Postcondition**    | Mail composition window is opened targeted to the assigned doctor.                                                                                                                          |
+
 ### UC-08: Prescribe Therapy
 
 | Field                | Description                                                                                                                                                                                                                                                                                                                   |
@@ -214,6 +226,28 @@ flowchart LR
 | **Precondition**  | Doctor is authenticated and viewing a patient's detail.                                                                                                                                                                                           |
 | **Main Flow**     | 1. Doctor clicks "Glucose Chart". 2. Doctor selects period (weekly or monthly). 3. System computes average glucose values (before/after meal), total measurements, and abnormal count for each period. 4. System displays the summary in a table. |
 | **Postcondition** | Doctor sees the glucose evolution over time in a synthetic format.                                                                                                                                                                                |
+
+### UC-12: Generate Glucose Alert
+
+| Field             | Description                                                                                                                                                                                                                                                                      |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**            | UC-12                                                                                                                                                                                                                                                                            |
+| **Name**          | Generate Glucose Alert                                                                                                                                                                                                                                                           |
+| **Actor(s)**      | System (Automatic)                                                                                                                                                                                                                                                               |
+| **Precondition**  | A glucose measurement is logged or dashboard is loaded.                                                                                                                                                                                                                          |
+| **Main Flow**     | 1. System invokes the `MedicalRulesEngine`. 2. System compares glucose values against thresholds (before meal 80-130 mg/dL, after meal <=180 mg/dL). 3. If values exceed thresholds, system classifies severity and displays alert badges on both patient and doctor dashboards. |
+| **Postcondition** | Abnormal glucose alert is generated and displayed on dashboards.                                                                                                                                                                                                                 |
+
+### UC-13: Generate Missed Therapy Alert
+
+| Field             | Description                                                                                                                                                                                                                                                                 |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ID**            | UC-13                                                                                                                                                                                                                                                                       |
+| **Name**          | Generate Missed Therapy Alert                                                                                                                                                                                                                                               |
+| **Actor(s)**      | System (Automatic)                                                                                                                                                                                                                                                          |
+| **Precondition**  | Active therapies exist for the patient.                                                                                                                                                                                                                                     |
+| **Main Flow**     | 1. System cross-checks drug intakes against prescribed therapies. 2. If daily intakes are incomplete, system displays a reminder for the patient. 3. If prescriptions are missed for consecutive days, system generates a missed adherence alert on the doctor's dashboard. |
+| **Postcondition** | Adherence/missed therapy alerts are generated and displayed.                                                                                                                                                                                                                |
 
 ### UC-14: View Doctor Audit Logs
 
